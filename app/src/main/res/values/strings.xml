@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShingoEventsApp</string>
+    <string name="app_name">Shingo Events</string>
     
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -21,4 +21,7 @@
     <string name="prompt_confirm_password">Confirm Password</string>
     <string name="action_submit">Submit</string>
     <string name="error_mismatch_password">Passwords don\'t match!</string>
+    <string name="error_account_exists">This email already belongs to an account!</string>
+    <string name="title_event_list">Events</string>
+    <string name="title_event_detail">Event Detail</string>
 </resources>

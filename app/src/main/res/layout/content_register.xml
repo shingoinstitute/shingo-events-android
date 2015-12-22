@@ -91,7 +91,9 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/is_visible" />
+                android:layout_height="wrap_content" android:id="@+id/is_visible"
+                android:text="Make Profile Public  " android:layout_marginTop="20dp"
+                android:textColor="#666666" android:textSize="20dp" />
 
 
         </LinearLayout>

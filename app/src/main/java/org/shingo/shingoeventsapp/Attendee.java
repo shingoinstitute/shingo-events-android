@@ -1,12 +1,15 @@
 package org.shingo.shingoeventsapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by dustinehoman on 12/21/15.
  */
-public class Attendee {
+public class Attendee implements Parcelable{
     private String email;
     private String firstName;
     private String lastName;
@@ -86,4 +89,65 @@ public class Attendee {
     public void setVisible(boolean visible){
         this.visible = visible;
     }
+
+    protected Attendee(Parcel in) {
+        email = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        _id = in.readString();
+        displayName = in.readString();
+        visible = in.readByte() != 0x00;
+        if (in.readByte() == 0x01) {
+            registrationIds = new ArrayList<String>();
+            in.readList(registrationIds, String.class.getClassLoader());
+        } else {
+            registrationIds = null;
+        }
+        if (in.readByte() == 0x01) {
+            connections = new ArrayList<String>();
+            in.readList(connections, String.class.getClassLoader());
+        } else {
+            connections = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(email);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(_id);
+        dest.writeString(displayName);
+        dest.writeByte((byte) (visible ? 0x01 : 0x00));
+        if (registrationIds == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(registrationIds);
+        }
+        if (connections == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(connections);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Attendee> CREATOR = new Parcelable.Creator<Attendee>() {
+        @Override
+        public Attendee createFromParcel(Parcel in) {
+            return new Attendee(in);
+        }
+
+        @Override
+        public Attendee[] newArray(int size) {
+            return new Attendee[size];
+        }
+    };
 }

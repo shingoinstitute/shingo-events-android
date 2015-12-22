@@ -32,6 +32,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.LoginActivity" />
         </activity>
+        <activity
+            android:name=".EventListActivity"
+            android:label="@string/title_event_list"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".EventDetailActivity"
+            android:label="@string/title_event_detail"
+            android:parentActivityName=".EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.EventListActivity" />
+        </activity>
     </application>
 
 </manifest>

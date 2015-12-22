@@ -127,6 +127,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void startHome(Attendee attendee){
         // TODO: Implement Home activity
         System.out.println("Starting home with attendee: " + attendee.getEmail());
+        Intent i = new Intent();
+        i.setClass(this,EventListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("attendee", attendee);
+        i.putExtras(bundle);
+        startActivity(i);
     }
 
 

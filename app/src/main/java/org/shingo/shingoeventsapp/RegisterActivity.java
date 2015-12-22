@@ -216,6 +216,7 @@ public class RegisterActivity extends AppCompatActivity {
         private final String mDisplayName;
         private final boolean mVisible;
         private Attendee attendee;
+        private String output;
 
         UserCreateTask(String email, String password, String firstName, String lastName, String displayName, boolean visible) {
             mEmail = email;
@@ -252,7 +253,7 @@ public class RegisterActivity extends AppCompatActivity {
                 while((line = reader.readLine()) != null){
                     sb.append(line);
                 }
-                String output = sb.toString();
+                output = sb.toString();
                 JSONObject response = new JSONObject(output);
                 System.out.println("Create response: " + output);
                 success = response.getBoolean("success");
@@ -265,7 +266,7 @@ public class RegisterActivity extends AppCompatActivity {
                     attendee.setLastName(jAttendee.getString("last_name"));
                     attendee.setDisplayName(jAttendee.getString("display_name"));
                     attendee.setVisible(jAttendee.getBoolean("visibility"));
-                    // TODO: Insert into object
+                    // TODO: Insert into db
                 }
             } catch(UnsupportedEncodingException e){
                 return false;
@@ -286,8 +287,13 @@ public class RegisterActivity extends AppCompatActivity {
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(output.contains("duplicate key error")){
+                    mEmailView.setError(getString(R.string.error_account_exists));
+                    mEmailView.requestFocus();
+                } else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 
