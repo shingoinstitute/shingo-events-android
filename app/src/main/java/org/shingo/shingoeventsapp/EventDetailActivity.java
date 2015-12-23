@@ -21,12 +21,18 @@ import android.view.MenuItem;
  */
 public class EventDetailActivity extends AppCompatActivity {
 
+    public Attendee attendee;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
+
+        Bundle bundle = getIntent().getExtras();
+        attendee = bundle.getParcelable("attendee");
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +43,7 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Don't Show the Up button in the action bar.
+        // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // savedInstanceState is non-null when there is fragment state
@@ -73,7 +79,9 @@ public class EventDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, EventListActivity.class));
+            Intent i = new Intent(this, EventListActivity.class);
+            i.putExtra("attendee", attendee);
+            navigateUpTo(i);
             return true;
         }
         return super.onOptionsItemSelected(item);

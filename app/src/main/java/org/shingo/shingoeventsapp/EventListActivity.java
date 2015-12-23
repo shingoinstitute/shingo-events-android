@@ -35,6 +35,8 @@ public class EventListActivity extends AppCompatActivity
      */
     private boolean mTwoPane;
 
+    public Attendee attendee;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class EventListActivity extends AppCompatActivity
         toolbar.setTitle(getTitle());
 
         Bundle bundle = getIntent().getExtras();
-        Attendee attendee= bundle.getParcelable("attendee");
+        attendee= bundle.getParcelable("attendee");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +87,7 @@ public class EventListActivity extends AppCompatActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(EventDetailFragment.ARG_ITEM_ID, id);
+            arguments.putParcelable("attendee", attendee);
             EventDetailFragment fragment = new EventDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -96,6 +99,7 @@ public class EventListActivity extends AppCompatActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, EventDetailActivity.class);
             detailIntent.putExtra(EventDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra("attendee", attendee);
             startActivity(detailIntent);
         }
     }
