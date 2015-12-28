@@ -1,13 +1,36 @@
 package org.shingo.shingoeventsapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -35,6 +58,8 @@ public class EventListActivity extends AppCompatActivity
      */
     private boolean mTwoPane;
 
+    private AddRegIdTask addRegIdTask = null;
+
     public Attendee attendee;
 
     @Override
@@ -49,10 +74,32 @@ public class EventListActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         attendee= bundle.getParcelable("attendee");
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add registration id");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String regid = input.getText().toString();
+                if (!regid.isEmpty()) {
+                    addRegId(regid);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                builder.show();
                 Snackbar.make(view, "Adding registration ID", Snackbar.LENGTH_LONG)
                         .setAction("Undo", null).show();
             }
@@ -101,6 +148,121 @@ public class EventListActivity extends AppCompatActivity
             detailIntent.putExtra(EventDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra("attendee", attendee);
             startActivity(detailIntent);
+        }
+    }
+
+    private void addRegId(String regId) {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+        String mEmail = sharedPreferences.getString("email","");
+        addRegIdTask = new AddRegIdTask(mEmail, regId);
+        addRegIdTask.execute((Void) null);
+    }
+    //    /**
+//     * Shows the progress UI and hides the login form.
+//     */
+//    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+//    private void showProgress(final boolean show) {
+//        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+//        // for very easy animations. If available, use these APIs to fade-in
+//        // the progress spinner.
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+//
+//            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//            mRegisterFormView.animate().setDuration(shortAnimTime).alpha(
+//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//                }
+//            });
+//
+//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//            mProgressView.animate().setDuration(shortAnimTime).alpha(
+//                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//                }
+//            });
+//        } else {
+//            // The ViewPropertyAnimator APIs are not available, so simply show
+//            // and hide the relevant UI components.
+//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//        }
+//    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    private class AddRegIdTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mRegId;
+        private String output;
+
+        AddRegIdTask(String email, String regId) {
+            mEmail = email;
+            mRegId = regId;
+            System.out.println("AddRegIdTask created");
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            System.out.println("AddRegIdTask.doInBackground called");
+            boolean success  = false;
+            try {
+                String data = URLEncoder.encode("reg_id", "UTF-8") + "=" + URLEncoder.encode(mRegId,"UTF-8");
+                URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/addregid/"+ mEmail + "?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = "";
+                while((line = reader.readLine()) != null){
+                    sb.append(line);
+                }
+                output = sb.toString();
+                JSONObject response = new JSONObject(output);
+                System.out.println("AddRegId response: " + output);
+                success = response.getBoolean("success");
+            } catch(UnsupportedEncodingException e){
+                return false;
+            } catch(IOException e ){
+                return false;
+            } catch(JSONException e){
+                return false;
+            }
+
+            return success ;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            addRegIdTask = null;
+//            showProgress(false);
+
+            if (success) {
+                System.out.println("Restarting activity");
+                Intent i = getIntent();
+                finish();
+                startActivity(i);
+            } else {
+                System.out.println("Error occurred adding regid");
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            addRegIdTask = null;
+//            showProgress(false);
         }
     }
 }
