@@ -3,8 +3,10 @@ package org.shingo.shingoeventsapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -258,15 +260,11 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("Create response: " + output);
                 success = response.getBoolean("success");
                 if(success ){
-                    // TODO: Build attendee object
                     System.out.println("Attendee created successfully");
-                    JSONObject jAttendee = response.getJSONObject("attendee");
-                    attendee = new Attendee(jAttendee.getString("_id"), jAttendee.getString("email"));
-                    attendee.setFirstName(jAttendee.getString("first_name"));
-                    attendee.setLastName(jAttendee.getString("last_name"));
-                    attendee.setDisplayName(jAttendee.getString("display_name"));
-                    attendee.setVisible(jAttendee.getBoolean("visibility"));
-                    // TODO: Insert into db
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", mEmail);
+                    editor.putString("password", mPassword);
                 }
             } catch(UnsupportedEncodingException e){
                 return false;
