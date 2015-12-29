@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.shingo.shingoeventsapp.dummy.DummyContent;
+import org.shingo.shingoeventsapp.events.Events;
 
 /**
  * A fragment representing a single Event detail screen.
@@ -27,7 +27,7 @@ public class EventDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Events.Event mEvent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,12 +44,12 @@ public class EventDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mEvent = Events.EVENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mEvent.name);
             }
         }
     }
@@ -60,8 +60,8 @@ public class EventDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_event_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.event_detail)).setText(mItem.details);
+        if (mEvent != null) {
+            ((TextView) rootView.findViewById(R.id.event_detail)).setText(mEvent.startDate + " - " + mEvent.endDate + "\n" + mEvent.location);
         }
 
         return rootView;

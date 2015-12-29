@@ -60,8 +60,6 @@ public class EventListActivity extends AppCompatActivity
 
     private AddRegIdTask addRegIdTask = null;
 
-    public Attendee attendee;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +68,6 @@ public class EventListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        Bundle bundle = getIntent().getExtras();
-        attendee= bundle.getParcelable("attendee");
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add registration id");
@@ -128,13 +123,13 @@ public class EventListActivity extends AppCompatActivity
      */
     @Override
     public void onItemSelected(String id) {
+        System.out.println("Item selected with id: " + id);
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(EventDetailFragment.ARG_ITEM_ID, id);
-            arguments.putParcelable("attendee", attendee);
             EventDetailFragment fragment = new EventDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -146,7 +141,6 @@ public class EventListActivity extends AppCompatActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, EventDetailActivity.class);
             detailIntent.putExtra(EventDetailFragment.ARG_ITEM_ID, id);
-            detailIntent.putExtra("attendee", attendee);
             startActivity(detailIntent);
         }
     }
@@ -157,41 +151,6 @@ public class EventListActivity extends AppCompatActivity
         addRegIdTask = new AddRegIdTask(mEmail, regId);
         addRegIdTask.execute((Void) null);
     }
-    //    /**
-//     * Shows the progress UI and hides the login form.
-//     */
-//    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-//    private void showProgress(final boolean show) {
-//        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-//        // for very easy animations. If available, use these APIs to fade-in
-//        // the progress spinner.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-//
-//            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//            mRegisterFormView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//                }
-//            });
-//
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mProgressView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//                }
-//            });
-//        } else {
-//            // The ViewPropertyAnimator APIs are not available, so simply show
-//            // and hide the relevant UI components.
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//        }
-//    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -247,7 +206,6 @@ public class EventListActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(final Boolean success) {
             addRegIdTask = null;
-//            showProgress(false);
 
             if (success) {
                 System.out.println("Restarting activity");
@@ -262,7 +220,6 @@ public class EventListActivity extends AppCompatActivity
         @Override
         protected void onCancelled() {
             addRegIdTask = null;
-//            showProgress(false);
         }
     }
 }
