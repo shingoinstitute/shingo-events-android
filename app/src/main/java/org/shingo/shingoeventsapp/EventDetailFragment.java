@@ -61,7 +61,7 @@ public class EventDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mEvent != null) {
-            ((TextView) rootView.findViewById(R.id.event_detail)).setText(mEvent.startDate + " - " + mEvent.endDate + "\n" + mEvent.location);
+//            ((TextView) rootView.findViewById(R.id.event_detail)).setText(mEvent.startDate + " - " + mEvent.endDate + "\n" + mEvent.location);
         }
 
         return rootView;

@@ -136,15 +136,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         startActivity(i);
     }
 
-    private void startHome(Attendee attendee){
-        // TODO: Implement Home activity
-        System.out.println("Starting home with attendee: " + attendee.getEmail());
+    private void startHome(){
         Intent i = new Intent();
         i.setClass(this,EventListActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("attendee", attendee);
-        i.putExtras(bundle);
         startActivity(i);
         finish();
     }
@@ -354,7 +349,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
-        private Attendee attendee;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -388,24 +382,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 System.out.println("Login response: " + output);
                 authorized = response.getBoolean("success");
                 System.out.println("authorized: " + authorized);
-                if(authorized){
-                    JSONObject jAttendee = response.getJSONObject("attendee");
-                    attendee = new Attendee(jAttendee.getString("_id"), jAttendee.getString("email"));
-                    attendee.setFirstName(jAttendee.getString("first_name"));
-                    attendee.setLastName(jAttendee.getString("last_name"));
-                    attendee.setDisplayName(jAttendee.getString("display_name"));
-                    attendee.setVisible(jAttendee.getBoolean("visibility"));
-                    JSONArray registrations = response.getJSONArray("registration_ids");
-                    for(int i = 0; i < registrations.length(); i++){
-                        attendee.addRegistration(registrations.getString(i));
-                    }
-                    JSONArray connections = response.getJSONArray("connections");
-                    for(int i = 0; i < connections.length(); i++){
-                        attendee.addConnection(connections.getString(i));
-                    }
-                    // TODO: Insert into local db
-                    System.out.println("Attendee " + attendee.getEmail() + " is ready to insert into db");
-                }
             } catch(UnsupportedEncodingException e){
                 e.printStackTrace();
                 return false;
@@ -434,7 +410,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 editor.putString("email", mEmail);
                 editor.putString("password", mPassword);
                 editor.commit();
-                startHome(attendee);
+                startHome();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

@@ -46,6 +46,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.EventListActivity" />
         </activity>
+        <activity
+            android:name=".AttendeeListActivity"
+            android:label="@string/title_attendee_list"
+            android:parentActivityName=".EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.EventListActivity" />
+        </activity>
+        <activity
+            android:name=".AttendeeDetailActivity"
+            android:label="@string/title_attendee_detail"
+            android:parentActivityName=".AttendeeListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.AttendeeListActivity" />
+        </activity>
     </application>
 
 </manifest>

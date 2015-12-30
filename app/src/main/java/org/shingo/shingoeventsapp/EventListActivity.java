@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -117,6 +119,14 @@ public class EventListActivity extends AppCompatActivity
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     /**
      * Callback method from {@link EventListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
@@ -143,6 +153,32 @@ public class EventListActivity extends AppCompatActivity
             detailIntent.putExtra(EventDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == android.R.id.home) {
+//            // This ID represents the Home or Up button. In the case of this
+//            // activity, the Up button is shown. For
+//            // more details, see the Navigation pattern on Android Design:
+//            //
+//            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+//            //
+//            Intent i = new Intent(this, EventListActivity.class);
+//            navigateUpTo(i);
+//            return true;
+//        }
+        switch(item.getItemId()){
+            case android.R.id.home:
+                Intent i = new Intent(this, EventListActivity.class);
+                navigateUpTo(i);
+                return true;
+            case R.id.action_connect:
+                System.out.println("Connect clicked!");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addRegId(String regId) {

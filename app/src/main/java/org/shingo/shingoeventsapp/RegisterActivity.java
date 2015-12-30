@@ -217,7 +217,6 @@ public class RegisterActivity extends AppCompatActivity {
         private final String mLastName;
         private final String mDisplayName;
         private final boolean mVisible;
-        private Attendee attendee;
         private String output;
 
         UserCreateTask(String email, String password, String firstName, String lastName, String displayName, boolean visible) {

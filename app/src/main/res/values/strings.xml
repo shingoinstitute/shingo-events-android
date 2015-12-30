@@ -24,4 +24,7 @@
     <string name="error_account_exists">This email already belongs to an account!</string>
     <string name="title_event_list">Events</string>
     <string name="title_event_detail">Event Detail</string>
+    <string name="action_connect">Connect</string>
+    <string name="title_attendee_list">Attendees</string>
+    <string name="title_attendee_detail">Attendee Detail</string>
 </resources>
