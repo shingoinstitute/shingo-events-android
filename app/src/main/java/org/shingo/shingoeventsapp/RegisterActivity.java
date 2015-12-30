@@ -48,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mFirstNameView;
     private EditText mLastNameView;
     private EditText mDisplayNameView;
+    private EditText mTitleView;
+    private EditText mCompanyView;
     private android.support.v7.widget.SwitchCompat mIsVisibleView;
     private View mProgressView;
     private View mRegisterFormView;
@@ -70,6 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
         mLastNameView = (EditText) findViewById(R.id.last_name);
 
         mDisplayNameView = (EditText) findViewById(R.id.display_name);
+
+        mTitleView = (EditText) findViewById(R.id.attendee_title);
+
+        mCompanyView = (EditText) findViewById(R.id.company);
 
         mIsVisibleView = (android.support.v7.widget.SwitchCompat) findViewById(R.id.is_visible);
 
@@ -109,6 +115,8 @@ public class RegisterActivity extends AppCompatActivity {
         String firstName = mFirstNameView.getText().toString();
         String lastName = mLastNameView.getText().toString();
         String displayName = mDisplayNameView.getText().toString();
+        String title = mTitleView.getText().toString();
+        String company = mCompanyView.getText().toString();
         boolean visible = mIsVisibleView.isChecked();
 
         boolean cancel = false;
@@ -156,7 +164,7 @@ public class RegisterActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mCreateTask = new UserCreateTask(email, password, firstName, lastName, displayName, visible);
+            mCreateTask = new UserCreateTask(email, password, firstName, lastName, displayName, title, company, visible);
             mCreateTask.execute((Void) null);
         }
     }
@@ -216,15 +224,19 @@ public class RegisterActivity extends AppCompatActivity {
         private final String mFirstName;
         private final String mLastName;
         private final String mDisplayName;
+        private final String mTitle;
+        private final String mCompany;
         private final boolean mVisible;
         private String output;
 
-        UserCreateTask(String email, String password, String firstName, String lastName, String displayName, boolean visible) {
+        UserCreateTask(String email, String password, String firstName, String lastName, String displayName, String title, String company, boolean visible) {
             mEmail = email;
             mPassword = password;
             mFirstName = firstName;
             mLastName = lastName;
             mDisplayName = displayName;
+            mTitle = title;
+            mCompany = company;
             mVisible = visible;
             System.out.println("UserCreateTask created");
         }
@@ -240,6 +252,8 @@ public class RegisterActivity extends AppCompatActivity {
                 data += "&" + URLEncoder.encode("first_name", "UTF-8") + "=" + URLEncoder.encode(mFirstName, "UTF-8");
                 data += "&" + URLEncoder.encode("last_name", "UTF-8") + "=" + URLEncoder.encode(mLastName, "UTF-8");
                 data += "&" + URLEncoder.encode("display_name", "UTF-8") + "=" + URLEncoder.encode(mDisplayName, "UTF-8");
+                data += "&" + URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(mTitle, "UTF-8");
+                data += "&" + URLEncoder.encode("company", "UTF-8") + "=" + URLEncoder.encode(mCompany, "UTF-8");
                 data += "&" + URLEncoder.encode("visibility", "UTF-8") + "=" + URLEncoder.encode(Boolean.toString(mVisible), "UTF-8");
                 URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/create?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
                 URLConnection conn = url.openConnection();

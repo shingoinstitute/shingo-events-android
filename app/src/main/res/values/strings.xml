@@ -27,4 +27,8 @@
     <string name="action_connect">Connect</string>
     <string name="title_attendee_list">Attendees</string>
     <string name="title_attendee_detail">Attendee Detail</string>
+    <string name="prompt_title">Title (Optional)</string>
+    <string name="prompt_company">Company (Optional)</string>
+    <string name="title_connection_list">Connections</string>
+    <string name="title_connection_detail">Connection Detail</string>
 </resources>

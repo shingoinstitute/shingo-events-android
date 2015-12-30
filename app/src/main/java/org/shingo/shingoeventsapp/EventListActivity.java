@@ -176,6 +176,8 @@ public class EventListActivity extends AppCompatActivity
                 return true;
             case R.id.action_connect:
                 System.out.println("Connect clicked!");
+                Intent intent = new Intent(this, ConnectionListActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -64,6 +64,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.AttendeeListActivity" />
         </activity>
+        <activity
+            android:name=".ConnectionListActivity"
+            android:label="@string/title_connection_list"
+            android:parentActivityName=".EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.EventListActivity" />
+        </activity>
+        <activity
+            android:name=".ConnectionDetailActivity"
+            android:label="@string/title_connection_detail"
+            android:parentActivityName=".ConnectionListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ConnectionListActivity" />
+        </activity>
     </application>
 
 </manifest>
