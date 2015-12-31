@@ -3,6 +3,8 @@ package org.shingo.shingoeventsapp;
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.Gravity;
@@ -61,26 +63,57 @@ public class AttendeeDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attendee_detail, container, false);
-
-        // Show the dummy content as text in a TextView.
+        View parent = container.getRootView();
+        System.out.println("fragment_attendee_detail parent view: " + parent.getId());
         if (mAttendee != null) {
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.CENTER;
-            TextView email = new TextView(getContext());
-            email.setText("Email: " + mAttendee.email);
-            TextView firstName = new TextView(getContext());
-            firstName.setText("First Name: " + mAttendee.firstName);
-            TextView lastName = new TextView(getContext());
-            lastName.setText("Last Name: " + mAttendee.lastName);
-            linearLayout.addView(email, params);
-            linearLayout.addView(firstName, params);
-            linearLayout.addView(lastName, params);
-            NestedScrollView scroll = (NestedScrollView) rootView.findViewById(R.id.attendee_detail_container);
-            scroll.addView(linearLayout);
+            TextView emailView = (TextView) rootView.findViewById(R.id.attendee_email);
+            TextView nameView = (TextView) rootView.findViewById(R.id.attendee_display_name);
+            TextView titleView = (TextView) rootView.findViewById(R.id.attendee_title);
+            TextView companyView = (TextView) rootView.findViewById(R.id.attendee_company);
+            emailView.setText(mAttendee.email);
+            nameView.setText(mAttendee.toString());
+            titleView.setText(mAttendee.title);
+            companyView.setText(mAttendee.company);
+            FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
+            System.out.println("mAttendee.status " + mAttendee.status);
+            switch(mAttendee.status){
+                case 0:
+                    //TODO: send message
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Snackbar.make(view, "Opening chat...", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    });
+                    break;
+                case 1:
+                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_info_details));
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Snackbar.make(view, "Request pending...", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    });
+                    break;
+                default:
+                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_send));
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            sendRequest();
+                            Snackbar.make(view, "Request sent!", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    });
+            }
         }
 
         return rootView;
+    }
+
+    private void sendRequest(){
+
     }
 }

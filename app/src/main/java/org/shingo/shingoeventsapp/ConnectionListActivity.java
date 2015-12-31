@@ -48,7 +48,8 @@ public class ConnectionListActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                startAttendeeList();
+                Snackbar.make(view, "Looking for new connections", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -70,6 +71,11 @@ public class ConnectionListActivity extends AppCompatActivity
         }
 
         // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    private void startAttendeeList(){
+        Intent i = new Intent(this, AttendeeListActivity.class);
+        startActivity(i);
     }
 
     @Override

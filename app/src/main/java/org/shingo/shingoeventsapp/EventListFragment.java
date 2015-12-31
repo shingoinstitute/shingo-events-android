@@ -97,11 +97,11 @@ public class EventListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
-        String mEmail = sharedPreferences.getString("email","");
-        System.out.println("Got preference email: " + mEmail);
-        if(!mEmail.isEmpty()){
+        String mEmail = sharedPreferences.getString("email", "");
+        String mPassword = sharedPreferences.getString("password", "");
+        if(!mEmail.isEmpty() && !mPassword.isEmpty()){
             System.out.println("Starting GetEventsTask with email: " + mEmail);
-            getEventsTask = new GetEventsTask(mEmail);
+            getEventsTask = new GetEventsTask(mEmail, mPassword);
             getEventsTask.execute((Void) null);
         }
     }
@@ -184,10 +184,12 @@ public class EventListFragment extends ListFragment {
     private class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
+        private final String mPassword;
         private String output;
 
-        GetEventsTask(String email) {
+        GetEventsTask(String email, String password) {
             mEmail = email;
+            mPassword = password;
             System.out.println("GetEventsTask created");
         }
 
@@ -198,6 +200,7 @@ public class EventListFragment extends ListFragment {
             boolean success  = false;
             try {
                 String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(mEmail,"UTF-8");
+                data += "&" + URLEncoder.encode("password", "UTF-8") + "=" +URLEncoder.encode(mPassword, "UTF-8");
                 URL url = new URL("https://shingo-events.herokuapp.com/api/regevents?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
@@ -217,6 +220,7 @@ public class EventListFragment extends ListFragment {
                 success = response.getBoolean("success");
                 if(success){
                     System.out.println("EventIDs fetched successfully");
+                    Events.clear();
                     JSONArray jEvents = response.getJSONArray("events");
                     if(jEvents.length() != 0) {
                         String jString = "";

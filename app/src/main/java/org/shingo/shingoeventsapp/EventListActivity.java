@@ -185,8 +185,9 @@ public class EventListActivity extends AppCompatActivity
 
     private void addRegId(String regId) {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
-        String mEmail = sharedPreferences.getString("email","");
-        addRegIdTask = new AddRegIdTask(mEmail, regId);
+        String mEmail = sharedPreferences.getString("email", "");
+        String mPassword = sharedPreferences.getString("password","");
+        addRegIdTask = new AddRegIdTask(mEmail, mPassword, regId);
         addRegIdTask.execute((Void) null);
     }
 
@@ -197,11 +198,13 @@ public class EventListActivity extends AppCompatActivity
     private class AddRegIdTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
+        private final String mPassword;
         private final String mRegId;
         private String output;
 
-        AddRegIdTask(String email, String regId) {
+        AddRegIdTask(String email, String password, String regId) {
             mEmail = email;
+            mPassword = password;
             mRegId = regId;
             System.out.println("AddRegIdTask created");
         }
@@ -213,7 +216,9 @@ public class EventListActivity extends AppCompatActivity
             boolean success  = false;
             try {
                 String data = URLEncoder.encode("reg_id", "UTF-8") + "=" + URLEncoder.encode(mRegId,"UTF-8");
-                URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/addregid/"+ mEmail + "?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+                data += "&" + URLEncoder.encode("email","UTF-8") + "=" + URLEncoder.encode(mEmail, "UTF-8");
+                data += "&" + URLEncoder.encode("password", "UTF-8") + "=" +URLEncoder.encode(mPassword, "UTF-8");
+                URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/addregid/?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());

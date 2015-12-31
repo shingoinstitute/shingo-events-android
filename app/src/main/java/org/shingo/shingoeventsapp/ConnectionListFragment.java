@@ -213,6 +213,7 @@ public class ConnectionListFragment extends ListFragment {
                 success = response.getBoolean("success");
                 if(success){
                     System.out.println("EventIDs fetched successfully");
+                    Connections.clear();
                     JSONArray jConnections = response.getJSONArray("connections");
                     JSONArray jResults = response.getJSONArray("results");
                     for(int i = 0; i < jConnections.length(); i++){
@@ -242,6 +243,7 @@ public class ConnectionListFragment extends ListFragment {
 
             if (success) {
                 System.out.println("Setting list adapter");
+                Collections.sort(Connections.CONNECTIONS);
                 setListAdapter(new ArrayAdapter<Connections.Connection>(
                         getActivity(),
                         android.R.layout.simple_list_item_activated_1,

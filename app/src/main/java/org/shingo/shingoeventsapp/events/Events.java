@@ -24,6 +24,11 @@ public class Events {
         }
     }
 
+    public static void clear(){
+        EVENTS.clear();
+        EVENT_MAP.clear();
+    }
+
     public static class Event implements Comparable<Event>{
         public String id;
         public String name;

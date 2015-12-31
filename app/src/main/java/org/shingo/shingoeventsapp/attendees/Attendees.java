@@ -20,18 +20,33 @@ public class Attendees {
         }
     }
 
-    public static class Attendee {
+    public static void clear(){
+        ATTENDEE_MAP.clear();
+        ATTENDEES.clear();
+    }
+
+    public static class Attendee implements Comparable<Attendee>{
         public String email;
         public String firstName;
         public String lastName;
         public String displayName;
+        public String title;
+        public String company;
+        public List<String> connections;
+        public int status;
 
         public Attendee(String email, String firstName,
-                        String lastName, String displayName){
+                        String lastName, String displayName,
+                        String title, String company, List<String> connections,
+                        int status){
             this.email = email;
             this.firstName = firstName;
             this.lastName = lastName;
             this.displayName = displayName;
+            this.title = title;
+            this.company = company;
+            this.connections = connections;
+            this.status = status;
         }
 
         @Override
@@ -41,6 +56,11 @@ public class Attendees {
             } else {
                 return displayName;
             }
+        }
+
+        @Override
+        public int compareTo(Attendee another) {
+            return this.lastName.compareTo(another.lastName);
         }
     }
 }

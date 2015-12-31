@@ -20,7 +20,12 @@ public class Connections {
         }
     }
 
-    public static class Connection {
+    public static void clear(){
+        CONNECTION_MAP.clear();
+        CONNECTIONS.clear();
+    }
+
+    public static class Connection implements Comparable<Connection>{
         public String email;
         public String firstName;
         public String lastName;
@@ -48,6 +53,11 @@ public class Connections {
             } else {
                 return displayName;
             }
+        }
+
+        @Override
+        public int compareTo(Connection another) {
+            return this.lastName.compareTo(another.lastName);
         }
     }
 }

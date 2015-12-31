@@ -44,14 +44,6 @@ public class AttendeeListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -83,7 +75,7 @@ public class AttendeeListActivity extends AppCompatActivity
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            Intent i = new Intent(this, EventListActivity.class);
+            Intent i = new Intent(this, ConnectionListActivity.class);
             navigateUpTo(i);
             return true;
         }
