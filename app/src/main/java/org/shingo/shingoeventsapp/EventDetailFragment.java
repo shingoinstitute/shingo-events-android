@@ -46,22 +46,23 @@ public class EventDetailFragment extends Fragment {
             // to load content from a content provider.
             mEvent = Events.EVENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mEvent.name);
-            }
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mEvent.name);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_event_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mEvent != null) {
-//            ((TextView) rootView.findViewById(R.id.event_detail)).setText(mEvent.startDate + " - " + mEvent.endDate + "\n" + mEvent.location);
+            ((TextView) rootView.findViewById(R.id.event_detail)).setText(mEvent.startDate + " - " + mEvent.endDate + "\n" + mEvent.location);
         }
 
         return rootView;

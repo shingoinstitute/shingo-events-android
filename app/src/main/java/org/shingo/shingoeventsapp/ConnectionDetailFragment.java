@@ -3,6 +3,8 @@ package org.shingo.shingoeventsapp;
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,22 +48,55 @@ public class ConnectionDetailFragment extends Fragment {
             // to load content from a content provider.
             mConnection = Connections.CONNECTION_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mConnection.toString());
-            }
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_connection_detail, container, false);
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mConnection.toString());
+        }
 
-        // Show the dummy content as text in a TextView.
+        View rootView = inflater.inflate(R.layout.fragment_connection_detail, container, false);
+        View parent = container.getRootView();
         if (mConnection != null) {
-            ((TextView) rootView.findViewById(R.id.connection_detail)).setText(mConnection.toString());
+            TextView emailView = (TextView) rootView.findViewById(R.id.connection_email);
+            TextView nameView = (TextView) rootView.findViewById(R.id.connection_display_name);
+            TextView titleView = (TextView) rootView.findViewById(R.id.connection_title);
+            TextView companyView = (TextView) rootView.findViewById(R.id.connection_company);
+            emailView.setText(mConnection.email);
+            nameView.setText(mConnection.toString());
+            titleView.setText(mConnection.title);
+            companyView.setText(mConnection.company);
+            FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
+            System.out.println("mAttendee.status " + mConnection.status);
+            switch(mConnection.status.toLowerCase()){
+                case "approved":
+                    //TODO: send message
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Snackbar.make(view, "Opening chat...", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    });
+                    break;
+                case "pending":
+                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //TODO: Approve/Deny request
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
 
         return rootView;

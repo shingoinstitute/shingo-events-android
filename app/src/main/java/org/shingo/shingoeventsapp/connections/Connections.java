@@ -49,7 +49,10 @@ public class Connections {
         @Override
         public String toString(){
             if(displayName.isEmpty()){
-                return firstName + " " + lastName;
+                displayName = firstName + " " + lastName;
+            }
+            if(status.toLowerCase().equals("pending")){
+                return displayName + " (pending)";
             } else {
                 return displayName;
             }

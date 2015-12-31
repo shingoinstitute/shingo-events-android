@@ -211,7 +211,7 @@ public class AttendeeListFragment extends ListFragment {
                         JSONArray jConnections = jAttendee.getJSONArray("connections");
                         List<String> connections = new ArrayList<>();
                         for(int j = 0; j < jConnections.length(); j++){
-                            JSONObject connection = jConnections.getJSONObject(i);
+                            JSONObject connection = jConnections.getJSONObject(j);
                             connections.add(connection.getString("email"));
                         }
                         System.out.println("connections " + connections.toString());
@@ -225,7 +225,8 @@ public class AttendeeListFragment extends ListFragment {
                                     jAttendee.getString("first_name"), jAttendee.getString("last_name"),
                                     jAttendee.getString("display_name"), jAttendee.getString("title"),
                                     jAttendee.getString("company"),connections, 1));
-                        else if(connections.contains(email) && jConnections.getJSONObject(connections.indexOf(email)).getString("status").toLowerCase().equals("rejected")){}
+                        else if(connections.contains(email) && jConnections.getJSONObject(connections.indexOf(email)).getString("status").toLowerCase().equals("rejected")
+                                || jAttendee.getString("email").equals(email)){}
                             // DO NOTHING
                         else
                             Attendees.addAttendee(new Attendees.Attendee(jAttendee.getString("email"),
@@ -235,10 +236,13 @@ public class AttendeeListFragment extends ListFragment {
                     }
                 }
             } catch(UnsupportedEncodingException e){
+                e.printStackTrace();
                 return success;
             } catch(IOException e ){
+                e.printStackTrace();
                 return success;
             } catch(JSONException e){
+                e.printStackTrace();
                 return false;
             }
 
