@@ -25,6 +25,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A list fragment representing a list of Connections. This fragment
@@ -212,13 +214,18 @@ public class ConnectionListFragment extends ListFragment {
                 System.out.println("getConnections() response: " + output);
                 success = response.getBoolean("success");
                 if(success){
-                    System.out.println("EventIDs fetched successfully");
+                    System.out.println("Connections fetched successfully");
                     Connections.clear();
                     JSONArray jConnections = response.getJSONArray("connections");
                     JSONArray jResults = response.getJSONArray("results");
+                    Map<String, JSONObject> jMap = new HashMap<>();
+                    for(int i = 0; i < jResults.length(); i++){
+                        JSONObject jResult = jResults.getJSONObject(i);
+                        jMap.put(jResult.getString("email"),jResult);
+                    }
                     for(int i = 0; i < jConnections.length(); i++){
                         JSONObject jConnection = jConnections.getJSONObject(i);
-                        JSONObject jResult = jResults.getJSONObject(i);
+                        JSONObject jResult = jMap.get(jConnection.getString("email"));
                         if(jConnection.getString("status").equals("approved") || jConnection.getString("status").equals("pending")) {
                             Connections.addConnection(new Connections.Connection(jConnection.getString("email"),
                                     jResult.getString("first_name"), jResult.getString("last_name"), jResult.getString("display_name"),

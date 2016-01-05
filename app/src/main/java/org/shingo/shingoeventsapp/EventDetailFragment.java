@@ -25,7 +25,7 @@ public class EventDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The Event this fragment is presenting.
      */
     private Events.Event mEvent;
 
@@ -41,9 +41,6 @@ public class EventDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mEvent = Events.EVENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
         }
@@ -60,7 +57,7 @@ public class EventDetailFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_event_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the Event content as text in a TextView.
         if (mEvent != null) {
             ((TextView) rootView.findViewById(R.id.event_detail)).setText(mEvent.startDate + " - " + mEvent.endDate + "\n" + mEvent.location);
         }

@@ -42,7 +42,7 @@ public class AttendeeDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The Attendee this fragment is presenting.
      */
     private Attendees.Attendee mAttendee;
 
@@ -60,9 +60,6 @@ public class AttendeeDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mAttendee = Attendees.ATTENDEE_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
@@ -136,8 +133,8 @@ public class AttendeeDetailFragment extends Fragment {
     }
 
     /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
+     * Represents an asynchronous Send a connection request task used to add a
+     * connection to a user.
      */
     private class SendConnectRequestTask extends AsyncTask<Void, Void, Boolean> {
 

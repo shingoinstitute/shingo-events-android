@@ -31,4 +31,6 @@
     <string name="prompt_company">Company (Optional)</string>
     <string name="title_connection_list">Connections</string>
     <string name="title_connection_detail">Connection Detail</string>
+    <string name="title_approve">Approve/Deny Connection</string>
+    <string name="approve_message">Would you like to connect to</string>
 </resources>
