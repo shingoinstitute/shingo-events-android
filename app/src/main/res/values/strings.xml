@@ -33,4 +33,5 @@
     <string name="title_connection_detail">Connection Detail</string>
     <string name="title_approve">Approve/Deny Connection</string>
     <string name="approve_message">Would you like to connect to</string>
+    <string name="search_title">Search</string>
 </resources>

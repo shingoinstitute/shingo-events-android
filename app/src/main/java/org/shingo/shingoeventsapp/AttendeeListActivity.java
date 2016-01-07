@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 import android.view.MenuItem;
@@ -62,6 +64,15 @@ public class AttendeeListActivity extends AppCompatActivity
         }
 
         // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search, menu);
+
+        return true;
     }
 
     @Override

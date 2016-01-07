@@ -24,8 +24,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -219,7 +221,7 @@ public class ConnectionListFragment extends ListFragment {
                     JSONArray jConnections = response.getJSONArray("connections");
                     for(int i = 0; i < jConnections.length(); i++){
                         JSONObject jConnection = jConnections.getJSONObject(i);
-                        if(jConnection.getString("status").equals("approved") || jConnection.getString("status").equals("pending")) {
+                        if(jConnection.getString("status").equals("approved") || jConnection.getString("status").equals("pending") || jConnection.getString("status").equals("waiting")) {
                             Connections.addConnection(new Connections.Connection(jConnection.getInt("ID"),jConnection.getString("email"),
                                     jConnection.getString("first_name"), jConnection.getString("last_name"), jConnection.getString("display_name"),
                                     jConnection.getString("title"), jConnection.getString("company"), jConnection.getString("status")));
@@ -244,11 +246,16 @@ public class ConnectionListFragment extends ListFragment {
             if (success) {
                 System.out.println("Setting list adapter");
                 Collections.sort(Connections.CONNECTIONS);
+                List<Connections.Connection> filtered = new ArrayList<>();
+                for(Connections.Connection c : Connections.CONNECTIONS){
+                    if(!c.status.equals("waiting"))
+                        filtered.add(c);
+                }
                 setListAdapter(new ArrayAdapter<Connections.Connection>(
                         getActivity(),
                         android.R.layout.simple_list_item_activated_1,
                         android.R.id.text1,
-                        Connections.CONNECTIONS));
+                        filtered));
             } else {
                 System.out.println("An error occurred...");
             }

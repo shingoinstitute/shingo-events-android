@@ -1,6 +1,7 @@
 package org.shingo.shingoeventsapp;
 
 import android.os.Parcel;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ public class EventDetailActivity extends AppCompatActivity {
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        setupTabs();
+
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
         // (e.g. when rotating the screen from portrait to landscape).
@@ -63,6 +66,9 @@ public class EventDetailActivity extends AppCompatActivity {
                     .add(R.id.event_detail_container, fragment)
                     .commit();
         }
+    }
+
+    private void setupTabs(){
     }
 
 

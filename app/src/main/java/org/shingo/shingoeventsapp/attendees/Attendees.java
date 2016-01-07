@@ -33,10 +33,11 @@ public class Attendees {
         public String displayName;
         public String title;
         public String company;
+        public String status;
 
         public Attendee(int id, String email, String firstName,
                         String lastName, String displayName,
-                        String title, String company){
+                        String title, String company, String status){
             this.id = id;
             this.email = email;
             this.firstName = firstName;
@@ -44,6 +45,7 @@ public class Attendees {
             this.displayName = displayName;
             this.title = title;
             this.company = company;
+            this.status = status;
             if(displayName.equals("null")){
                 this.displayName = firstName + " " + lastName;
             }

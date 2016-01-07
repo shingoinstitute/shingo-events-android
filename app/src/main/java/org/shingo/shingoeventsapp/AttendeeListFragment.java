@@ -208,10 +208,17 @@ public class AttendeeListFragment extends ListFragment {
                     JSONArray jAttendees = response.getJSONArray("attendees");
                     for(int i = 0; i < jAttendees.length(); i++){
                         JSONObject jAttendee = jAttendees.getJSONObject(i);
-                        if(jAttendee.getString("email") != email)
+                        if(!jAttendee.getString("email").equals(email)) {
+                            Connections.Connection c = Connections.CONNECTION_MAP.get(jAttendee.getString("email"));
+                            if (c != null) {
+                                Attendees.addAttendee(new Attendees.Attendee(jAttendee.getInt("ID"), jAttendee.getString("email"),
+                                        jAttendee.getString("first_name"), jAttendee.getString("last_name"), jAttendee.getString("display_name"),
+                                        jAttendee.getString("title"), jAttendee.getString("company"),c.status));
+                            }
                             Attendees.addAttendee(new Attendees.Attendee(jAttendee.getInt("ID"), jAttendee.getString("email"),
-                                    jAttendee.getString("first_name"),jAttendee.getString("last_name"),jAttendee.getString("display_name"),
-                                    jAttendee.getString("title"), jAttendee.getString("company")));
+                                    jAttendee.getString("first_name"), jAttendee.getString("last_name"), jAttendee.getString("display_name"),
+                                    jAttendee.getString("title"), jAttendee.getString("company"),""));
+                        }
                     }
                 }
             } catch(UnsupportedEncodingException e){
