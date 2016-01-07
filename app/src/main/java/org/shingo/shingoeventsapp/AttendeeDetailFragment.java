@@ -86,39 +86,39 @@ public class AttendeeDetailFragment extends Fragment {
             titleView.setText(mAttendee.title);
             companyView.setText(mAttendee.company);
             FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
-            System.out.println("mAttendee.status " + mAttendee.status);
-            switch(mAttendee.status){
-                case 0:
-                    //TODO: send message
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Snackbar.make(view, "Opening chat...", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        }
-                    });
-                    break;
-                case 1:
-                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_info_details));
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Snackbar.make(view, "Request pending...", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        }
-                    });
-                    break;
-                default:
-                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_send));
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            sendRequest();
-                            Snackbar.make(view, "Request sent!", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        }
-                    });
-            }
+//            System.out.println("mAttendee.status " + mAttendee.status);
+//            switch(mAttendee.status){
+//                case 0:
+//                    //TODO: send message
+//                    fab.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Snackbar.make(view, "Opening chat...", Snackbar.LENGTH_LONG)
+//                                    .setAction("Action", null).show();
+//                        }
+//                    });
+//                    break;
+//                case 1:
+//                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_info_details));
+//                    fab.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Snackbar.make(view, "Request pending...", Snackbar.LENGTH_LONG)
+//                                    .setAction("Action", null).show();
+//                        }
+//                    });
+//                    break;
+//                default:
+//                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_send));
+//                    fab.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            sendRequest();
+//                            Snackbar.make(view, "Request sent!", Snackbar.LENGTH_LONG)
+//                                    .setAction("Action", null).show();
+//                        }
+//                    });
+//            }
         }
 
         return rootView;
@@ -189,7 +189,7 @@ public class AttendeeDetailFragment extends Fragment {
 
             if (success) {
                 System.out.println("Restarting activity");
-                mAttendee.status = 1;
+//                mAttendee.status = 1;
                 Fragment currentFrag = getFragmentManager().findFragmentById(getId());
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.detach(currentFrag);

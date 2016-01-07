@@ -208,31 +208,10 @@ public class AttendeeListFragment extends ListFragment {
                     JSONArray jAttendees = response.getJSONArray("attendees");
                     for(int i = 0; i < jAttendees.length(); i++){
                         JSONObject jAttendee = jAttendees.getJSONObject(i);
-                        JSONArray jConnections = jAttendee.getJSONArray("connections");
-                        List<String> connections = new ArrayList<>();
-                        for(int j = 0; j < jConnections.length(); j++){
-                            JSONObject connection = jConnections.getJSONObject(j);
-                            connections.add(connection.getString("email"));
-                        }
-                        System.out.println("connections " + connections.toString());
-                        if(connections.contains(email) && jConnections.getJSONObject(connections.indexOf(email)).getString("status").toLowerCase().equals("approved"))
-                            Attendees.addAttendee(new Attendees.Attendee(jAttendee.getString("email"),
-                                    jAttendee.getString("first_name"), jAttendee.getString("last_name"),
-                                    jAttendee.getString("display_name"), jAttendee.getString("title"),
-                                    jAttendee.getString("company"),connections, 0));
-                        else if(connections.contains(email) && jConnections.getJSONObject(connections.indexOf(email)).getString("status").toLowerCase().equals("pending"))
-                            Attendees.addAttendee(new Attendees.Attendee(jAttendee.getString("email"),
-                                    jAttendee.getString("first_name"), jAttendee.getString("last_name"),
-                                    jAttendee.getString("display_name"), jAttendee.getString("title"),
-                                    jAttendee.getString("company"),connections, 1));
-                        else if(connections.contains(email) && jConnections.getJSONObject(connections.indexOf(email)).getString("status").toLowerCase().equals("rejected")
-                                || jAttendee.getString("email").equals(email)){}
-                            // DO NOTHING
-                        else
-                            Attendees.addAttendee(new Attendees.Attendee(jAttendee.getString("email"),
-                                    jAttendee.getString("first_name"), jAttendee.getString("last_name"),
-                                    jAttendee.getString("display_name"), jAttendee.getString("title"),
-                                    jAttendee.getString("company"),connections, -1));
+                        if(jAttendee.getString("email") != email)
+                            Attendees.addAttendee(new Attendees.Attendee(jAttendee.getInt("ID"), jAttendee.getString("email"),
+                                    jAttendee.getString("first_name"),jAttendee.getString("last_name"),jAttendee.getString("display_name"),
+                                    jAttendee.getString("title"), jAttendee.getString("company")));
                     }
                 }
             } catch(UnsupportedEncodingException e){

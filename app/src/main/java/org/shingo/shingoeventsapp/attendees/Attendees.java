@@ -26,27 +26,33 @@ public class Attendees {
     }
 
     public static class Attendee implements Comparable<Attendee>{
+        public int id;
         public String email;
         public String firstName;
         public String lastName;
         public String displayName;
         public String title;
         public String company;
-        public List<String> connections;
-        public int status;
 
-        public Attendee(String email, String firstName,
+        public Attendee(int id, String email, String firstName,
                         String lastName, String displayName,
-                        String title, String company, List<String> connections,
-                        int status){
+                        String title, String company){
+            this.id = id;
             this.email = email;
             this.firstName = firstName;
             this.lastName = lastName;
             this.displayName = displayName;
             this.title = title;
             this.company = company;
-            this.connections = connections;
-            this.status = status;
+            if(displayName.equals("null")){
+                this.displayName = firstName + " " + lastName;
+            }
+            if(title.equals("null")){
+                this.title = "";
+            }
+            if(company.equals("null")){
+                this.company = "";
+            }
         }
 
         @Override

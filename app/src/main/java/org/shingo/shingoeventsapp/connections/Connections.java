@@ -26,6 +26,7 @@ public class Connections {
     }
 
     public static class Connection implements Comparable<Connection>{
+        public int id;
         public String email;
         public String firstName;
         public String lastName;
@@ -34,9 +35,10 @@ public class Connections {
         public String company;
         public String status;
 
-        public Connection(String email, String firstName,
+        public Connection(int id, String email, String firstName,
                         String lastName, String displayName,
                           String title, String company, String status){
+            this.id = id;
             this.email = email;
             this.firstName = firstName;
             this.lastName = lastName;

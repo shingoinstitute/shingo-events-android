@@ -92,11 +92,11 @@ public class ConnectionListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
-        String mEmail = sharedPreferences.getString("email","");
-        System.out.println("Got preference email: " + mEmail);
-        if(!mEmail.isEmpty()){
-            System.out.println("Starting GetEventsTask with email: " + mEmail);
-            getConnectionsTask = new GetConnectionsTask(mEmail);
+        int id = sharedPreferences.getInt("id", -1);
+        System.out.println("Got preference email: " + id);
+        if(id != -1){
+            System.out.println("Starting GetEventsTask with ID: " + id);
+            getConnectionsTask = new GetConnectionsTask(id);
             getConnectionsTask.execute((Void) null);
         }
     }
@@ -178,11 +178,11 @@ public class ConnectionListFragment extends ListFragment {
      */
     private class GetConnectionsTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final int mId;
         private String output;
 
-        GetConnectionsTask(String email) {
-            mEmail = email;
+        GetConnectionsTask(int id) {
+            mId = id;
             System.out.println("GetConnectionsTask created");
         }
 
@@ -192,7 +192,7 @@ public class ConnectionListFragment extends ListFragment {
             System.out.println("GetConnections.doInBackground called");
             boolean success  = false;
             try {
-                String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(mEmail,"UTF-8");
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(mId),"UTF-8");
                 URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/connections?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
                 System.out.println("Opening connection: " + url.getPath());
                 URLConnection conn = url.openConnection();
@@ -217,19 +217,12 @@ public class ConnectionListFragment extends ListFragment {
                     System.out.println("Connections fetched successfully");
                     Connections.clear();
                     JSONArray jConnections = response.getJSONArray("connections");
-                    JSONArray jResults = response.getJSONArray("results");
-                    Map<String, JSONObject> jMap = new HashMap<>();
-                    for(int i = 0; i < jResults.length(); i++){
-                        JSONObject jResult = jResults.getJSONObject(i);
-                        jMap.put(jResult.getString("email"),jResult);
-                    }
                     for(int i = 0; i < jConnections.length(); i++){
                         JSONObject jConnection = jConnections.getJSONObject(i);
-                        JSONObject jResult = jMap.get(jConnection.getString("email"));
                         if(jConnection.getString("status").equals("approved") || jConnection.getString("status").equals("pending")) {
-                            Connections.addConnection(new Connections.Connection(jConnection.getString("email"),
-                                    jResult.getString("first_name"), jResult.getString("last_name"), jResult.getString("display_name"),
-                                    jResult.getString("title"), jResult.getString("company"), jConnection.getString("status")));
+                            Connections.addConnection(new Connections.Connection(jConnection.getInt("ID"),jConnection.getString("email"),
+                                    jConnection.getString("first_name"), jConnection.getString("last_name"), jConnection.getString("display_name"),
+                                    jConnection.getString("title"), jConnection.getString("company"), jConnection.getString("status")));
                         }
                     }
                 }

@@ -349,6 +349,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private int id;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -381,6 +382,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 JSONObject response = new JSONObject(output);
                 System.out.println("Login response: " + output);
                 authorized = response.getBoolean("success");
+                if(authorized){
+                    JSONObject attendee = response.getJSONObject("attendee");
+                    id = attendee.getInt("ID");
+                }
                 System.out.println("authorized: " + authorized);
             } catch(UnsupportedEncodingException e){
                 e.printStackTrace();
@@ -409,6 +414,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("email", mEmail);
                 editor.putString("password", mPassword);
+                editor.putInt("id", id);
                 editor.commit();
                 startHome();
             } else {
