@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.events;
+package org.shingo.shingoeventsapp.data.events;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

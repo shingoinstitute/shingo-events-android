@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,63 +24,63 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".LoginActivity"
+            android:parentActivityName=".ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.shingo.shingoeventsapp.LoginActivity" />
+                android:value=".ui.LoginActivity" />
         </activity>
         <activity
-            android:name=".EventListActivity"
+            android:name=".ui.EventListActivity"
             android:label="@string/title_event_list"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".EventDetailActivity"
+            android:name=".ui.EventDetailActivity"
             android:label="@string/title_event_detail"
-            android:parentActivityName=".EventListActivity"
+            android:parentActivityName=".ui.EventListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.shingo.shingoeventsapp.EventListActivity" />
+                android:value=".ui.EventListActivity" />
         </activity>
         <activity
-            android:name=".AttendeeListActivity"
+            android:name=".ui.AttendeeListActivity"
             android:label="@string/title_attendee_list"
-            android:parentActivityName=".EventListActivity"
+            android:parentActivityName=".ui.EventListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.shingo.shingoeventsapp.EventListActivity" />
+                android:value=".ui.EventListActivity" />
         </activity>
         <activity
-            android:name=".AttendeeDetailActivity"
+            android:name=".ui.AttendeeDetailActivity"
             android:label="@string/title_attendee_detail"
-            android:parentActivityName=".AttendeeListActivity"
+            android:parentActivityName=".ui.AttendeeListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.shingo.shingoeventsapp.AttendeeListActivity" />
+                android:value=".ui.AttendeeListActivity" />
         </activity>
         <activity
-            android:name=".ConnectionListActivity"
+            android:name=".ui.ConnectionListActivity"
             android:label="@string/title_connection_list"
-            android:parentActivityName=".EventListActivity"
+            android:parentActivityName=".ui.EventListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.shingo.shingoeventsapp.EventListActivity" />
+                android:value=".ui.EventListActivity" />
         </activity>
         <activity
-            android:name=".ConnectionDetailActivity"
+            android:name=".ui.ConnectionDetailActivity"
             android:label="@string/title_connection_detail"
-            android:parentActivityName=".ConnectionListActivity"
+            android:parentActivityName=".ui.ConnectionListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.shingo.shingoeventsapp.ConnectionListActivity" />
+                android:value=".ui.ConnectionListActivity" />
         </activity>
     </application>
 

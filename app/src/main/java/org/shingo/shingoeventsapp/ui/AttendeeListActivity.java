@@ -1,16 +1,24 @@
-package org.shingo.shingoeventsapp;
+package org.shingo.shingoeventsapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+
+import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.data.attendees.Attendees;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An activity representing a list of Attendees. This activity
@@ -36,6 +44,9 @@ public class AttendeeListActivity extends AppCompatActivity
      * device.
      */
     private boolean mTwoPane;
+    private boolean mSearchOpened;
+    private String mSearchQuery;
+    private EditText mSearchEt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,8 @@ public class AttendeeListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
+        mSearchOpened = false;
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,6 +75,8 @@ public class AttendeeListActivity extends AppCompatActivity
                     .findFragmentById(R.id.attendee_list))
                     .setActivateOnItemClick(true);
         }
+
+        mSearchQuery = "";
 
         // TODO: If exposing deep links into your app, handle intents here.
     }
@@ -89,8 +104,32 @@ public class AttendeeListActivity extends AppCompatActivity
             Intent i = new Intent(this, ConnectionListActivity.class);
             navigateUpTo(i);
             return true;
+        } else if(id == R.id.action_search){
+            if(mSearchOpened){
+                closeSearchBar();
+            } else {
+                openSearchBar(mSearchQuery);
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void closeSearchBar() {
+        getSupportActionBar().setDisplayShowCustomEnabled(false);
+
+        mSearchOpened = false;
+    }
+
+    private void openSearchBar(String mSearchQuery) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.search_bar);
+
+        mSearchEt = (EditText) actionBar.getCustomView().findViewById(R.id.search_query);
+        mSearchEt.addTextChangedListener(new SearchWatcher());
+        mSearchEt.requestFocus();
+
+        mSearchOpened = true;
     }
 
     /**
@@ -117,6 +156,51 @@ public class AttendeeListActivity extends AppCompatActivity
             Intent detailIntent = new Intent(this, AttendeeDetailActivity.class);
             detailIntent.putExtra(AttendeeDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
+        }
+    }
+
+    private class SearchWatcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence c, int i, int i2, int i3) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence c, int i, int i2, int i3) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            mSearchQuery = mSearchEt.getText().toString();
+            AttendeeListFragment.filteredAttendees = performSearch(Attendees.ATTENDEES, mSearchQuery);
+            AttendeeListFragment.attendeeArrayAdapter = new ArrayAdapter<Attendees.Attendee>(
+                    AttendeeListActivity.this,
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    AttendeeListFragment.filteredAttendees);
+            AttendeeListFragment.setAdapter(AttendeeListFragment.attendeeArrayAdapter);
+        }
+
+        private List<Attendees.Attendee> performSearch(List<Attendees.Attendee> attendees, String mSearchQuery) {
+            List<Attendees.Attendee> filtered = new ArrayList<>();
+            if(mSearchQuery.contains("@")){
+                for(Attendees.Attendee a : attendees){
+                    if(a.email.equals(mSearchQuery))
+                        filtered.add(a);
+                }
+            } else {
+                for(Attendees.Attendee a : attendees){
+                    if(a.displayName.contains(mSearchQuery) || a.firstName.contains(mSearchQuery) || a.lastName.contains(mSearchQuery))
+                        filtered.add(a);
+                }
+            }
+
+            return filtered;
+        }
+
+        private ArrayAdapter<Attendees.Attendee> getListAdapter(){
+            return AttendeeListFragment.attendeeArrayAdapter;
         }
     }
 }

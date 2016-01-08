@@ -1,16 +1,16 @@
-package org.shingo.shingoeventsapp;
+package org.shingo.shingoeventsapp.ui;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.shingo.shingoeventsapp.events.Events;
+import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.data.events.Events;
 
 /**
  * A fragment representing a single Event detail screen.

@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp;
+package org.shingo.shingoeventsapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import android.view.MenuItem;
+
+import org.shingo.shingoeventsapp.R;
 
 /**
  * An activity representing a list of Connections. This activity

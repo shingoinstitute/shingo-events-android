@@ -4,17 +4,17 @@
     <TextView android:id="@+id/connection_email"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ConnectionDetailFragment" />
+        tools:context="org.shingo.shingoeventsapp.ui.ConnectionDetailFragment" />
     <TextView android:id="@+id/connection_display_name"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ConnectionDetailFragment" />
+        tools:context="org.shingo.shingoeventsapp.ui.ConnectionDetailFragment" />
     <TextView android:id="@+id/connection_title"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ConnectionDetailFragment" />
+        tools:context="org.shingo.shingoeventsapp.ui.ConnectionDetailFragment" />
     <TextView android:id="@+id/connection_company"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ConnectionDetailFragment" />
+        tools:context="org.shingo.shingoeventsapp.ui.ConnectionDetailFragment" />
 </LinearLayout>

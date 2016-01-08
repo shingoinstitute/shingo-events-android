@@ -1,7 +1,5 @@
-package org.shingo.shingoeventsapp;
+package org.shingo.shingoeventsapp.ui;
 
-import android.os.Parcel;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
+
+import org.shingo.shingoeventsapp.R;
 
 /**
  * An activity representing a single Event detail screen. This
@@ -82,18 +82,6 @@ public class EventDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == android.R.id.home) {
-//            // This ID represents the Home or Up button. In the case of this
-//            // activity, the Up button is shown. For
-//            // more details, see the Navigation pattern on Android Design:
-//            //
-//            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-//            //
-//            Intent i = new Intent(this, EventListActivity.class);
-//            navigateUpTo(i);
-//            return true;
-//        }
         switch(item.getItemId()){
             case android.R.id.home:
                 Intent i = new Intent(this, EventListActivity.class);

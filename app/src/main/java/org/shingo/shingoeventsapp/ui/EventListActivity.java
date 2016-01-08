@@ -1,13 +1,9 @@
-package org.shingo.shingoeventsapp;
+package org.shingo.shingoeventsapp.ui;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
@@ -16,23 +12,12 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.api.OnTaskComplete;
+import org.shingo.shingoeventsapp.api.RestApi;
+import org.shingo.shingoeventsapp.data.RegIdTask;
 
 
 /**
@@ -52,15 +37,13 @@ import java.util.List;
  * to listen for item selections.
  */
 public class EventListActivity extends AppCompatActivity
-        implements EventListFragment.Callbacks {
+        implements EventListFragment.Callbacks, OnTaskComplete {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
-
-    private AddRegIdTask addRegIdTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,85 +167,16 @@ public class EventListActivity extends AppCompatActivity
     }
 
     private void addRegId(String regId) {
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
-        String mEmail = sharedPreferences.getString("email", "");
-        String mPassword = sharedPreferences.getString("password","");
-        addRegIdTask = new AddRegIdTask(mEmail, mPassword, regId);
+        RestApi api = new RestApi(this, this);
+        RegIdTask addRegIdTask = api.addRegId(regId);
         addRegIdTask.execute((Void) null);
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    private class AddRegIdTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-        private final String mRegId;
-        private String output;
-
-        AddRegIdTask(String email, String password, String regId) {
-            mEmail = email;
-            mPassword = password;
-            mRegId = regId;
-            System.out.println("AddRegIdTask created");
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            System.out.println("AddRegIdTask.doInBackground called");
-            boolean success  = false;
-            try {
-                String data = URLEncoder.encode("reg_id", "UTF-8") + "=" + URLEncoder.encode(mRegId,"UTF-8");
-                data += "&" + URLEncoder.encode("email","UTF-8") + "=" + URLEncoder.encode(mEmail, "UTF-8");
-                data += "&" + URLEncoder.encode("password", "UTF-8") + "=" +URLEncoder.encode(mPassword, "UTF-8");
-                URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/addregid/?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line = "";
-                while((line = reader.readLine()) != null){
-                    sb.append(line);
-                }
-                output = sb.toString();
-                JSONObject response = new JSONObject(output);
-                System.out.println("AddRegId response: " + output);
-                success = response.getBoolean("success");
-            } catch(UnsupportedEncodingException e){
-                return false;
-            } catch(IOException e ){
-                return false;
-            } catch(JSONException e){
-                return false;
-            }
-
-            return success ;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            addRegIdTask = null;
-
-            if (success) {
-                System.out.println("Restarting activity");
-                Intent i = getIntent();
-                finish();
-                startActivity(i);
-            } else {
-                System.out.println("Error occurred adding regid");
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            addRegIdTask = null;
-        }
+    @Override
+    public void onTaskComplete() {
+        System.out.println("Restarting activity");
+        Intent i = getIntent();
+        finish();
+        startActivity(i);
     }
 }

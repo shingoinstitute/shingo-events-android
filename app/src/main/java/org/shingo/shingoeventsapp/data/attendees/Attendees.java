@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.connections;
+package org.shingo.shingoeventsapp.data.attendees;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,24 +8,24 @@ import java.util.Map;
 /**
  * Created by dustinehoman on 12/30/15.
  */
-public class Connections {
-    public static List<Connection> CONNECTIONS = new ArrayList<>();
+public class Attendees {
+    public static List<Attendee> ATTENDEES = new ArrayList<>();
 
-    public static Map<String, Connection> CONNECTION_MAP = new HashMap<>();
+    public static Map<String, Attendee> ATTENDEE_MAP = new HashMap<>();
 
-    public static void addConnection(Connection connection){
-        if(CONNECTION_MAP.get(connection.email) == null){
-            CONNECTIONS.add(connection);
-            CONNECTION_MAP.put(connection.email, connection);
+    public static void addAttendee(Attendee attendee){
+        if(ATTENDEE_MAP.get(attendee.email) == null){
+            ATTENDEES.add(attendee);
+            ATTENDEE_MAP.put(attendee.email, attendee);
         }
     }
 
     public static void clear(){
-        CONNECTION_MAP.clear();
-        CONNECTIONS.clear();
+        ATTENDEE_MAP.clear();
+        ATTENDEES.clear();
     }
 
-    public static class Connection implements Comparable<Connection>{
+    public static class Attendee implements Comparable<Attendee>{
         public int id;
         public String email;
         public String firstName;
@@ -35,9 +35,9 @@ public class Connections {
         public String company;
         public String status;
 
-        public Connection(int id, String email, String firstName,
+        public Attendee(int id, String email, String firstName,
                         String lastName, String displayName,
-                          String title, String company, String status){
+                        String title, String company, String status){
             this.id = id;
             this.email = email;
             this.firstName = firstName;
@@ -46,22 +46,28 @@ public class Connections {
             this.title = title;
             this.company = company;
             this.status = status;
+            if(displayName.equals("null")){
+                this.displayName = firstName + " " + lastName;
+            }
+            if(title.equals("null")){
+                this.title = "";
+            }
+            if(company.equals("null")){
+                this.company = "";
+            }
         }
 
         @Override
         public String toString(){
             if(displayName.isEmpty()){
-                displayName = firstName + " " + lastName;
-            }
-            if(status.toLowerCase().equals("pending")){
-                return displayName + " (pending)";
+                return firstName + " " + lastName;
             } else {
                 return displayName;
             }
         }
 
         @Override
-        public int compareTo(Connection another) {
+        public int compareTo(Attendee another) {
             return this.lastName.compareTo(another.lastName);
         }
     }
