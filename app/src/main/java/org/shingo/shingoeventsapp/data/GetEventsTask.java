@@ -22,14 +22,14 @@ import java.util.Collections;
 /**
  * Created by dustinehoman on 1/8/16.
  */
-public class EventsTask extends AsyncTask<Void, Void, Boolean> {
+public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mEmail;
     private final String mPassword;
     private OnTaskComplete mListener;
     private String output;
 
-    public EventsTask(String email, String password, OnTaskComplete listener) {
+    public GetEventsTask(String email, String password, OnTaskComplete listener) {
         mEmail = email;
         mPassword = password;
         mListener = listener;

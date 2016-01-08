@@ -9,19 +9,19 @@ import android.widget.ListView;
 
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.GetEventsTask;
-import org.shingo.shingoeventsapp.data.events.Events;
+import org.shingo.shingoeventsapp.data.GetSessionsTask;
+import org.shingo.shingoeventsapp.data.sessions.Sessions;
 
 /**
- * A list fragment representing a list of Events. This fragment
+ * A list fragment representing a list of Sessions. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link EventDetailFragment}.
+ * currently being viewed in a {@link SessionDetailFragment}.
  * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class EventListFragment extends ListFragment implements OnTaskComplete{
+public class SessionListFragment extends ListFragment implements OnTaskComplete {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -42,11 +42,11 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
 
     @Override
     public void onTaskComplete() {
-        setListAdapter(new ArrayAdapter<Events.Event>(
+        setListAdapter(new ArrayAdapter<Sessions.Session>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                Events.EVENTS));
+                Sessions.SESSIONS));
     }
 
     /**
@@ -75,16 +75,18 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public EventListFragment() {
+    public SessionListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Starting EventsTask");
+
+        String id = SessionListActivity.eventId;
+
         RestApi api = new RestApi(this, getContext());
-        GetEventsTask getGetEventsTask = api.getEvents();
-        getGetEventsTask.execute((Void) null);
+        GetSessionsTask getSessionsTask = api.getSessions(id);
+        getSessionsTask.execute((Void) null);
     }
 
     @Override
@@ -124,7 +126,7 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(Events.EVENTS.get(position).id);
+        mCallbacks.onItemSelected(Sessions.SESSIONS.get(position).id);
     }
 
     @Override

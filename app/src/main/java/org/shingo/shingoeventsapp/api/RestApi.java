@@ -5,9 +5,10 @@ import android.content.SharedPreferences;
 
 import org.shingo.shingoeventsapp.data.ConnectionApproveTask;
 import org.shingo.shingoeventsapp.data.ConnectionRequestTask;
-import org.shingo.shingoeventsapp.data.EventsTask;
+import org.shingo.shingoeventsapp.data.GetEventsTask;
 import org.shingo.shingoeventsapp.data.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.GetConnectionsTask;
+import org.shingo.shingoeventsapp.data.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.RegIdTask;
 
 /**
@@ -27,8 +28,8 @@ public class RestApi {
         mId = sharedPreferences.getInt("id", -1);
     }
 
-    public EventsTask getEvents(){
-        return new EventsTask(mEmail, mPassword, mListener);
+    public GetEventsTask getEvents(){
+        return new GetEventsTask(mEmail, mPassword, mListener);
     }
 
     public RegIdTask addRegId(String regId) {
@@ -49,5 +50,10 @@ public class RestApi {
 
     public ConnectionRequestTask sendRequest(String connection) {
         return new ConnectionRequestTask(mEmail, mPassword, connection, mId, mListener);
+    }
+
+
+    public GetSessionsTask getSessions(String id) {
+        return new GetSessionsTask(id, mListener);
     }
 }

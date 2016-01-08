@@ -82,6 +82,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.ConnectionListActivity" />
         </activity>
+        <activity
+            android:name=".ui.SessionListActivity"
+            android:label="@string/title_session_list"
+            android:parentActivityName=".ui.EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.EventListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.SessionDetailActivity"
+            android:label="@string/title_session_detail"
+            android:parentActivityName=".ui.SessionListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.SessionListActivity" />
+        </activity>
     </application>
 
 </manifest>

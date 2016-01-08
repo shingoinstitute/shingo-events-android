@@ -1,12 +1,14 @@
 package org.shingo.shingoeventsapp.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
@@ -60,9 +62,23 @@ public class EventDetailFragment extends Fragment {
 
         // Show the Event content as text in a TextView.
         if (mEvent != null) {
-            ((TextView) rootView.findViewById(R.id.event_detail)).setText(mEvent.startDate + " - " + mEvent.endDate + "\n" + mEvent.location);
+            Button sessions = (Button) rootView.findViewById(R.id.action_sessions);
+            sessions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startSessionsActivity();
+                }
+            });
         }
 
         return rootView;
+    }
+
+    private void startSessionsActivity(){
+        Bundle args = new Bundle();
+        args.putString("event_id", mEvent.id);
+        Intent i = new Intent(getContext(), SessionListActivity.class);
+        i.putExtras(args);
+        startActivity(i);
     }
 }
