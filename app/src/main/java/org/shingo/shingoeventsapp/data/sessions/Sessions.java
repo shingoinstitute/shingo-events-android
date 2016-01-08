@@ -37,8 +37,9 @@ public class Sessions {
         public String date;
         public String time;
         public String status;
+        public List<sSpeaker> speakers;
 
-        public Session(String id, String name, String sAbstract, String notes, String date, String time, String status){
+        public Session(String id, String name, String sAbstract, String notes, String date, String time, String status, List<sSpeaker> speakers){
             this.id = id;
             this.name = name;
             this.sAbstract = sAbstract;
@@ -46,6 +47,7 @@ public class Sessions {
             this.date = date;
             this.time = time;
             this.status = status;
+            this.speakers = speakers;
         }
 
         @Override
@@ -63,6 +65,21 @@ public class Sessions {
                 e.printStackTrace();
             }
             return thisStart.compareTo(anotherStart);
+        }
+
+        public static class sSpeaker implements Comparable<sSpeaker>{
+            public String id;
+            public String name;
+
+            public sSpeaker(String id, String name){
+                this.id = id;
+                this.name = name;
+            }
+
+            @Override
+            public int compareTo(sSpeaker another) {
+                return this.name.compareTo(another.name);
+            }
         }
     }
 }

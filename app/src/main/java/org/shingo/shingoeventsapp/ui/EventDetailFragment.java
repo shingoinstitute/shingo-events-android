@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.events.Events;
@@ -69,6 +68,13 @@ public class EventDetailFragment extends Fragment {
                     startSessionsActivity();
                 }
             });
+            Button speakers = (Button) rootView.findViewById(R.id.action_speakers);
+            speakers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startSpeakersActivity();
+                }
+            });
         }
 
         return rootView;
@@ -78,6 +84,14 @@ public class EventDetailFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("event_id", mEvent.id);
         Intent i = new Intent(getContext(), SessionListActivity.class);
+        i.putExtras(args);
+        startActivity(i);
+    }
+
+    private void startSpeakersActivity(){
+        Bundle args = new Bundle();
+        args.putString("event_id", mEvent.id);
+        Intent i = new Intent(getContext(), SpeakerListActivity.class);
         i.putExtras(args);
         startActivity(i);
     }

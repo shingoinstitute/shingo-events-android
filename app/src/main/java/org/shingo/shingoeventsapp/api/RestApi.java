@@ -9,6 +9,7 @@ import org.shingo.shingoeventsapp.data.GetEventsTask;
 import org.shingo.shingoeventsapp.data.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.GetConnectionsTask;
 import org.shingo.shingoeventsapp.data.GetSessionsTask;
+import org.shingo.shingoeventsapp.data.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.RegIdTask;
 
 /**
@@ -55,5 +56,9 @@ public class RestApi {
 
     public GetSessionsTask getSessions(String id) {
         return new GetSessionsTask(id, mListener);
+    }
+
+    public GetSpeakersTask getSpeakers(String id) {
+        return new GetSpeakersTask(id, mListener);
     }
 }

@@ -100,6 +100,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.ui.SessionListActivity" />
         </activity>
+        <activity
+            android:name=".ui.SpeakerListActivity"
+            android:label="@string/title_speaker_list"
+            android:parentActivityName=".ui.EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.EventListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.SpeakerDetailActivity"
+            android:label="@string/title_speaker_detail"
+            android:parentActivityName=".ui.SpeakerListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.SpeakerListActivity" />
+        </activity>
     </application>
 
 </manifest>

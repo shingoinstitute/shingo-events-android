@@ -127,6 +127,6 @@ public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onCancelled() {
-
+        super.onCancelled();
     }
 }
