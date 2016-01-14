@@ -43,7 +43,6 @@ public class EventDetailActivity extends AppCompatActivity {
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setupTabs();
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -68,17 +67,14 @@ public class EventDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setupTabs(){
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

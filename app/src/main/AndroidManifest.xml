@@ -16,12 +16,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.LoginActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/action_sign_in" >
         </activity>
         <activity
             android:name=".ui.RegisterActivity"
@@ -117,6 +112,25 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.ui.SpeakerListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.AgendaActivity"
+            android:label="@string/title_activity_agenda"
+            android:parentActivityName=".ui.EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.EventListActivity" />
         </activity>
     </application>
 

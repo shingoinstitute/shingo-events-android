@@ -22,12 +22,16 @@ import org.shingo.shingoeventsapp.R;
  */
 public class SessionDetailActivity extends AppCompatActivity {
 
+    private String mEventId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
+
+        mEventId = getIntent().getExtras().getString("event_id");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +78,9 @@ public class SessionDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, SessionListActivity.class));
+            Intent i = new Intent(this, SessionListActivity.class);
+            i.putExtra("event_id", mEventId);
+            navigateUpTo(i);
             return true;
         }
         return super.onOptionsItemSelected(item);

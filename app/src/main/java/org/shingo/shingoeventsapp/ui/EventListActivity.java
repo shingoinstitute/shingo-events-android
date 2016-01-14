@@ -54,36 +54,40 @@ public class EventListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add registration id");
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String regid = input.getText().toString();
-                if (!regid.isEmpty()) {
-                    addRegId(regid);
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        // Show the Up button in the action bar.
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                builder.show();
-                Snackbar.make(view, "Adding registration ID", Snackbar.LENGTH_LONG)
-                        .setAction("Undo", null).show();
-            }
-        });
+
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Add registration id");
+//        final EditText input = new EditText(this);
+//        input.setInputType(InputType.TYPE_CLASS_TEXT);
+//        builder.setView(input);
+//        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String regid = input.getText().toString();
+//                if (!regid.isEmpty()) {
+//                    addRegId(regid);
+//                }
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                builder.show();
+//                Snackbar.make(view, "Adding registration ID", Snackbar.LENGTH_LONG)
+//                        .setAction("Undo", null).show();
+//            }
+//        });
 
         if (findViewById(R.id.event_detail_container) != null) {
             // The detail container view will be present only in the
@@ -102,13 +106,13 @@ public class EventListActivity extends AppCompatActivity
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     /**
      * Callback method from {@link EventListFragment.Callbacks}

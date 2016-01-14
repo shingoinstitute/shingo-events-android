@@ -38,4 +38,10 @@
     <string name="title_session_detail">Session Detail</string>
     <string name="title_speaker_list">Speakers</string>
     <string name="title_speaker_detail">Speaker Detail</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="action_events">Events</string>
+    <string name="action_model">Shingo Model</string>
+    <string name="action_newsletter">News Letter</string>
+    <string name="title_activity_agenda">AgendaActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

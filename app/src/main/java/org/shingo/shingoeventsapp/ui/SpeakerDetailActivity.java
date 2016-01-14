@@ -22,6 +22,8 @@ import org.shingo.shingoeventsapp.R;
  */
 public class SpeakerDetailActivity extends AppCompatActivity {
 
+    private String eventId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class SpeakerDetailActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+        eventId = getIntent().getExtras().getString("event_id");
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -74,7 +78,9 @@ public class SpeakerDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, SpeakerListActivity.class));
+            Intent i = new Intent(this, SpeakerListActivity.class);
+            i.putExtra("event_id", eventId);
+            navigateUpTo(i);
             return true;
         }
         return super.onOptionsItemSelected(item);

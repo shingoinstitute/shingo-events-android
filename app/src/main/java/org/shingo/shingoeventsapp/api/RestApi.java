@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import org.shingo.shingoeventsapp.data.ConnectionApproveTask;
 import org.shingo.shingoeventsapp.data.ConnectionRequestTask;
+import org.shingo.shingoeventsapp.data.GetAgendasTask;
 import org.shingo.shingoeventsapp.data.GetEventsTask;
 import org.shingo.shingoeventsapp.data.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.GetConnectionsTask;
@@ -30,7 +31,7 @@ public class RestApi {
     }
 
     public GetEventsTask getEvents(){
-        return new GetEventsTask(mEmail, mPassword, mListener);
+        return new GetEventsTask(mListener);
     }
 
     public RegIdTask addRegId(String regId) {
@@ -60,5 +61,9 @@ public class RestApi {
 
     public GetSpeakersTask getSpeakers(String id) {
         return new GetSpeakersTask(id, mListener);
+    }
+
+    public GetAgendasTask getAgendas(String id){
+        return new GetAgendasTask(id,mListener);
     }
 }

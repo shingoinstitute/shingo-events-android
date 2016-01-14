@@ -51,14 +51,14 @@ public class SpeakerListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -92,6 +92,7 @@ public class SpeakerListActivity extends AppCompatActivity
             //
             Bundle args = new Bundle();
             args.putString(EventDetailFragment.ARG_ITEM_ID, mId);
+            args.putString("event_id", mId);
             navigateUpTo(new Intent(this, AttendeeListActivity.class));
             return true;
         }
@@ -121,6 +122,7 @@ public class SpeakerListActivity extends AppCompatActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, SpeakerDetailActivity.class);
             detailIntent.putExtra(SpeakerDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra("event_id", mId);
             startActivity(detailIntent);
         }
     }
