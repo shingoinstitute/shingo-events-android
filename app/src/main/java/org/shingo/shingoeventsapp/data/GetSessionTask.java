@@ -23,28 +23,28 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by dustinehoman on 1/8/16.
+ * Created by dustinehoman on 1/19/16.
  */
-public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
+public class GetSessionTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mId;
     private OnTaskComplete mListener;
     private String output;
 
-    public GetSessionsTask(String id, OnTaskComplete listener) {
+    public GetSessionTask(String id, OnTaskComplete listener) {
         mId = id;
         mListener = listener;
-        System.out.println("GetEventsTask created");
+        System.out.println("GetSessionTask created");
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         // TODO: attempt authentication against a network service.
-        System.out.println("GetEventsTask.doInBackground called");
+        System.out.println("GetSessionTask.doInBackground called");
         boolean success = false;
         try {
-            String data = URLEncoder.encode("event_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/sessions?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            String data = URLEncoder.encode("session_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
+            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/session?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -59,11 +59,10 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
             }
             output = sb.toString();
             JSONObject response = new JSONObject(output);
-            System.out.println("Sessions response: " + output);
+            System.out.println("Session response: " + output);
             success = response.getBoolean("success");
             if (success) {
-                Sessions.clear();
-                JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
+                JSONArray jSessions = response.getJSONObject("session").getJSONArray("records");
                 for(int i = 0; i < jSessions.length(); i++){
                     JSONObject jSession = jSessions.getJSONObject(i);
                     List<Sessions.Session.sSpeaker> speakers = new ArrayList<>();
@@ -94,8 +93,7 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         if (success) {
-            System.out.println("Setting list adapter");
-            Collections.sort(Sessions.SESSIONS);
+            System.out.println("Calling onTaskComplete");
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");

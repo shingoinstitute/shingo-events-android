@@ -75,7 +75,10 @@ public class SessionListActivity extends AppCompatActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+        if(getIntent().getExtras().containsKey("session_id")){
+            System.out.println("got session_id: " + getIntent().getExtras().getString("session_id"));
+            onItemSelected(getIntent().getExtras().getString("session_id"));
+        }
     }
 
     @Override

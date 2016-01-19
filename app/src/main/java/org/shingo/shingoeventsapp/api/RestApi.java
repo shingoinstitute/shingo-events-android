@@ -10,6 +10,7 @@ import org.shingo.shingoeventsapp.data.GetDayTask;
 import org.shingo.shingoeventsapp.data.GetEventsTask;
 import org.shingo.shingoeventsapp.data.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.GetConnectionsTask;
+import org.shingo.shingoeventsapp.data.GetSessionTask;
 import org.shingo.shingoeventsapp.data.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.RegIdTask;
@@ -55,6 +56,7 @@ public class RestApi {
         return new ConnectionRequestTask(mEmail, mPassword, connection, mId, mListener);
     }
 
+    public GetSessionTask getSession(String id) { return new GetSessionTask(id, mListener); }
 
     public GetSessionsTask getSessions(String id) {
         return new GetSessionsTask(id, mListener);

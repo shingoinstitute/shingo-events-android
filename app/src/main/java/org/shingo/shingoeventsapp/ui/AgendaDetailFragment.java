@@ -1,15 +1,16 @@
 package org.shingo.shingoeventsapp.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
@@ -84,5 +85,17 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 Agendas.AGENDA_MAP.get(mDay.id).sessions));
+        sessions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
+                Bundle args = new Bundle();
+                args.putString("session_id", sId);
+                args.putString("event_id", AgendaListActivity.mEventId);
+                Intent i = new Intent(getContext(), SessionListActivity.class);
+                i.putExtras(args);
+                startActivity(i);
+            }
+        });
     }
 }

@@ -95,8 +95,8 @@ public class Agendas {
                     DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
                     String start = format.format(formatter.parse(this.startTime).getTime());
                     String end = format.format(formatter.parse(this.endTime).getTime());
-                    String shortName = (15 < name.length()) ? name.substring(0, 15) : name;
-                    return start + "-" +end + " | " + shortName;
+                    String shortName = (25 < name.length()) ? name.substring(0, 15) : name;
+                    return start + "-" +end + "\n  " + shortName;
                 } catch (ParseException e) {
                     e.printStackTrace();
                     return this.name;

@@ -121,10 +121,8 @@ public class AttendeeDetailFragment extends Fragment implements OnTaskComplete {
     @Override
     public void onTaskComplete() {
         mAttendee.status = "waiting";
-        Fragment currentFrag = getFragmentManager().findFragmentById(getId());
+
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.detach(currentFrag);
-        fragmentTransaction.attach(currentFrag);
-        fragmentTransaction.commit();
+        fragmentTransaction.detach(this).attach(this).commit();
     }
 }
