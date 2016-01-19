@@ -1,5 +1,6 @@
 package org.shingo.shingoeventsapp.data.agendas;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,14 +14,14 @@ import java.util.Map;
  */
 public class Agendas {
 
-    public static List<Agenda> AGENDAS = new ArrayList<>();
+    public static List<Day> AGENDAS = new ArrayList<>();
 
-    public static Map<String, Agenda> AGENDA_MAP = new HashMap<>();
+    public static Map<String, Day> AGENDA_MAP = new HashMap<>();
 
-    public static void addAgenda(Agenda agenda){
-        if(AGENDA_MAP.get(agenda.id) == null){
-            AGENDAS.add(agenda);
-            AGENDA_MAP.put(agenda.id, agenda);
+    public static void addAgenda(Day day){
+        if(AGENDA_MAP.get(day.id) == null){
+            AGENDAS.add(day);
+            AGENDA_MAP.put(day.id, day);
         }
     }
 
@@ -29,31 +30,78 @@ public class Agendas {
         AGENDA_MAP.clear();
     }
 
-    public static class Agenda implements Comparable<Agenda> {
+    public static class Day implements Comparable<Day>{
         public String id;
-        public String day;
-        public String date;
-        public List<String> sessions;
+        public String name;
+        public List<Session> sessions;
 
-        public Agenda(String id, String day, String date, List<String> sessions){
+        public Day (String id, String name, List<Session> sessions){
             this.id = id;
-            this.day = day;
-            this.date = date;
+            this.name = name;
             this.sessions = sessions;
         }
 
         @Override
-        public int compareTo(Agenda another) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        public int compareTo(Day another) {
+            SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
             Date thisStart = null;
             Date anotherStart = null;
             try {
-                thisStart = formatter.parse(this.date);
-                anotherStart = formatter.parse(another.date);
+                thisStart = formatter.parse(this.name);
+                anotherStart = formatter.parse(another.name);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             return thisStart.compareTo(anotherStart);
+        }
+
+        @Override
+        public String toString(){
+            return this.name;
+        }
+
+        public static class Session implements Comparable<Session>{
+
+            public String id;
+            public String name;
+            public String startTime;
+            public String endTime;
+            private SimpleDateFormat formatter;
+
+            public Session(String id, String name, String startTime, String endTime){
+                this.id = id;
+                this.name = name;
+                this.startTime = startTime;
+                this.endTime = endTime;
+                this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            }
+
+            @Override
+            public int compareTo(Session another) {
+                Date thisStart = null;
+                Date anotherStart = null;
+                try {
+                    thisStart = formatter.parse(this.startTime);
+                    anotherStart = formatter.parse(another.startTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return thisStart.compareTo(anotherStart);
+            }
+
+            @Override
+            public String toString(){
+                try {
+                    DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
+                    String start = format.format(formatter.parse(this.startTime).getTime());
+                    String end = format.format(formatter.parse(this.endTime).getTime());
+                    String shortName = (15 < name.length()) ? name.substring(0, 15) : name;
+                    return start + "-" +end + " | " + shortName;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return this.name;
+                }
+            }
         }
     }
 }

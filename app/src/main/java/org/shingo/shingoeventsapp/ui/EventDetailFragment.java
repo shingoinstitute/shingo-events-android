@@ -61,11 +61,11 @@ public class EventDetailFragment extends Fragment {
 
         // Show the Event content as text in a TextView.
         if (mEvent != null) {
-            Button sessions = (Button) rootView.findViewById(R.id.action_sessions);
+            Button sessions = (Button) rootView.findViewById(R.id.action_agenda);
             sessions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startSessionsActivity();
+                    startAgendaActivity();
                 }
             });
             Button speakers = (Button) rootView.findViewById(R.id.action_speakers);
@@ -80,10 +80,10 @@ public class EventDetailFragment extends Fragment {
         return rootView;
     }
 
-    private void startSessionsActivity(){
+    private void startAgendaActivity(){
         Bundle args = new Bundle();
         args.putString("event_id", mEvent.id);
-        Intent i = new Intent(getContext(), SessionListActivity.class);
+        Intent i = new Intent(getContext(), AgendaListActivity.class);
         i.putExtras(args);
         startActivity(i);
     }

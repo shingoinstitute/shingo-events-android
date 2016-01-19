@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import org.shingo.shingoeventsapp.data.ConnectionApproveTask;
 import org.shingo.shingoeventsapp.data.ConnectionRequestTask;
 import org.shingo.shingoeventsapp.data.GetAgendasTask;
+import org.shingo.shingoeventsapp.data.GetDayTask;
 import org.shingo.shingoeventsapp.data.GetEventsTask;
 import org.shingo.shingoeventsapp.data.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.GetConnectionsTask;
@@ -64,6 +65,10 @@ public class RestApi {
     }
 
     public GetAgendasTask getAgendas(String id){
-        return new GetAgendasTask(id,mListener);
+        return new GetAgendasTask(id, mListener);
+    }
+
+    public GetDayTask getDay(String id){
+        return new GetDayTask(id, mListener);
     }
 }

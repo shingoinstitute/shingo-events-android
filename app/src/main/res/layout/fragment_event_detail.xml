@@ -2,12 +2,12 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <Button
         android:layout_width="@dimen/button_wh" android:layout_height="@dimen/button_wh"
-        android:text="Sessions" android:id="@+id/action_sessions"
+        android:text="Agenda" android:id="@+id/action_agenda"
         android:layout_margin="@dimen/fab_margin" />
     <Button
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:layout_margin="@dimen/fab_margin"
         android:text="Speakers" android:id="@+id/action_speakers"
-        android:layout_toRightOf="@+id/action_sessions"/>
+        android:layout_toRightOf="@+id/action_agenda"/>
 </RelativeLayout>

@@ -124,13 +124,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AgendaActivity"
-            android:label="@string/title_activity_agenda"
+            android:name=".ui.AgendaListActivity"
+            android:label="@string/title_agenda_list"
             android:parentActivityName=".ui.EventListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.ui.EventListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.AgendaDetailActivity"
+            android:label="@string/title_agenda_detail"
+            android:parentActivityName=".ui.AgendaListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.AgendaListActivity" />
         </activity>
     </application>
 
