@@ -10,4 +10,11 @@
         android:layout_margin="@dimen/fab_margin"
         android:text="Speakers" android:id="@+id/action_speakers"
         android:layout_toRightOf="@+id/action_agenda"/>
+    <Button
+        android:layout_width="@dimen/button_wh"
+        android:layout_height="@dimen/button_wh"
+        android:layout_margin="@dimen/fab_margin"
+        android:text="City Map" android:id="@+id/action_city_map"
+        android:layout_below="@id/action_agenda"/>
+
 </RelativeLayout>

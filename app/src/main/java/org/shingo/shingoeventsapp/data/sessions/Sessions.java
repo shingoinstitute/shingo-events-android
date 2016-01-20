@@ -37,9 +37,10 @@ public class Sessions {
         public String date;
         public String time;
         public String status;
+        public String room;
         public List<sSpeaker> speakers;
 
-        public Session(String id, String name, String sAbstract, String notes, String date, String time, String status, List<sSpeaker> speakers){
+        public Session(String id, String name, String sAbstract, String notes, String date, String time, String status, List<sSpeaker> speakers, String room){
             this.id = id;
             this.name = name;
             this.sAbstract = sAbstract;
@@ -48,6 +49,7 @@ public class Sessions {
             this.time = time;
             this.status = status;
             this.speakers = speakers;
+            this.room = room;
         }
 
         @Override
@@ -79,6 +81,11 @@ public class Sessions {
             @Override
             public int compareTo(sSpeaker another) {
                 return this.name.compareTo(another.name);
+            }
+
+            @Override
+            public String toString(){
+                return this.name;
             }
         }
     }

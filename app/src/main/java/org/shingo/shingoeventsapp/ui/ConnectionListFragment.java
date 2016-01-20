@@ -10,7 +10,7 @@ import android.widget.ListView;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.connections.Connections;
-import org.shingo.shingoeventsapp.data.GetConnectionsTask;
+import org.shingo.shingoeventsapp.data.connections.GetConnectionsTask;
 
 import java.util.ArrayList;
 import java.util.List;

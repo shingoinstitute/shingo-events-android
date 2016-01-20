@@ -44,6 +44,9 @@ public class SpeakerListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         mId = getIntent().getExtras().getString("event_id");
+        if(getIntent().getExtras().containsKey("speaker_id")){
+            onItemSelected(getIntent().getExtras().getString("speaker_id"));
+        }
 
         setContentView(R.layout.activity_speaker_app_bar);
 

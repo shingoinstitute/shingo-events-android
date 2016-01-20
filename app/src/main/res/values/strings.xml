@@ -46,4 +46,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_agenda_list">Agendas</string>
     <string name="title_agenda_detail">Agenda Detail</string>
+    <string name="title_abstract">Abstract</string>
+    <string name="title_room">Room</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -1,14 +1,13 @@
-package org.shingo.shingoeventsapp.data;
+package org.shingo.shingoeventsapp.data.events;
 
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.shingo.shingoeventsapp.api.OnTaskComplete;
-import org.shingo.shingoeventsapp.data.agendas.Agendas;
-import org.shingo.shingoeventsapp.data.events.Events;
 import org.shingo.shingoeventsapp.ui.LoginActivity;
+import org.shingo.shingoeventsapp.api.OnTaskComplete;
+import org.shingo.shingoeventsapp.data.events.Events;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,21 +17,17 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
- * Created by dustinehoman on 1/14/16.
+ * Created by dustinehoman on 1/8/16.
  */
-public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
+public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
 
-    private String mEvent;
     private OnTaskComplete mListener;
     private String output;
 
-    public GetAgendasTask(String event, OnTaskComplete listener) {
-        mEvent = event;
+    public GetEventsTask(OnTaskComplete listener) {
         mListener = listener;
         System.out.println("GetEventsTask created");
     }
@@ -43,15 +38,8 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
         System.out.println("GetEventsTask.doInBackground called");
         boolean success = false;
         try {
-            String data = URLEncoder.encode("event_id", "UTF-8") + "="
-                    + URLEncoder.encode(mEvent, "UTF-8");
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/agenda?client_id="
-                    + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
@@ -61,24 +49,33 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
             }
             output = sb.toString();
             JSONObject response = new JSONObject(output);
-            System.out.println("Agendas: " + output);
+            System.out.println("SFEvents " + output);
             success = response.getBoolean("success");
+            Events.clear();
             if (success) {
-                Agendas.clear();
-                JSONObject jAgenda = response.getJSONObject("agenda").getJSONArray("records").getJSONObject(0);
-                if(jAgenda != null){
-                    JSONArray jDays = jAgenda.getJSONObject("Days__r").getJSONArray("records");
-                    for(int i = 0; i < jDays.length(); i++){
-                        JSONObject jDay = jDays.getJSONObject(i);
-                        Agendas.addAgenda(new Agendas.Day(jDay.getString("Id"), jDay.getString("Name"), new ArrayList<Agendas.Day.Session>()));
+                JSONArray jSfevents = response.getJSONObject("events").getJSONArray("records");
+                for (int i = 0; i < jSfevents.length(); i++) {
+                    JSONObject jEvent = jSfevents.getJSONObject(i);
+                    String latlng = jEvent.getString("LatLng__c");
+                    Events.Event mEvent;
+                    if(!latlng.equals("null")){
+                     mEvent = new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getJSONObject("attributes").getString("url"), jEvent.getString("Event_Start_Date__c"),
+                            jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), jEvent.getJSONObject("LatLng__c").getDouble("latitude"), jEvent.getJSONObject("LatLng__c").getDouble("longitude"), "");
+                    } else {
+                        mEvent = new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getJSONObject("attributes").getString("url"), jEvent.getString("Event_Start_Date__c"),
+                                jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), 0, 0, "");
                     }
+                    Events.addEvent(mEvent);
                 }
             }
         } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
             return success;
         } catch (IOException e) {
+            e.printStackTrace();
             return success;
         } catch (JSONException e) {
+            e.printStackTrace();
             return false;
         }
 
@@ -89,7 +86,7 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(final Boolean success) {
         if (success) {
             System.out.println("Setting list adapter");
-            Collections.sort(Agendas.AGENDAS);
+            Collections.sort(Events.EVENTS);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");

@@ -9,10 +9,9 @@ import android.widget.ListView;
 
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.GetSpeakersTask;
+import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.speakers.Speakers;
 
-import java.util.Collection;
 import java.util.Collections;
 
 /**

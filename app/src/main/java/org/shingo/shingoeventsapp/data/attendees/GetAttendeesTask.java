@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.data;
+package org.shingo.shingoeventsapp.data.attendees;
 
 import android.os.AsyncTask;
 

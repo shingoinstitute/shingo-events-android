@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.data;
+package org.shingo.shingoeventsapp.data.sessions;
 
 import android.os.AsyncTask;
 
@@ -23,28 +23,28 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by dustinehoman on 1/19/16.
+ * Created by dustinehoman on 1/8/16.
  */
-public class GetSessionTask extends AsyncTask<Void, Void, Boolean> {
+public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mId;
     private OnTaskComplete mListener;
     private String output;
 
-    public GetSessionTask(String id, OnTaskComplete listener) {
+    public GetSessionsTask(String id, OnTaskComplete listener) {
         mId = id;
         mListener = listener;
-        System.out.println("GetSessionTask created");
+        System.out.println("GetEventsTask created");
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         // TODO: attempt authentication against a network service.
-        System.out.println("GetSessionTask.doInBackground called");
+        System.out.println("GetEventsTask.doInBackground called");
         boolean success = false;
         try {
-            String data = URLEncoder.encode("session_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/session?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            String data = URLEncoder.encode("event_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
+            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/sessions?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -59,10 +59,11 @@ public class GetSessionTask extends AsyncTask<Void, Void, Boolean> {
             }
             output = sb.toString();
             JSONObject response = new JSONObject(output);
-            System.out.println("Session response: " + output);
+            System.out.println("Sessions response: " + output);
             success = response.getBoolean("success");
             if (success) {
-                JSONArray jSessions = response.getJSONObject("session").getJSONArray("records");
+                Sessions.clear();
+                JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
                 for(int i = 0; i < jSessions.length(); i++){
                     JSONObject jSession = jSessions.getJSONObject(i);
                     List<Sessions.Session.sSpeaker> speakers = new ArrayList<>();
@@ -76,7 +77,7 @@ public class GetSessionTask extends AsyncTask<Void, Void, Boolean> {
                             jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
                             jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"),
                             jSession.getString("Session_Time__c"), jSession.getString("Session_Status__c"),
-                            speakers));
+                            speakers, jSession.getJSONObject("Room__r").getString("Name")));
                 }
             }
         } catch (UnsupportedEncodingException e) {
@@ -93,7 +94,8 @@ public class GetSessionTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         if (success) {
-            System.out.println("Calling onTaskComplete");
+            System.out.println("Setting list adapter");
+            Collections.sort(Sessions.SESSIONS);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");

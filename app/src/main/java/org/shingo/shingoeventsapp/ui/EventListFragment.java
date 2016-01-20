@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.GetEventsTask;
+import org.shingo.shingoeventsapp.data.events.GetEventsTask;
 import org.shingo.shingoeventsapp.data.events.Events;
 
 /**

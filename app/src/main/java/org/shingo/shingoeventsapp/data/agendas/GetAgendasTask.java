@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.data;
+package org.shingo.shingoeventsapp.data.agendas;
 
 import android.os.AsyncTask;
 
@@ -6,8 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
+import org.shingo.shingoeventsapp.data.agendas.Agendas;
 import org.shingo.shingoeventsapp.data.events.Events;
-import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.ui.LoginActivity;
 
 import java.io.BufferedReader;
@@ -23,16 +23,16 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by dustinehoman on 1/8/16.
+ * Created by dustinehoman on 1/14/16.
  */
-public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
+public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
 
-    private final String mId;
+    private String mEvent;
     private OnTaskComplete mListener;
     private String output;
 
-    public GetSessionsTask(String id, OnTaskComplete listener) {
-        mId = id;
+    public GetAgendasTask(String event, OnTaskComplete listener) {
+        mEvent = event;
         mListener = listener;
         System.out.println("GetEventsTask created");
     }
@@ -43,8 +43,10 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
         System.out.println("GetEventsTask.doInBackground called");
         boolean success = false;
         try {
-            String data = URLEncoder.encode("event_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/sessions?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            String data = URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(mEvent, "UTF-8");
+            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/agenda?client_id="
+                    + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -59,25 +61,17 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
             }
             output = sb.toString();
             JSONObject response = new JSONObject(output);
-            System.out.println("Sessions response: " + output);
+            System.out.println("Agendas: " + output);
             success = response.getBoolean("success");
             if (success) {
-                Sessions.clear();
-                JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
-                for(int i = 0; i < jSessions.length(); i++){
-                    JSONObject jSession = jSessions.getJSONObject(i);
-                    List<Sessions.Session.sSpeaker> speakers = new ArrayList<>();
-                    JSONArray jSpeakers = jSession.getJSONObject("Speakers__r").getJSONArray("records");
-                    for(int j = 0; j < jSpeakers.length(); j++){
-                        JSONObject jSpeaker = jSpeakers.getJSONObject(i);
-                        speakers.add(new Sessions.Session.sSpeaker(jSpeaker.getString("Id"),
-                                jSpeaker.getJSONObject("Speaker_Contact__r").getString("Name")));
+                Agendas.clear();
+                JSONObject jAgenda = response.getJSONObject("agenda").getJSONArray("records").getJSONObject(0);
+                if(jAgenda != null){
+                    JSONArray jDays = jAgenda.getJSONObject("Days__r").getJSONArray("records");
+                    for(int i = 0; i < jDays.length(); i++){
+                        JSONObject jDay = jDays.getJSONObject(i);
+                        Agendas.addAgenda(new Agendas.Day(jDay.getString("Id"), jDay.getString("Name"), new ArrayList<Agendas.Day.Session>()));
                     }
-                    Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
-                            jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
-                            jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"),
-                            jSession.getString("Session_Time__c"), jSession.getString("Session_Status__c"),
-                            speakers));
                 }
             }
         } catch (UnsupportedEncodingException e) {
@@ -95,7 +89,7 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(final Boolean success) {
         if (success) {
             System.out.println("Setting list adapter");
-            Collections.sort(Sessions.SESSIONS);
+            Collections.sort(Agendas.AGENDAS);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");
@@ -104,6 +98,6 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onCancelled() {
-
+        super.onCancelled();
     }
 }

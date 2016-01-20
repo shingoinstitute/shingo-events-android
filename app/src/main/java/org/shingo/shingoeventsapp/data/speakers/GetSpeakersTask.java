@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.data;
+package org.shingo.shingoeventsapp.data.speakers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

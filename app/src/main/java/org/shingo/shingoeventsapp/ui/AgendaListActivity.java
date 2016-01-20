@@ -88,7 +88,9 @@ public class AgendaListActivity extends AppCompatActivity
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, EventListActivity.class));
+            Intent i = new Intent(this, EventListActivity.class);
+            i.putExtra("event_id", mEventId);
+            navigateUpTo(i);
             return true;
         }
         return super.onOptionsItemSelected(item);

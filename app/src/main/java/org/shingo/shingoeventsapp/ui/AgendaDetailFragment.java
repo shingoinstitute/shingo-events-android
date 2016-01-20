@@ -15,7 +15,7 @@ import android.widget.ListView;
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.GetDayTask;
+import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
 
 /**

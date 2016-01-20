@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.data;
+package org.shingo.shingoeventsapp.data.sessions;
 
 import android.os.AsyncTask;
 
@@ -6,7 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
-import org.shingo.shingoeventsapp.data.agendas.Agendas;
+import org.shingo.shingoeventsapp.data.events.Events;
+import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.ui.LoginActivity;
 
 import java.io.BufferedReader;
@@ -20,33 +21,30 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dustinehoman on 1/19/16.
  */
-public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
+public class GetSessionTask extends AsyncTask<Void, Void, Boolean> {
 
-    private String mDay;
+    private final String mId;
     private OnTaskComplete mListener;
     private String output;
 
-    public GetDayTask(String day, OnTaskComplete listener) {
-        mDay = day;
+    public GetSessionTask(String id, OnTaskComplete listener) {
+        mId = id;
         mListener = listener;
-        System.out.println("GetDayTask created");
+        System.out.println("GetSessionTask created");
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         // TODO: attempt authentication against a network service.
-        System.out.println("GetDayTask.doInBackground called");
+        System.out.println("GetSessionTask.doInBackground called");
         boolean success = false;
         try {
-            String data = URLEncoder.encode("day_id", "UTF-8") + "="
-                    + URLEncoder.encode(mDay, "UTF-8");
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/day?client_id="
-                    + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            String data = URLEncoder.encode("session_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
+            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/session?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -61,22 +59,24 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
             }
             output = sb.toString();
             JSONObject response = new JSONObject(output);
-            System.out.println("Day: " + output);
+            System.out.println("Session response: " + output);
             success = response.getBoolean("success");
             if (success) {
-                JSONObject jDay = response.getJSONObject("day").getJSONArray("records").getJSONObject(0);
-                if(jDay != null){
-                    JSONArray jSessions = jDay.getJSONObject("Sessions__r").getJSONArray("records");
-                    List<Agendas.Day.Session> sessions = new ArrayList<>();
-                    for(int i = 0; i < jSessions.length(); i++){
-                        JSONObject jSession = jSessions.getJSONObject(i);
-                        String date = jSession.getString("Session_Date__c");
-                        String start = jSession.getString("Session_Time__c").split("-")[0];
-                        String end = jSession.getString("Session_Time__c").split("-")[1];
-                        sessions.add(new Agendas.Day.Session(jSession.getString("Id"), jSession.getString("Name"), date + " " + start, date + " " + end));
+                JSONArray jSessions = response.getJSONObject("session").getJSONArray("records");
+                for(int i = 0; i < jSessions.length(); i++){
+                    JSONObject jSession = jSessions.getJSONObject(i);
+                    List<Sessions.Session.sSpeaker> speakers = new ArrayList<>();
+                    JSONArray jSpeakers = jSession.getJSONObject("Speakers__r").getJSONArray("records");
+                    for(int j = 0; j < jSpeakers.length(); j++){
+                        JSONObject jSpeaker = jSpeakers.getJSONObject(i);
+                        speakers.add(new Sessions.Session.sSpeaker(jSpeaker.getString("Id"),
+                                jSpeaker.getJSONObject("Speaker_Contact__r").getString("Name")));
                     }
-                    Collections.sort(sessions);
-                    Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions = sessions;
+                    Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
+                            jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
+                            jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"),
+                            jSession.getString("Session_Time__c"), jSession.getString("Session_Status__c"),
+                            speakers, jSession.getJSONObject("Room__r").getString("Name")));
                 }
             }
         } catch (UnsupportedEncodingException e) {
@@ -93,7 +93,7 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         if (success) {
-            System.out.println("Setting list adapter");
+            System.out.println("Calling onTaskComplete");
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");
@@ -102,6 +102,6 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onCancelled() {
-        super.onCancelled();
+
     }
 }

@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.data;
+package org.shingo.shingoeventsapp.data.attendees;
 
 import android.os.AsyncTask;
 
@@ -19,40 +19,38 @@ import java.net.URLEncoder;
 /**
  * Created by dustinehoman on 1/8/16.
  */
-public class ConnectionApproveTask extends AsyncTask<Void, Void, Boolean> {
+public class ConnectionRequestTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mEmail;
-    private final String mConnectionEmail;
     private final String mPassword;
-    private final boolean mApprove;
+    private final String mConnection;
+    private final int mId;
     private final OnTaskComplete mListener;
     private String output;
 
-    public ConnectionApproveTask(String email, String password, String connection, boolean approve, OnTaskComplete listener) {
+    public ConnectionRequestTask(String email, String password, String connection, int id, OnTaskComplete listener) {
         mEmail = email;
         mPassword = password;
-        mConnectionEmail = connection;
-        mApprove = approve;
+        mConnection = connection;
+        mId = id;
         mListener = listener;
-        System.out.println("SendConnectRequestTask created");
+        System.out.println("ConnectionRequestTask created");
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         // TODO: attempt authentication against a network service.
-        System.out.println("SendConnectRequestTask.doInBackground called");
+        System.out.println("ConnectionRequestTask.doInBackground called");
         boolean success  = false;
         try {
-            String data = URLEncoder.encode("connection", "UTF-8") + "=" + URLEncoder.encode(mConnectionEmail,"UTF-8");
+            String data = URLEncoder.encode("connection", "UTF-8") + "=" + URLEncoder.encode(mConnection,"UTF-8");
             data += "&" + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(mEmail, "UTF-8");
             data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(mPassword, "UTF-8");
-            URL url = null;
-            if(mApprove) url = new URL("https://shingo-events.herokuapp.com/api/attendees/approveconnection/?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
-            else url = new URL("https://shingo-events.herokuapp.com/api.attendees/rejectconnection/?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            data += "&" + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(mId), "UTF-8");
+            URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/addconnection?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            System.out.println("Writing data: " + data);
             wr.write(data);
             wr.flush();
 
@@ -64,12 +62,12 @@ public class ConnectionApproveTask extends AsyncTask<Void, Void, Boolean> {
             }
             output = sb.toString();
             JSONObject response = new JSONObject(output);
-            System.out.println("SendApprove response: " + output);
+            System.out.println("SendReqeust response: " + output);
             success = response.getBoolean("success");
         } catch(UnsupportedEncodingException e){
-            return success;
+            return false;
         } catch(IOException e ){
-            return success;
+            return false;
         } catch(JSONException e){
             return false;
         }
@@ -79,7 +77,6 @@ public class ConnectionApproveTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-
         if (success) {
             System.out.println("Restarting activity");
             mListener.onTaskComplete();

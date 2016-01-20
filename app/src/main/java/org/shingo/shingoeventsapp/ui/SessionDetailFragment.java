@@ -1,20 +1,22 @@
 package org.shingo.shingoeventsapp.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.GetSessionTask;
-import org.shingo.shingoeventsapp.data.GetSessionsTask;
+import org.shingo.shingoeventsapp.data.sessions.GetSessionTask;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
 
 /**
@@ -23,7 +25,7 @@ import org.shingo.shingoeventsapp.data.sessions.Sessions;
  * in two-pane mode (on tablets) or a {@link SessionDetailActivity}
  * on handsets.
  */
-public class SessionDetailFragment extends Fragment implements OnTaskComplete {
+public class SessionDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -54,16 +56,21 @@ public class SessionDetailFragment extends Fragment implements OnTaskComplete {
             // to load content from a content provider.
             mSession = Sessions.SESSION_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
+            while(mSession == null){
+                try {
+                    Thread.sleep(1000);
+                    mSession = Sessions.SESSION_MAP.get(getArguments().getString(ARG_ITEM_ID));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             if(mSession != null) {
                 Activity activity = this.getActivity();
                 CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
                 if (appBarLayout != null) {
                     appBarLayout.setTitle(mSession.name);
                 }
-            } else {
-                RestApi api = new RestApi(this, getContext());
-                GetSessionTask getSessionTask = api.getSession(getArguments().getString(ARG_ITEM_ID));
-                getSessionTask.execute((Void) null);
             }
         }
     }
@@ -75,26 +82,25 @@ public class SessionDetailFragment extends Fragment implements OnTaskComplete {
 
         // Show the dummy content as text in a TextView.
         if (mSession != null) {
-            ((TextView) rootView.findViewById(R.id.session_detail)).setText(mSession.sAbstract);
+            ((TextView) rootView.findViewById(R.id.session_name)).setText(mSession.name);
+            ((TextView) rootView.findViewById(R.id.session_room)).setText(mSession.room);
+            ((TextView) rootView.findViewById(R.id.session_abstract)).setText(mSession.sAbstract);
+            ((ListView) rootView.findViewById(R.id.session_speakers)).setAdapter(new ArrayAdapter<Sessions.Session.sSpeaker>(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    Sessions.SESSION_MAP.get(mSession.id).speakers));
+            ((ListView) rootView.findViewById(R.id.session_speakers)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent i = new Intent(getContext(), SpeakerListActivity.class);
+                    i.putExtra("speaker_id", Sessions.SESSION_MAP.get(mSession.id).speakers.get(position).id);
+                    i.putExtra("event_id", AgendaListActivity.mEventId);
+                    startActivity(i);
+                }
+            });
         }
 
         return rootView;
-    }
-
-    @Override
-    public void onTaskComplete() {
-        // Load the session content
-
-        mSession = Sessions.SESSION_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
-        Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
-            appBarLayout.setTitle(mSession.name);
-        }
-
-        if (mSession != null) {
-            ((TextView) rootView.findViewById(R.id.session_detail)).setText(mSession.sAbstract);
-        }
     }
 }

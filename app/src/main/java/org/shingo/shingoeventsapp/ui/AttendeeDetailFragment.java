@@ -16,7 +16,7 @@ import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.attendees.Attendees;
-import org.shingo.shingoeventsapp.data.ConnectionRequestTask;
+import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
 
 /**
  * A fragment representing a single Attendee detail screen.

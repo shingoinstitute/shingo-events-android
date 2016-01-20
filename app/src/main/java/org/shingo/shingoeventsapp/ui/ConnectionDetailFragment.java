@@ -18,7 +18,7 @@ import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.connections.Connections;
-import org.shingo.shingoeventsapp.data.ConnectionApproveTask;
+import org.shingo.shingoeventsapp.data.connections.ConnectionApproveTask;
 
 /**
  * A fragment representing a single Connection detail screen.

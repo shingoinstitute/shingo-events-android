@@ -36,16 +36,20 @@ public class Events {
         public String startDate;
         public String endDate;
         public String location;
+        public double lat;
+        public double lng;
         public String registration;
 
         public Event(String id, String name, String url, String startDate,
-                     String endDate, String location, String registration){
+                     String endDate, String location, double lat, double lng, String registration){
             this.id = id;
             this.name = name;
             this.url = url;
             this.startDate = startDate;
             this.endDate = endDate;
             this.location = location;
+            this.lat = lat;
+            this.lng = lng;
             this.registration = registration;
         }
 

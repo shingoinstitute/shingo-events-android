@@ -75,9 +75,21 @@ public class EventDetailFragment extends Fragment {
                     startSpeakersActivity();
                 }
             });
+            ((Button) rootView.findViewById(R.id.action_city_map)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startCityMapActivity();
+                }
+            });
         }
 
         return rootView;
+    }
+
+    private void startCityMapActivity(){
+        Intent i = new Intent(getContext(), MapsActivity.class);
+        i.putExtra("event_id", mEvent.id);
+        startActivity(i);
     }
 
     private void startAgendaActivity(){

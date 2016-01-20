@@ -49,6 +49,16 @@ public class SpeakerDetailFragment extends Fragment {
             // to load content from a content provider.
             mSpeaker = Speakers.SPEAKER_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
+            while (mSpeaker == null){
+                try {
+                    Thread.sleep(1000);
+
+                    mSpeaker = Speakers.SPEAKER_MAP.get(getArguments().getString(ARG_ITEM_ID));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {

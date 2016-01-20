@@ -3,17 +3,17 @@ package org.shingo.shingoeventsapp.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.shingo.shingoeventsapp.data.ConnectionApproveTask;
-import org.shingo.shingoeventsapp.data.ConnectionRequestTask;
-import org.shingo.shingoeventsapp.data.GetAgendasTask;
-import org.shingo.shingoeventsapp.data.GetDayTask;
-import org.shingo.shingoeventsapp.data.GetEventsTask;
-import org.shingo.shingoeventsapp.data.GetAttendeesTask;
-import org.shingo.shingoeventsapp.data.GetConnectionsTask;
-import org.shingo.shingoeventsapp.data.GetSessionTask;
-import org.shingo.shingoeventsapp.data.GetSessionsTask;
-import org.shingo.shingoeventsapp.data.GetSpeakersTask;
-import org.shingo.shingoeventsapp.data.RegIdTask;
+import org.shingo.shingoeventsapp.data.connections.ConnectionApproveTask;
+import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
+import org.shingo.shingoeventsapp.data.agendas.GetAgendasTask;
+import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
+import org.shingo.shingoeventsapp.data.events.GetEventsTask;
+import org.shingo.shingoeventsapp.data.attendees.GetAttendeesTask;
+import org.shingo.shingoeventsapp.data.connections.GetConnectionsTask;
+import org.shingo.shingoeventsapp.data.sessions.GetSessionTask;
+import org.shingo.shingoeventsapp.data.sessions.GetSessionsTask;
+import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
+import org.shingo.shingoeventsapp.data.events.RegIdTask;
 
 /**
  * Created by dustinehoman on 1/8/16.
