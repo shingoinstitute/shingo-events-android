@@ -17,7 +17,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by dustinehoman on 1/8/16.
@@ -54,16 +56,22 @@ public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
             Events.clear();
             if (success) {
                 JSONArray jSfevents = response.getJSONObject("events").getJSONArray("records");
-                for (int i = 0; i < jSfevents.length(); i++) {
+                for (int i = 0; i < response.getJSONObject("events").getInt("size"); i++) {
                     JSONObject jEvent = jSfevents.getJSONObject(i);
                     String latlng = jEvent.getString("LatLng__c");
+                    List<Events.Event.VenueMaps> venueMaps = new ArrayList<>();
+                    for(int j = 0; j < jEvent.getJSONArray("Venue_Maps").length(); j++){
+                        JSONObject map = jEvent.getJSONArray("Venue_Maps").getJSONObject(j);
+                        venueMaps.add(new Events.Event.VenueMaps(map.getString("name"), map.getString("url")));
+                    }
                     Events.Event mEvent;
                     if(!latlng.equals("null")){
-                     mEvent = new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getJSONObject("attributes").getString("url"), jEvent.getString("Event_Start_Date__c"),
-                            jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), jEvent.getJSONObject("LatLng__c").getDouble("latitude"), jEvent.getJSONObject("LatLng__c").getDouble("longitude"), "");
+                     mEvent = new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getString("Event_Start_Date__c"),
+                            jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), jEvent.getJSONObject("LatLng__c").getDouble("latitude"),
+                             jEvent.getJSONObject("LatLng__c").getDouble("longitude"), "", venueMaps);
                     } else {
-                        mEvent = new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getJSONObject("attributes").getString("url"), jEvent.getString("Event_Start_Date__c"),
-                                jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), 0, 0, "");
+                        mEvent = new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getString("Event_Start_Date__c"),
+                                jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), 0, 0, "", venueMaps);
                     }
                     Events.addEvent(mEvent);
                 }

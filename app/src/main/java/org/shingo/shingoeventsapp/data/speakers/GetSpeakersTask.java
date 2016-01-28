@@ -66,13 +66,11 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
                 JSONArray jSpeakers = response.getJSONObject("speakers").getJSONArray("records");
                 for(int i = 0; i < jSpeakers.length(); i++){
                     JSONObject jSpeaker = jSpeakers.getJSONObject(i);
-                    JSONObject jContact = jSpeaker.getJSONObject("Speaker_Contact__r");
-                    JSONObject jAccount = jContact.getJSONObject("Account");
                     URL image = new URL(jSpeaker.getString("Speaker_Image__c"));
                     Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
                     Speakers.addSpeaker(new Speakers.Speaker(jSpeaker.getString("Id"),
-                            jContact.getString("Name"),jSpeaker.getString("Speaker_Display_Name__c"),
-                            jContact.getString("Title"), jAccount.getString("Name"),
+                            jSpeaker.getString("Name"),jSpeaker.getString("Speaker_Display_Name__c"),
+                            jSpeaker.getString("Title"), jSpeaker.getString("Organization"),
                             jSpeaker.getString("Biography__c"), picture));
                 }
             }

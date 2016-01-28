@@ -64,20 +64,21 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
             if (success) {
                 Sessions.clear();
                 JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
-                for(int i = 0; i < jSessions.length(); i++){
+                for(int i = 0; i < response.getJSONObject("sessions").getInt("size"); i++){
                     JSONObject jSession = jSessions.getJSONObject(i);
                     List<Sessions.Session.sSpeaker> speakers = new ArrayList<>();
-                    JSONArray jSpeakers = jSession.getJSONObject("Speakers__r").getJSONArray("records");
+                    JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
                     for(int j = 0; j < jSpeakers.length(); j++){
-                        JSONObject jSpeaker = jSpeakers.getJSONObject(i);
+                        System.out.println("Working on speaker: " + j);
+                        JSONObject jSpeaker = jSpeakers.getJSONObject(j);
+                        System.out.println("jSpeaker set");
                         speakers.add(new Sessions.Session.sSpeaker(jSpeaker.getString("Id"),
-                                jSpeaker.getJSONObject("Speaker_Contact__r").getString("Name")));
+                                jSpeaker.getString("Name")));
                     }
                     Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
                             jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
                             jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"),
-                            jSession.getString("Session_Time__c"), jSession.getString("Session_Status__c"),
-                            speakers, jSession.getJSONObject("Room__r").getString("Name")));
+                            jSession.getString("Session_Time__c"), speakers, jSession.getString("Room")));
                 }
             }
         } catch (UnsupportedEncodingException e) {

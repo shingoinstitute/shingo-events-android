@@ -64,9 +64,9 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
             System.out.println("Day: " + output);
             success = response.getBoolean("success");
             if (success) {
-                JSONObject jDay = response.getJSONObject("day").getJSONArray("records").getJSONObject(0);
+                JSONObject jDay = response.getJSONObject("day");
                 if(jDay != null){
-                    JSONArray jSessions = jDay.getJSONObject("Sessions__r").getJSONArray("records");
+                    JSONArray jSessions = jDay.getJSONObject("Sessions").getJSONArray("records");
                     List<Agendas.Day.Session> sessions = new ArrayList<>();
                     for(int i = 0; i < jSessions.length(); i++){
                         JSONObject jSession = jSessions.getJSONObject(i);

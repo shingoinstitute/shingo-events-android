@@ -36,18 +36,16 @@ public class Sessions {
         public String notes;
         public String date;
         public String time;
-        public String status;
         public String room;
         public List<sSpeaker> speakers;
 
-        public Session(String id, String name, String sAbstract, String notes, String date, String time, String status, List<sSpeaker> speakers, String room){
+        public Session(String id, String name, String sAbstract, String notes, String date, String time, List<sSpeaker> speakers, String room){
             this.id = id;
             this.name = name;
             this.sAbstract = sAbstract;
             this.notes = notes;
             this.date = date;
             this.time = time;
-            this.status = status;
             this.speakers = speakers;
             this.room = room;
         }

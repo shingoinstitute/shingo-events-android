@@ -65,9 +65,9 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
             success = response.getBoolean("success");
             if (success) {
                 Agendas.clear();
-                JSONObject jAgenda = response.getJSONObject("agenda").getJSONArray("records").getJSONObject(0);
+                JSONObject jAgenda = response.getJSONObject("agenda");
                 if(jAgenda != null){
-                    JSONArray jDays = jAgenda.getJSONObject("Days__r").getJSONArray("records");
+                    JSONArray jDays = jAgenda.getJSONObject("Days").getJSONArray("records");
                     for(int i = 0; i < jDays.length(); i++){
                         JSONObject jDay = jDays.getJSONObject(i);
                         Agendas.addAgenda(new Agendas.Day(jDay.getString("Id"), jDay.getString("Name"), new ArrayList<Agendas.Day.Session>()));
