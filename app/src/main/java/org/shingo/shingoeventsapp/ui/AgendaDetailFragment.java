@@ -17,6 +17,9 @@ import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
+import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
+
+import java.util.Collections;
 
 /**
  * A fragment representing a single Agenda detail screen.
@@ -80,10 +83,8 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
     @Override
     public void onTaskComplete() {
         ListView sessions = (ListView)rootView.findViewById(R.id.agenda_sessions);
-        sessions.setAdapter(new ArrayAdapter<Agendas.Day.Session>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
+        Collections.sort(Agendas.AGENDA_MAP.get(mDay.id).sessions);
+        sessions.setAdapter(new SessionsListAdapter(getContext(),
                 Agendas.AGENDA_MAP.get(mDay.id).sessions));
         sessions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

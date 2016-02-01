@@ -18,6 +18,8 @@ import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.sessions.GetSessionTask;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
+import org.shingo.shingoeventsapp.data.speakers.Speakers;
+import org.shingo.shingoeventsapp.data.speakers.SpeakersListAdapter;
 
 /**
  * A fragment representing a single Session detail screen.

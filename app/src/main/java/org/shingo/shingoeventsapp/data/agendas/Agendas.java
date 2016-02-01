@@ -33,7 +33,7 @@ public class Agendas {
     public static class Day implements Comparable<Day>{
         public String id;
         public String name;
-        public List<Session> sessions;
+        public static List<Session> sessions;
 
         public Day (String id, String name, List<Session> sessions){
             this.id = id;

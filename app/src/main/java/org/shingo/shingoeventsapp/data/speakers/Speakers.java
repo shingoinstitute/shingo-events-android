@@ -74,7 +74,7 @@ public class Speakers {
 
         @Override
         public int compareTo(Speaker another) {
-            return this.name.compareTo(another.name);
+            return this.name.split(" ")[1].compareTo(another.name.split(" ")[1]);
         }
     }
 }

@@ -67,16 +67,17 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
                 JSONObject jDay = response.getJSONObject("day");
                 if(jDay != null){
                     JSONArray jSessions = jDay.getJSONObject("Sessions").getJSONArray("records");
-                    List<Agendas.Day.Session> sessions = new ArrayList<>();
                     for(int i = 0; i < jSessions.length(); i++){
                         JSONObject jSession = jSessions.getJSONObject(i);
                         String date = jSession.getString("Session_Date__c");
                         String start = jSession.getString("Session_Time__c").split("-")[0];
                         String end = jSession.getString("Session_Time__c").split("-")[1];
-                        sessions.add(new Agendas.Day.Session(jSession.getString("Id"), jSession.getString("Name"), date + " " + start, date + " " + end));
+                        Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions.add(
+                                new Agendas.Day.Session(jSession.getString("Id"),
+                                        jSession.getString("Name"),
+                                        date + " " + start,
+                                        date + " " + end));
                     }
-                    Collections.sort(sessions);
-                    Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions = sessions;
                 }
             }
         } catch (UnsupportedEncodingException e) {

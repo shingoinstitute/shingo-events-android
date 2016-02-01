@@ -11,6 +11,7 @@ import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.speakers.Speakers;
+import org.shingo.shingoeventsapp.data.speakers.SpeakersListAdapter;
 
 import java.util.Collections;
 
@@ -45,11 +46,13 @@ public class SpeakerListFragment extends ListFragment implements OnTaskComplete 
     @Override
     public void onTaskComplete() {
         Collections.sort(Speakers.SPEAKERS);
-        setListAdapter(new ArrayAdapter<Speakers.Speaker>(
+        // Comment/Uncomment to use a simple list adapter
+        /*setListAdapter(new ArrayAdapter<Speakers.Speaker>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                Speakers.SPEAKERS));
+                Speakers.SPEAKERS)); */
+        setListAdapter(new SpeakersListAdapter(getContext(), Speakers.SPEAKERS));
     }
 
     /**
