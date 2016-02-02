@@ -167,6 +167,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.ui.EventListActivity" />
         </activity>
+        <activity
+            android:name=".ui.AffiliateListActivity"
+            android:label="@string/title_affiliate_list"
+            android:parentActivityName=".ui.EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.EventListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.AffiliateDetailActivity"
+            android:label="@string/title_affiliate_detail"
+            android:parentActivityName=".ui.AffiliateListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.AffiliateListActivity" />
+        </activity>
     </application>
 
 </manifest>

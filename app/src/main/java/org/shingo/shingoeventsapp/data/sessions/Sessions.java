@@ -89,25 +89,5 @@ public class Sessions {
 
             return thisStart.compareTo(anotherStart);
         }
-
-//        public static class sSpeaker implements Comparable<sSpeaker>{
-//            public String id;
-//            public String name;
-//
-//            public sSpeaker(String id, String name){
-//                this.id = id;
-//                this.name = name;
-//            }
-//
-//            @Override
-//            public int compareTo(sSpeaker another) {
-//                return this.name.compareTo(another.name);
-//            }
-//
-//            @Override
-//            public String toString(){
-//                return this.name;
-//            }
-//        }
     }
 }

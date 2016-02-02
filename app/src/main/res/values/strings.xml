@@ -49,4 +49,6 @@
     <string name="title_abstract">Abstract</string>
     <string name="title_room">Room</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_affiliate_list">Affiliates</string>
+    <string name="title_affiliate_detail">Affiliate Detail</string>
 </resources>

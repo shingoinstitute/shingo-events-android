@@ -24,7 +24,7 @@ public class EventDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_ID = "event_id";
 
     /**
      * The Event this fragment is presenting.
@@ -61,24 +61,28 @@ public class EventDetailFragment extends Fragment {
 
         // Show the Event content as text in a TextView.
         if (mEvent != null) {
-            Button sessions = (Button) rootView.findViewById(R.id.action_agenda);
-            sessions.setOnClickListener(new View.OnClickListener() {
+            ((Button) rootView.findViewById(R.id.action_agenda)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startAgendaActivity();
+                    navigateTo(AgendaListActivity.class);
                 }
             });
-            Button speakers = (Button) rootView.findViewById(R.id.action_speakers);
-            speakers.setOnClickListener(new View.OnClickListener() {
+            ((Button) rootView.findViewById(R.id.action_speakers)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startSpeakersActivity();
+                    navigateTo(SpeakerListActivity.class);
                 }
             });
             ((Button) rootView.findViewById(R.id.action_city_map)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startCityMapActivity();
+                    navigateTo(MapsActivity.class);
+                }
+            });
+            ((Button)rootView.findViewById(R.id.action_affiliates)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateTo(AffiliateListActivity.class);
                 }
             });
         }
@@ -86,25 +90,9 @@ public class EventDetailFragment extends Fragment {
         return rootView;
     }
 
-    private void startCityMapActivity(){
-        Intent i = new Intent(getContext(), MapsActivity.class);
+    private void navigateTo(Class dest){
+        Intent i = new Intent(getContext(),dest);
         i.putExtra("event_id", mEvent.id);
-        startActivity(i);
-    }
-
-    private void startAgendaActivity(){
-        Bundle args = new Bundle();
-        args.putString("event_id", mEvent.id);
-        Intent i = new Intent(getContext(), AgendaListActivity.class);
-        i.putExtras(args);
-        startActivity(i);
-    }
-
-    private void startSpeakersActivity(){
-        Bundle args = new Bundle();
-        args.putString("event_id", mEvent.id);
-        Intent i = new Intent(getContext(), SpeakerListActivity.class);
-        i.putExtras(args);
         startActivity(i);
     }
 }

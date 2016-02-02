@@ -3,6 +3,7 @@ package org.shingo.shingoeventsapp.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.shingo.shingoeventsapp.data.affiliates.GetAffiliatesTask;
 import org.shingo.shingoeventsapp.data.connections.ConnectionApproveTask;
 import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
 import org.shingo.shingoeventsapp.data.agendas.GetAgendasTask;
@@ -72,5 +73,9 @@ public class RestApi {
 
     public GetDayTask getDay(String id){
         return new GetDayTask(id, mListener);
+    }
+
+    public GetAffiliatesTask getAffiliates() {
+        return new GetAffiliatesTask(mListener);
     }
 }

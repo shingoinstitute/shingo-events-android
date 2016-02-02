@@ -120,20 +120,6 @@ public class SessionDetailFragment extends Fragment {
                 });
                 sessions.addView(item,layoutParams);
             }
-//            ((ListView) rootView.findViewById(R.id.session_speakers)).setAdapter(new ArrayAdapter<Sessions.Session.sSpeaker>(
-//                    getActivity(),
-//                    android.R.layout.simple_list_item_activated_1,
-//                    android.R.id.text1,
-//                    Sessions.SESSION_MAP.get(mSession.id).speakers));
-//            ((ListView) rootView.findViewById(R.id.session_speakers)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    Intent i = new Intent(getContext(), SpeakerListActivity.class);
-//                    i.putExtra("speaker_id", Sessions.SESSION_MAP.get(mSession.id).speakers.get(position).id);
-//                    i.putExtra("event_id", AgendaListActivity.mEventId);
-//                    startActivity(i);
-//                }
-//            });
         }
 
         return rootView;
