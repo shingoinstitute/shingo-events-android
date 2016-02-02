@@ -1,5 +1,7 @@
 package org.shingo.shingoeventsapp.data.sessions;
 
+import org.shingo.shingoeventsapp.data.speakers.Speakers;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,9 +39,12 @@ public class Sessions {
         public String date;
         public String time;
         public String room;
-        public List<sSpeaker> speakers;
+        public String startTime;
+        public String endTime;
+        public List<Speakers.Speaker> speakers;
+        private SimpleDateFormat formatter;
 
-        public Session(String id, String name, String sAbstract, String notes, String date, String time, List<sSpeaker> speakers, String room){
+        public Session(String id, String name, String sAbstract, String notes, String date, String time, List<Speakers.Speaker> speakers, String room){
             this.id = id;
             this.name = name;
             this.sAbstract = sAbstract;
@@ -48,6 +53,17 @@ public class Sessions {
             this.time = time;
             this.speakers = speakers;
             this.room = room;
+            this.startTime = date + " " + time.split("-")[0];
+            this.endTime = date + " " + time.split("-")[1];
+            this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+        }
+
+        public Session(String id, String name, String startTime, String endTime){
+            this.id = id;
+            this.name = name;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
         }
 
         @Override
@@ -55,36 +71,43 @@ public class Sessions {
 
         @Override
         public int compareTo(Session another) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date thisStart = null;
             Date anotherStart = null;
+            Date thisEnd = null;
+            Date anotherEnd = null;
             try {
-                thisStart = formatter.parse(this.date);
-                anotherStart = formatter.parse(another.date);
+                thisStart = formatter.parse(this.startTime);
+                anotherStart = formatter.parse(another.startTime);
+                thisEnd = formatter.parse(this.endTime);
+                anotherEnd = formatter.parse(another.endTime);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            if(thisStart.compareTo(anotherStart) == 0)
+                if(thisEnd.compareTo(anotherEnd) == 0)return name.compareTo(another.name);
+                else return thisEnd.compareTo(anotherEnd);
+
             return thisStart.compareTo(anotherStart);
         }
 
-        public static class sSpeaker implements Comparable<sSpeaker>{
-            public String id;
-            public String name;
-
-            public sSpeaker(String id, String name){
-                this.id = id;
-                this.name = name;
-            }
-
-            @Override
-            public int compareTo(sSpeaker another) {
-                return this.name.compareTo(another.name);
-            }
-
-            @Override
-            public String toString(){
-                return this.name;
-            }
-        }
+//        public static class sSpeaker implements Comparable<sSpeaker>{
+//            public String id;
+//            public String name;
+//
+//            public sSpeaker(String id, String name){
+//                this.id = id;
+//                this.name = name;
+//            }
+//
+//            @Override
+//            public int compareTo(sSpeaker another) {
+//                return this.name.compareTo(another.name);
+//            }
+//
+//            @Override
+//            public String toString(){
+//                return this.name;
+//            }
+//        }
     }
 }

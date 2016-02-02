@@ -2,14 +2,16 @@ package org.shingo.shingoeventsapp.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.shingo.shingoeventsapp.R;
@@ -17,7 +19,7 @@ import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
-import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
+import org.shingo.shingoeventsapp.data.agendas.SessionsListAdapter;
 
 import java.util.Collections;
 
@@ -82,21 +84,47 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
 
     @Override
     public void onTaskComplete() {
-        ListView sessions = (ListView)rootView.findViewById(R.id.agenda_sessions);
+        LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.agenda_sessions);
+        SessionsListAdapter listAdapter = new SessionsListAdapter(getContext(),
+                Agendas.AGENDA_MAP.get(mDay.id).sessions);
         Collections.sort(Agendas.AGENDA_MAP.get(mDay.id).sessions);
-        sessions.setAdapter(new SessionsListAdapter(getContext(),
-                Agendas.AGENDA_MAP.get(mDay.id).sessions));
-        sessions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
-                Bundle args = new Bundle();
-                args.putString("session_id", sId);
-                args.putString("event_id", AgendaListActivity.mEventId);
-                Intent i = new Intent(getContext(), SessionListActivity.class);
-                i.putExtras(args);
-                startActivity(i);
-            }
-        });
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        layoutParams.setMargins(10, 10, 10, 10);
+
+        for(int i = 0; i < listAdapter.getCount(); i++) {
+            View item = listAdapter.getView(i,null,null);
+            final int position = i;
+
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
+                    Bundle args = new Bundle();
+                    args.putString("session_id", sId);
+                    args.putString("event_id", AgendaListActivity.mEventId);
+                    Intent i = new Intent(getContext(), SessionListActivity.class);
+                    i.putExtras(args);
+                    startActivity(i);
+                }
+            });
+            sessions.addView(item,layoutParams);
+        }
+//        sessions.setAdapter(new SessionsListAdapter(getContext(),
+//                Agendas.AGENDA_MAP.get(mDay.id).sessions));
+//        sessions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
+//                Bundle args = new Bundle();
+//                args.putString("session_id", sId);
+//                args.putString("event_id", AgendaListActivity.mEventId);
+//                Intent i = new Intent(getContext(), SessionListActivity.class);
+//                i.putExtras(args);
+//                startActivity(i);
+//            }
+//        });
     }
 }

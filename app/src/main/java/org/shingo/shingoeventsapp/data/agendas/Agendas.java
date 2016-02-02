@@ -1,5 +1,7 @@
 package org.shingo.shingoeventsapp.data.agendas;
 
+import org.shingo.shingoeventsapp.data.sessions.Sessions;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,9 +35,9 @@ public class Agendas {
     public static class Day implements Comparable<Day>{
         public String id;
         public String name;
-        public static List<Session> sessions;
+        public static List<Sessions.Session> sessions;
 
-        public Day (String id, String name, List<Session> sessions){
+        public Day (String id, String name, List<Sessions.Session> sessions){
             this.id = id;
             this.name = name;
             this.sessions = sessions;
@@ -60,48 +62,56 @@ public class Agendas {
             return this.name;
         }
 
-        public static class Session implements Comparable<Session>{
-
-            public String id;
-            public String name;
-            public String startTime;
-            public String endTime;
-            private SimpleDateFormat formatter;
-
-            public Session(String id, String name, String startTime, String endTime){
-                this.id = id;
-                this.name = name;
-                this.startTime = startTime;
-                this.endTime = endTime;
-                this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-            }
-
-            @Override
-            public int compareTo(Session another) {
-                Date thisStart = null;
-                Date anotherStart = null;
-                try {
-                    thisStart = formatter.parse(this.startTime);
-                    anotherStart = formatter.parse(another.startTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                return thisStart.compareTo(anotherStart);
-            }
-
-            @Override
-            public String toString(){
-                try {
-                    DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
-                    String start = format.format(formatter.parse(this.startTime).getTime());
-                    String end = format.format(formatter.parse(this.endTime).getTime());
-                    String shortName = (25 < name.length()) ? name.substring(0, 15) : name;
-                    return start + "-" +end + "\n  " + shortName;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return this.name;
-                }
-            }
-        }
+//        public static class Session implements Comparable<Session>{
+//
+//            public String id;
+//            public String name;
+//            public String startTime;
+//            public String endTime;
+//            private SimpleDateFormat formatter;
+//
+//            public Session(String id, String name, String startTime, String endTime){
+//                this.id = id;
+//                this.name = name;
+//                this.startTime = startTime;
+//                this.endTime = endTime;
+//                this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+//            }
+//
+//            @Override
+//            public int compareTo(Session another) {
+//                Date thisStart = null;
+//                Date anotherStart = null;
+//                Date thisEnd = null;
+//                Date anotherEnd = null;
+//                try {
+//                    thisStart = formatter.parse(this.startTime);
+//                    anotherStart = formatter.parse(another.startTime);
+//                    thisEnd = formatter.parse(this.endTime);
+//                    anotherEnd = formatter.parse(another.endTime);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                if(thisStart.compareTo(anotherStart) == 0)
+//                    if(thisEnd.compareTo(anotherEnd) == 0)return name.compareTo(another.name);
+//                    else return thisEnd.compareTo(anotherEnd);
+//
+//                return thisStart.compareTo(anotherStart);
+//            }
+//
+//            @Override
+//            public String toString(){
+//                try {
+//                    DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
+//                    String start = format.format(formatter.parse(this.startTime).getTime());
+//                    String end = format.format(formatter.parse(this.endTime).getTime());
+//                    String shortName = (25 < name.length()) ? name.substring(0, 15) : name;
+//                    return start + "-" +end + "\n  " + shortName;
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                    return this.name;
+//                }
+//            }
+//        }
     }
 }

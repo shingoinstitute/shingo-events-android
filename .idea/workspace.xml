@@ -10,17 +10,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df049059-7e17-4022-b0f0-269dd09e9820" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/SessionsListAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/agenda_list_row.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/img_adapter_row.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/SessionsListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/SessionsListAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/Agendas.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/Agendas.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetAgendasTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetAgendasTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetDayTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetDayTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/Speakers.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/Speakers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_agenda_detail.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_agenda_detail.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/agenda_list_row.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/agenda_list_row.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_agenda_detail.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_agenda_detail.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_session_detail.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_session_detail.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/img_adapter_row.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/img_adapter_row.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ShingoEventsApp.iws" />
@@ -42,29 +48,54 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SpeakersListAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java">
+      <file leaf-file-name="SessionDetailFragment.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="58" column="1" selection-start-line="18" selection-start-column="33" selection-end-line="58" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.2890995">
+              <caret line="94" column="93" selection-start-line="94" selection-start-column="93" selection-end-line="94" selection-end-column="93" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#882#883#0" expanded="true" />
-                <element signature="e#916#917#0" expanded="true" />
-                <element signature="e#973#974#0" expanded="true" />
-                <element signature="e#1014#1015#0" expanded="true" />
-                <element signature="e#1071#1072#0" expanded="true" />
-                <element signature="e#1102#1103#0" expanded="true" />
+                <element signature="e#4318#4933#0" expanded="true" />
+                <element signature="e#4932#4933#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sessions.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java">
+      <file leaf-file-name="GetSessionTask.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionTask.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="29" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
+              <caret line="68" column="16" selection-start-line="68" selection-start-column="16" selection-end-line="77" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetSessionsTask.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpeakerListFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerListFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="54" selection-end-column="81" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetSpeakersTask.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/GetSpeakersTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="67" column="69" selection-start-line="67" selection-start-column="69" selection-end-line="69" selection-end-column="105" />
               <folding />
             </state>
           </provider>
@@ -80,11 +111,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="agenda_list_row.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/agenda_list_row.xml">
+      <file leaf-file-name="fragment_session_detail.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_session_detail.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.2413793">
-              <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+            <state vertical-scroll-proportion="-16.689655">
+              <caret line="50" column="74" selection-start-line="50" selection-start-column="74" selection-end-line="50" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -93,39 +124,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SessionsListAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/SessionsListAdapter.java">
+      <file leaf-file-name="Sessions.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="69" column="39" selection-start-line="69" selection-start-column="39" selection-end-line="69" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1099#1100#0" expanded="true" />
-                <element signature="e#1133#1134#0" expanded="true" />
-                <element signature="e#1190#1191#0" expanded="true" />
-                <element signature="e#1231#1232#0" expanded="true" />
-                <element signature="e#1288#1289#0" expanded="true" />
-                <element signature="e#1319#1320#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AgendaDetailFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="97" column="33" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AgendaListFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaListFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+              <caret line="46" column="126" selection-start-line="46" selection-start-column="126" selection-end-line="46" selection-end-column="126" />
               <folding />
             </state>
           </provider>
@@ -135,28 +138,21 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="46" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
+              <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GetDayTask.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetDayTask.java">
+      <file leaf-file-name="AgendaDetailFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="78" column="59" selection-start-line="78" selection-start-column="59" selection-end-line="78" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Agendas.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/Agendas.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6919431">
-              <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-              <folding />
+              <caret line="113" column="9" selection-start-line="86" selection-start-column="8" selection-end-line="113" selection-end-column="9" />
+              <folding>
+                <element signature="e#3642#4207#0" expanded="true" />
+                <element signature="e#4206#4207#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1914,11 +1910,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_event_app_bar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_event_detail.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_speaker_app_bar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_session_app_bar.xml" />
@@ -1930,7 +1921,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaActivityFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaListFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_agenda_detail.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/GetAgendasTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/GetDayTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListActivity.java" />
@@ -1940,31 +1930,37 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AttendeeDetailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerDetailFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_session_detail.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/EventListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_event_detail.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/EventDetailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/events/Events.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetAgendasTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/events/GetEventsTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/GetSpeakersTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/MapsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/speaker_adapter_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerListFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/SessionsListAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/agenda_list_row.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/Speakers.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_attendee_detail.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_agenda_detail.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/agenda_list_row.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_agenda_detail.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetDayTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/Agendas.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetDayTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/SessionsListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetAgendasTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/img_adapter_row.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_session_detail.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java" />
       </list>
     </option>
   </component>
@@ -2005,8 +2001,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
@@ -2014,6 +2008,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="ShingoEventsApp" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ShingoEventsApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2214,7 +2226,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2569,49 +2583,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java</url>
-          <line>85</line>
+          <line>90</line>
           <properties />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java</url>
-          <line>73</line>
-          <properties />
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java</url>
-          <line>81</line>
+          <line>85</line>
           <properties />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetDayTask.java</url>
+          <line>65</line>
+          <properties />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="25" />
+      <option name="time" value="26" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerDetailActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/EventDetailActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="90" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.206896">
@@ -2673,17 +2666,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_agenda_detail.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.0689654">
-          <caret line="4" column="73" selection-start-line="4" selection-start-column="73" selection-end-line="4" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/ActivityThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
@@ -2724,17 +2706,6 @@
         <state vertical-scroll-proportion="0.33333334">
           <caret line="1961" column="0" selection-start-line="1961" selection-start-column="0" selection-end-line="1961" selection-end-column="0" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_session_detail.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="44" selection-start-line="41" selection-start-column="44" selection-end-line="41" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/MainActivity.java">
@@ -2800,13 +2771,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetAgendasTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="65" selection-start-line="69" selection-start-column="65" selection-end-line="69" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/org/json/JSONArray.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2821,42 +2785,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/AsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="317" column="0" selection-start-line="317" selection-start-column="0" selection-end-line="317" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="67" selection-start-line="80" selection-start-column="67" selection-end-line="80" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="33" selection-start-line="79" selection-start-column="33" selection-end-line="79" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/MapsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.81042653">
           <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/GetSpeakersTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.028436018">
-          <caret line="67" column="69" selection-start-line="67" selection-start-column="69" selection-end-line="67" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2872,7 +2804,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="91" selection-start-line="58" selection-start-column="91" selection-end-line="58" selection-end-column="91" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2892,69 +2823,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerListFragment.java">
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/AsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="54" selection-end-column="81" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="234" column="0" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_attendee_detail.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/img_adapter_row.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.344828">
-          <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="21" selection-end-column="75" />
-          <folding />
+        <state vertical-scroll-proportion="0.6705298">
+          <caret line="27" column="80" selection-start-line="27" selection-start-column="80" selection-end-line="27" selection-end-column="80" />
+          <folding>
+            <element signature="e#1681#1721#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_agenda_detail.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="1" selection-start-line="18" selection-start-column="33" selection-end-line="58" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#882#883#0" expanded="true" />
-            <element signature="e#916#917#0" expanded="true" />
-            <element signature="e#973#974#0" expanded="true" />
-            <element signature="e#1014#1015#0" expanded="true" />
-            <element signature="e#1071#1072#0" expanded="true" />
-            <element signature="e#1102#1103#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-14.4827585">
+          <caret line="28" column="108" selection-start-line="28" selection-start-column="108" selection-end-line="28" selection-end-column="108" />
+          <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/SessionsListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="39" selection-start-line="69" selection-start-column="39" selection-end-line="69" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1099#1100#0" expanded="true" />
-            <element signature="e#1133#1134#0" expanded="true" />
-            <element signature="e#1190#1191#0" expanded="true" />
-            <element signature="e#1231#1232#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-            <element signature="e#1319#1320#0" expanded="true" />
-          </folding>
-        </state>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/agenda_list_row.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.2413793">
-          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+        <state vertical-scroll-proportion="-1.5517242">
+          <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -2962,26 +2866,21 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_agenda_detail.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="29" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
+        <state vertical-scroll-proportion="-0.51724136">
+          <caret line="1" column="108" selection-start-line="1" selection-start-column="108" selection-end-line="1" selection-end-column="108" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="46" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
-          <folding />
-        </state>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/Speakers.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="74" column="17" selection-start-line="74" selection-start-column="17" selection-end-line="74" selection-end-column="17" />
+          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -2994,10 +2893,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/Agendas.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="97" column="33" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
+        <state vertical-scroll-proportion="-0.82464457">
+          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -3005,16 +2904,139 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetDayTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="59" selection-start-line="78" selection-start-column="59" selection-end-line="78" selection-end-column="59" />
+          <caret line="76" column="53" selection-start-line="76" selection-start-column="53" selection-end-line="76" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/Agendas.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/GetAgendasTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6919431">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="136" selection-start-line="73" selection-start-column="136" selection-end-line="73" selection-end-column="136" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/img_adapter_row.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.1034484">
+          <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/agendas/SessionsListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="89" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2552#3018#0" expanded="true" />
+            <element signature="e#3017#3018#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/SpeakersListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="56" selection-start-line="56" selection-start-column="56" selection-end-line="56" selection-end-column="56" />
+          <folding>
+            <element signature="e#1842#2308#0" expanded="true" />
+            <element signature="e#2307#2308#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/AgendaDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="113" column="9" selection-start-line="86" selection-start-column="8" selection-end-line="113" selection-end-column="9" />
+          <folding>
+            <element signature="e#3642#4207#0" expanded="true" />
+            <element signature="e#4206#4207#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/Speakers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="74" column="17" selection-start-line="74" selection-start-column="17" selection-end-line="74" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SpeakerListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="54" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/speakers/GetSpeakersTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="67" column="69" selection-start-line="67" selection-start-column="69" selection-end-line="69" selection-end-column="105" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="16" selection-start-line="68" selection-start-column="16" selection-end-line="77" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/GetSessionsTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/data/sessions/Sessions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="126" selection-start-line="46" selection-start-column="126" selection-end-line="46" selection-end-column="126" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_session_detail.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.689655">
+          <caret line="50" column="74" selection-start-line="50" selection-start-column="74" selection-end-line="50" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/shingo/shingoeventsapp/ui/SessionDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2890995">
+          <caret line="94" column="93" selection-start-line="94" selection-start-column="93" selection-end-line="94" selection-end-column="93" />
+          <folding>
+            <element signature="e#4318#4933#0" expanded="true" />
+            <element signature="e#4932#4933#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

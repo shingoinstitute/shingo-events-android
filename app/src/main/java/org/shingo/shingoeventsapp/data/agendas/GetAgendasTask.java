@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
 import org.shingo.shingoeventsapp.data.events.Events;
+import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.ui.LoginActivity;
 
 import java.io.BufferedReader;
@@ -70,7 +71,7 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
                     JSONArray jDays = jAgenda.getJSONObject("Days").getJSONArray("records");
                     for(int i = 0; i < jDays.length(); i++){
                         JSONObject jDay = jDays.getJSONObject(i);
-                        Agendas.addAgenda(new Agendas.Day(jDay.getString("Id"), jDay.getString("Name"), new ArrayList<Agendas.Day.Session>()));
+                        Agendas.addAgenda(new Agendas.Day(jDay.getString("Id"), jDay.getString("Name"), new ArrayList<Sessions.Session>()));
                     }
                 }
             }

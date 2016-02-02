@@ -1,5 +1,7 @@
 package org.shingo.shingoeventsapp.data.sessions;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -8,6 +10,7 @@ import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.data.events.Events;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
+import org.shingo.shingoeventsapp.data.speakers.Speakers;
 import org.shingo.shingoeventsapp.ui.LoginActivity;
 
 import java.io.BufferedReader;
@@ -66,14 +69,15 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
                 JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
                 for(int i = 0; i < response.getJSONObject("sessions").getInt("size"); i++){
                     JSONObject jSession = jSessions.getJSONObject(i);
-                    List<Sessions.Session.sSpeaker> speakers = new ArrayList<>();
+                    List<Speakers.Speaker> speakers = new ArrayList<>();
                     JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
                     for(int j = 0; j < jSpeakers.length(); j++){
-                        System.out.println("Working on speaker: " + j);
                         JSONObject jSpeaker = jSpeakers.getJSONObject(j);
-                        System.out.println("jSpeaker set");
-                        speakers.add(new Sessions.Session.sSpeaker(jSpeaker.getString("Id"),
-                                jSpeaker.getString("Name")));
+                        URL image = new URL(jSpeaker.getString("Speaker_Image__c"));
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
+                                jSpeaker.getString("Name"),jSpeaker.getString("Name"),jSpeaker.getString("Title"),
+                                jSpeaker.getString("Organization"),"",picture));
                     }
                     Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
                             jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
@@ -82,10 +86,13 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }
         } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
             return success;
         } catch (IOException e) {
+            e.printStackTrace();
             return success;
         } catch (JSONException e) {
+            e.printStackTrace();
             return false;
         }
 

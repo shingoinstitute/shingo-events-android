@@ -9,9 +9,9 @@ import android.widget.ListView;
 
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
+import org.shingo.shingoeventsapp.data.agendas.SessionsListAdapter;
 import org.shingo.shingoeventsapp.data.sessions.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
-import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
 
 /**
  * A list fragment representing a list of Sessions. This fragment
@@ -48,7 +48,7 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 Sessions.SESSIONS));
-        //setListAdapter(new SessionsListAdapter());
+        setListAdapter(new SessionsListAdapter(getContext(),Sessions.SESSIONS));
     }
 
     /**

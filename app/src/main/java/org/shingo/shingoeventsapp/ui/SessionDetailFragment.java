@@ -10,16 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
+import org.shingo.shingoeventsapp.data.agendas.Agendas;
+import org.shingo.shingoeventsapp.data.agendas.SessionsListAdapter;
 import org.shingo.shingoeventsapp.data.sessions.GetSessionTask;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.data.speakers.Speakers;
 import org.shingo.shingoeventsapp.data.speakers.SpeakersListAdapter;
+
+import java.util.Collections;
 
 /**
  * A fragment representing a single Session detail screen.
@@ -87,20 +92,48 @@ public class SessionDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.session_name)).setText(mSession.name);
             ((TextView) rootView.findViewById(R.id.session_room)).setText(mSession.room);
             ((TextView) rootView.findViewById(R.id.session_abstract)).setText(mSession.sAbstract);
-            ((ListView) rootView.findViewById(R.id.session_speakers)).setAdapter(new ArrayAdapter<Sessions.Session.sSpeaker>(
-                    getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1,
-                    Sessions.SESSION_MAP.get(mSession.id).speakers));
-            ((ListView) rootView.findViewById(R.id.session_speakers)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent i = new Intent(getContext(), SpeakerListActivity.class);
-                    i.putExtra("speaker_id", Sessions.SESSION_MAP.get(mSession.id).speakers.get(position).id);
-                    i.putExtra("event_id", AgendaListActivity.mEventId);
-                    startActivity(i);
-                }
-            });
+            LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.session_speakers);
+            SpeakersListAdapter listAdapter = new SpeakersListAdapter(getContext(),
+                    Sessions.SESSION_MAP.get(mSession.id).speakers);
+            Collections.sort(Sessions.SESSION_MAP.get(mSession.id).speakers);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            layoutParams.setMargins(10, 10, 10, 10);
+
+            for(int i = 0; i < listAdapter.getCount(); i++) {
+                View item = listAdapter.getView(i,null,null);
+                final int position = i;
+
+                item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String sId = Sessions.SESSION_MAP.get(mSession.id).speakers.get(position).id;
+                        Bundle args = new Bundle();
+                        args.putString("speaker_id", sId);
+                        args.putString("event_id", SessionListActivity.eventId);
+                        Intent i = new Intent(getContext(), SpeakerListActivity.class);
+                        i.putExtras(args);
+                        startActivity(i);
+                    }
+                });
+                sessions.addView(item,layoutParams);
+            }
+//            ((ListView) rootView.findViewById(R.id.session_speakers)).setAdapter(new ArrayAdapter<Sessions.Session.sSpeaker>(
+//                    getActivity(),
+//                    android.R.layout.simple_list_item_activated_1,
+//                    android.R.id.text1,
+//                    Sessions.SESSION_MAP.get(mSession.id).speakers));
+//            ((ListView) rootView.findViewById(R.id.session_speakers)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    Intent i = new Intent(getContext(), SpeakerListActivity.class);
+//                    i.putExtra("speaker_id", Sessions.SESSION_MAP.get(mSession.id).speakers.get(position).id);
+//                    i.putExtra("event_id", AgendaListActivity.mEventId);
+//                    startActivity(i);
+//                }
+//            });
         }
 
         return rootView;

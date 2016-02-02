@@ -1,8 +1,10 @@
 package org.shingo.shingoeventsapp.data.speakers;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -52,7 +54,19 @@ public class SpeakersListAdapter extends BaseAdapter {
         Speakers.Speaker item = (Speakers.Speaker) getItem(position);
         img.setImageDrawable(new BitmapDrawable(context.getResources(), item.getRoundPicture()));
         name.setText(item.displayName);
-        title.setText(item.title);
+        title.setText(item.title + ", " + item.company);
+
+        row.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    v.setBackgroundColor(context.getResources().getColor(R.color.colorTransAccent));
+                else if (event.getAction() == MotionEvent.ACTION_UP)
+                    v.setBackgroundColor(Color.TRANSPARENT);
+
+                return false;
+            }
+        });
 
         return row;
     }
