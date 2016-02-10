@@ -6,9 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
-import org.shingo.shingoeventsapp.data.agendas.Agendas;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
-import org.shingo.shingoeventsapp.ui.LoginActivity;
+import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,10 +17,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dustinehoman on 1/19/16.

@@ -8,10 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
-import org.shingo.shingoeventsapp.data.events.Events;
-import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.data.speakers.Speakers;
-import org.shingo.shingoeventsapp.ui.LoginActivity;
+import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;

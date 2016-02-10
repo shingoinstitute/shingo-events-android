@@ -4,7 +4,7 @@
     android:layout_marginRight="16dp" android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="org.shingo.shingoeventsapp.ui.AffiliateListActivity">
+    tools:context=".ui.affiliates.AffiliateListActivity">
 
     <!--
     This layout is a two-pane layout for the Affiliates
@@ -13,7 +13,7 @@
     -->
 
     <fragment android:id="@+id/affiliate_list"
-        android:name="org.shingo.shingoeventsapp.ui.AffiliateListFragment"
+        android:name="org.shingo.shingoeventsapp.ui.affiliates.AffiliateListFragment"
         android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
         tools:layout="@android:layout/list_content" />
 

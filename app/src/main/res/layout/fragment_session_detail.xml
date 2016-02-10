@@ -4,11 +4,11 @@
     <TextView android:id="@+id/session_name"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ui.SessionDetailFragment" />
+        tools:context=".ui.events.SessionDetailFragment" />
     <TextView android:text="@string/title_room"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ui.SessionDetailFragment" />
+        tools:context=".ui.events.SessionDetailFragment" />
     <ImageView
         android:layout_gravity="center_horizontal"
         android:paddingTop="10px"
@@ -19,11 +19,11 @@
     <TextView android:id="@+id/session_room"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ui.SessionDetailFragment" />
+        tools:context=".ui.events.SessionDetailFragment" />
     <TextView android:text="@string/title_abstract"
         style="?android:attr/textAppearanceMedium" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ui.SessionDetailFragment" />
+        tools:context=".ui.events.SessionDetailFragment" />
     <ImageView
         android:layout_gravity="center_horizontal"
         android:paddingTop="10px"
@@ -34,7 +34,7 @@
     <TextView android:id="@+id/session_abstract"
         style="?android:attr/textAppearanceMedium" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ui.SessionDetailFragment" />
+        tools:context=".ui.events.SessionDetailFragment" />
     <ImageView
         android:layout_gravity="center_horizontal"
         android:paddingTop="10px"
@@ -45,9 +45,9 @@
     <TextView android:text="@string/title_speaker_list"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context="org.shingo.shingoeventsapp.ui.SessionDetailFragment" />
+        tools:context=".ui.events.SessionDetailFragment" />
     <LinearLayout android:id="@+id/session_speakers"
         android:layout_width="match_parent" android:layout_margin="@dimen/fab_margin"
         android:layout_height="wrap_content" android:orientation="vertical"
-        tools:context="org.shingo.shingoeventsapp.ui.SessionDetailFragment" />
+        tools:context=".ui.events.SessionDetailFragment" />
 </LinearLayout>

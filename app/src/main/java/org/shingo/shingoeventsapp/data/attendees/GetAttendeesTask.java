@@ -5,9 +5,8 @@ import android.os.AsyncTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.shingo.shingoeventsapp.ui.LoginActivity;
+import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
-import org.shingo.shingoeventsapp.data.attendees.Attendees;
 import org.shingo.shingoeventsapp.data.connections.Connections;
 
 import java.io.BufferedReader;

@@ -1,24 +1,16 @@
 package org.shingo.shingoeventsapp.data.agendas;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
-import org.shingo.shingoeventsapp.data.agendas.Agendas;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
-import org.shingo.shingoeventsapp.data.speakers.Speakers;
-import org.shingo.shingoeventsapp.ui.AgendaListActivity;
-import org.shingo.shingoeventsapp.ui.SessionListActivity;
 
 import java.text.DateFormat;
 import java.text.ParseException;

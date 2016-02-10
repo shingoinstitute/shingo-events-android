@@ -2,5 +2,5 @@
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/agenda_sessions" android:clickable="true"
     style="?android:attr/textAppearanceLarge" android:layout_width="match_parent" android:orientation="vertical"
     android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true" android:dividerPadding="5dp"
-    tools:context="org.shingo.shingoeventsapp.ui.AgendaDetailFragment" android:divider="?android:dividerHorizontal"
+    tools:context=".ui.agendas.AgendaDetailFragment" android:divider="?android:dividerHorizontal"
     android:showDividers="middle"/>
