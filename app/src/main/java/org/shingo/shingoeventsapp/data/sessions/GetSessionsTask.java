@@ -117,6 +117,6 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onCancelled() {
-
+        
     }
 }

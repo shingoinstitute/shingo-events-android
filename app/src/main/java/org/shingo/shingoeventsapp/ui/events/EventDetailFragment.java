@@ -15,6 +15,7 @@ import org.shingo.shingoeventsapp.data.events.Events;
 import org.shingo.shingoeventsapp.ui.MapsActivity;
 import org.shingo.shingoeventsapp.ui.affiliates.AffiliateListActivity;
 import org.shingo.shingoeventsapp.ui.agendas.AgendaListActivity;
+import org.shingo.shingoeventsapp.ui.exhibitors.ExhibitorListActivity;
 
 /**
  * A fragment representing a single Event detail screen.
@@ -33,6 +34,7 @@ public class EventDetailFragment extends Fragment {
      * The Event this fragment is presenting.
      */
     private Events.Event mEvent;
+    public static String mEvent_id;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,14 +48,20 @@ public class EventDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            mEvent = Events.EVENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
+            mEvent_id = getArguments().getString(ARG_ITEM_ID);
+            mEvent = Events.EVENT_MAP.get(mEvent_id);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(mEvent == null){
+            if (getArguments().containsKey(ARG_ITEM_ID)) {
+                mEvent_id = getArguments().getString(ARG_ITEM_ID);
+                mEvent = Events.EVENT_MAP.get(mEvent_id);
+            }
+        }
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
@@ -86,6 +94,12 @@ public class EventDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     navigateTo(AffiliateListActivity.class);
+                }
+            });
+            ((Button)rootView.findViewById(R.id.action_exhibitors)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateTo(ExhibitorListActivity.class);
                 }
             });
         }

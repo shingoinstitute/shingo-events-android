@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.ui.events.EventDetailActivity;
+import org.shingo.shingoeventsapp.ui.events.EventDetailFragment;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
+import org.shingo.shingoeventsapp.ui.events.EventListFragment;
 
 /**
  * An activity representing a list of Affiliates. This activity
@@ -46,6 +49,8 @@ public class AffiliateListActivity extends AppCompatActivity
 
         if(getIntent().getExtras() != null)
             mEventId = getIntent().getExtras().getString("event_id");
+        else
+            mEventId = EventDetailFragment.mEvent_id;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,8 +96,7 @@ public class AffiliateListActivity extends AppCompatActivity
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
             Intent i = new Intent(this, EventListActivity.class);
-            if(mEventId != null)
-                i.putExtra("event_id", mEventId);
+            i.putExtra("event_id", mEventId);
             navigateUpTo(i);
             return true;
         }

@@ -47,10 +47,6 @@ public class EventListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        if(getIntent().getExtras() != null && getIntent().getExtras().containsKey("event_id")){
-            onItemSelected(getIntent().getExtras().getString("event_id"));
-        }
-
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -100,7 +96,10 @@ public class EventListActivity extends AppCompatActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+
+        if(getIntent().getExtras() != null && getIntent().getExtras().containsKey("event_id")){
+            onItemSelected(getIntent().getExtras().getString("event_id"));
+        }
     }
 
 //    @Override
@@ -117,7 +116,6 @@ public class EventListActivity extends AppCompatActivity
      */
     @Override
     public void onItemSelected(String id) {
-        System.out.println("Item selected with id: " + id);
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
@@ -159,7 +157,6 @@ public class EventListActivity extends AppCompatActivity
                 navigateUpTo(i);
                 return true;
             case R.id.action_connect:
-                System.out.println("Connect clicked!");
                 Intent intent = new Intent(this, ConnectionListActivity.class);
                 startActivity(intent);
                 return true;
