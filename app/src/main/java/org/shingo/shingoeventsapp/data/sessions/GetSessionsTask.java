@@ -71,11 +71,18 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
                     JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
                     for(int j = 0; j < jSpeakers.length(); j++){
                         JSONObject jSpeaker = jSpeakers.getJSONObject(j);
-                        URL image = new URL(jSpeaker.getString("Speaker_Image__c"));
-                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
-                        speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
-                                jSpeaker.getString("Name"),jSpeaker.getString("Name"),jSpeaker.getString("Title"),
-                                jSpeaker.getString("Organization"),"",picture));
+                        URL image = null;
+                        if(!jSpeaker.getString("Speaker_Image__c").equals("null")) {
+                            image = new URL(jSpeaker.getString("Speaker_Image__c"));
+                            Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                            speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
+                                    jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
+                                    jSpeaker.getString("Organization"), "", picture));
+                        } else {
+                            speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
+                                    jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
+                                    jSpeaker.getString("Organization"), "", null));
+                        }
                     }
                     Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
                             jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
