@@ -56,11 +56,9 @@ public class EventDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(mEvent == null){
-            if (getArguments().containsKey(ARG_ITEM_ID)) {
-                mEvent_id = getArguments().getString(ARG_ITEM_ID);
-                mEvent = Events.EVENT_MAP.get(mEvent_id);
-            }
+        while(mEvent == null && getArguments().containsKey(ARG_ITEM_ID)){
+            mEvent_id = getArguments().getString(ARG_ITEM_ID);
+            mEvent = Events.EVENT_MAP.get(mEvent_id);
         }
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
