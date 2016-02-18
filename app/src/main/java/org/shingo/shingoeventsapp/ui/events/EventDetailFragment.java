@@ -70,31 +70,31 @@ public class EventDetailFragment extends Fragment {
 
         // Show the Event content as text in a TextView.
         if (mEvent != null) {
-            ((Button) rootView.findViewById(R.id.action_agenda)).setOnClickListener(new View.OnClickListener() {
+            (rootView.findViewById(R.id.action_agenda)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     navigateTo(AgendaListActivity.class);
                 }
             });
-            ((Button) rootView.findViewById(R.id.action_speakers)).setOnClickListener(new View.OnClickListener() {
+            (rootView.findViewById(R.id.action_speakers)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     navigateTo(SpeakerListActivity.class);
                 }
             });
-            ((Button) rootView.findViewById(R.id.action_city_map)).setOnClickListener(new View.OnClickListener() {
+            (rootView.findViewById(R.id.action_city_map)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     navigateTo(MapsActivity.class);
                 }
             });
-            ((Button)rootView.findViewById(R.id.action_affiliates)).setOnClickListener(new View.OnClickListener() {
+            (rootView.findViewById(R.id.action_affiliates)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     navigateTo(AffiliateListActivity.class);
                 }
             });
-            ((Button)rootView.findViewById(R.id.action_exhibitors)).setOnClickListener(new View.OnClickListener() {
+            (rootView.findViewById(R.id.action_exhibitors)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     navigateTo(ExhibitorListActivity.class);

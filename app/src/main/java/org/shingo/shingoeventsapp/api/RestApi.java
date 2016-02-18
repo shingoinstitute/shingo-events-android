@@ -12,6 +12,7 @@ import org.shingo.shingoeventsapp.data.events.GetEventsTask;
 import org.shingo.shingoeventsapp.data.attendees.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.connections.GetConnectionsTask;
 import org.shingo.shingoeventsapp.data.exhibitors.GetExhibitorsTask;
+import org.shingo.shingoeventsapp.data.recipients.GetRecipientsTask;
 import org.shingo.shingoeventsapp.data.sessions.GetSessionTask;
 import org.shingo.shingoeventsapp.data.sessions.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
@@ -81,4 +82,6 @@ public class RestApi {
     }
 
     public GetExhibitorsTask getExhibitors(String id) { return new GetExhibitorsTask(id, mListener); }
+
+    public GetRecipientsTask getRecipients(String id) { return new GetRecipientsTask(id, mListener); }
 }
