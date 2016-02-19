@@ -2,32 +2,45 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <Button
         android:layout_width="@dimen/button_wh" android:layout_height="@dimen/button_wh"
-        android:text="Agenda" android:id="@+id/action_agenda"
-        android:layout_margin="@dimen/fab_margin" />
+        android:id="@+id/action_agenda"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@drawable/schedule_button" />
     <Button
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Speakers" android:id="@+id/action_speakers"
-        android:layout_toRightOf="@+id/action_agenda"/>
+        android:id="@+id/action_speakers"
+        android:layout_toRightOf="@+id/action_agenda"
+        android:background="@drawable/speaker_button" />
     <Button
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:layout_margin="@dimen/fab_margin"
-        android:text="City Map" android:id="@+id/action_city_map"
-        android:layout_below="@id/action_agenda"/>
+        android:id="@+id/action_city_map"
+        android:layout_below="@id/action_agenda"
+        android:background="@drawable/directions_button" />
     <Button
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Affiliates" android:id="@+id/action_affiliates"
+        android:id="@+id/action_affiliates"
         android:layout_below="@id/action_speakers"
-        android:layout_toRightOf="@id/action_city_map"/>
+        android:layout_toRightOf="@id/action_city_map"
+        android:background="@drawable/affiliates_button" />
     <Button
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Exhibitors" android:id="@+id/action_exhibitors"
-        android:layout_below="@id/action_city_map"/>
+        android:id="@+id/action_exhibitors"
+        android:layout_below="@id/action_city_map"
+        android:background="@drawable/exhibitors_button" />
+    <Button
+        android:layout_width="@dimen/button_wh"
+        android:layout_height="@dimen/button_wh"
+        android:layout_margin="@dimen/fab_margin"
+        android:id="@+id/action_recipients"
+        android:layout_below="@id/action_affiliates"
+        android:layout_toRightOf="@id/action_exhibitors"
+        android:background="@drawable/recipients_button" />
 
 </RelativeLayout>

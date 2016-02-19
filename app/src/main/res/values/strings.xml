@@ -53,4 +53,6 @@
     <string name="title_affiliate_detail">Affiliate Detail</string>
     <string name="title_exhibitor_list">Exhibitors</string>
     <string name="title_exhibitor_detail">Exhibitor Detail</string>
+    <string name="title_recipient_list">Recipients</string>
+    <string name="title_recipient_detail">Recipient Detail</string>
 </resources>
