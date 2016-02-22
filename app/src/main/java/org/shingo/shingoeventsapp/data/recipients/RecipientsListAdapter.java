@@ -20,11 +20,11 @@ import java.util.List;
  */
 public class RecipientsListAdapter <T> extends BaseAdapter {
 
-    private List<T> data;
+    private List<Object> data;
     private Context context;
     private static LayoutInflater inflater;
 
-    public RecipientsListAdapter(Context context, List<T> data){
+    public RecipientsListAdapter(Context context, List<Object> data){
         this.context = context;
         this.data = data;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

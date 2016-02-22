@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,8 +29,10 @@ import org.shingo.shingoeventsapp.data.recipients.Recipients;
 import org.shingo.shingoeventsapp.data.recipients.RecipientsListAdapter;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An activity representing a list of Recipients. This activity
@@ -46,6 +49,8 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
      * device.
      */
     private boolean mTwoPane;
+
+    public static String mEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +75,10 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        mEvent = getIntent().getExtras().getString("event_id");
+
         RestApi rest = new RestApi(this, this);
-        GetRecipientsTask getRecipientsTask = rest.getRecipients(getIntent().getExtras().getString("event_id"));
+        GetRecipientsTask getRecipientsTask = rest.getRecipients(mEvent);
         getRecipientsTask.execute((Void) null);
 
         if (findViewById(R.id.recipient_detail_container) != null) {
@@ -95,7 +102,7 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
             Intent i = new Intent(this, EventListActivity.class);
-            i.putExtra("event_id", getIntent().getExtras().getString("event_id"));
+            i.putExtra("event_id", mEvent);
             navigateUpTo(i);
             return true;
         }
@@ -106,37 +113,69 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
     public void onTaskComplete() {
         Collections.sort(Recipients.AWARD_RECIPIENTS);
         Collections.sort(Recipients.RESEARCH_RECIPIENTS);
-        //ListView awardRecipients = (ListView)findViewById(R.id.award_recipient_list);
-        //awardRecipients.setAdapter(new RecipientsListAdapter<>(this, Recipients.AWARD_RECIPIENTS));
-        //ListView researchRecipients = (ListView)findViewById(R.id.research_recipient_list);
-        //researchRecipients.setAdapter(new RecipientsListAdapter<>(this, Recipients.RESEARCH_RECIPIENTS));
+        List<Object> list = new ArrayList<Object>(Recipients.AWARD_RECIPIENTS);
+        list.addAll(Recipients.RESEARCH_RECIPIENTS);
 
-        final LinearLayout awardRecipients = (LinearLayout)findViewById(R.id.award_recipient_list);
-        final RecipientsListAdapter listAdapter = new RecipientsListAdapter<>(this, Recipients.AWARD_RECIPIENTS);
 
-        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        layoutParams.setMargins(10, 10, 10, 10);
-
-        Runnable runnable = new Runnable() {
+        ListView recipients = (ListView)findViewById(R.id.recipient_list);
+        recipients.setAdapter(new RecipientsListAdapter<>(this, list));
+        recipients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void run() {
-                for(int i = 0; i < listAdapter.getCount(); i++) {
-                    View item = listAdapter.getView(i,null,null);
-                    final int position = i;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position < Recipients.AWARD_RECIPIENTS.size()){
+                    if (mTwoPane) {
+                        // In two-pane mode, show the detail view in this activity by
+                        // adding or replacing the detail fragment using a
+                        // fragment transaction.
+                        Bundle arguments = new Bundle();
+                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position).id);
+                        arguments.putString("recipient_type", "award");
+                        RecipientDetailFragment fragment = new RecipientDetailFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.event_detail_container, fragment)
+                                .commit();
 
-//            item.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                }
-//            });
-                    awardRecipients.addView(item,layoutParams);
+                    } else {
+                        // In single-pane mode, simply start the detail activity
+                        // for the selected item ID.
+                        startRecipientDetailActivity(position, 0);
+                    }
+                } else {
+                    if (mTwoPane) {
+                        // In two-pane mode, show the detail view in this activity by
+                        // adding or replacing the detail fragment using a
+                        // fragment transaction.
+                        Bundle arguments = new Bundle();
+                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - Recipients.AWARD_RECIPIENTS.size()).id);
+                        arguments.putString("recipient_type", "research");
+                        RecipientDetailFragment fragment = new RecipientDetailFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.event_detail_container, fragment)
+                                .commit();
+
+                    } else {
+                        // In single-pane mode, simply start the detail activity
+                        // for the selected item ID.
+                        startRecipientDetailActivity(position - Recipients.AWARD_RECIPIENTS.size(), 1);
+                    }
                 }
-                awardRecipients.invalidate();
             }
-        };
-        runOnUiThread(runnable);
+        });
+
+    }
+
+    private void startRecipientDetailActivity(int position, int type)
+    {
+        Intent detailIntent = new Intent(this, RecipientDetailActivity.class);
+        if(type == 0) {
+            detailIntent.putExtra(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position).id);
+            detailIntent.putExtra("recipient_type", "award");
+        } else {
+            detailIntent.putExtra(RecipientDetailFragment.ARG_ITEM_ID, Recipients.RESEARCH_RECIPIENTS.get(position).id);
+            detailIntent.putExtra("recipient_type", "research");
+        }
+        startActivity(detailIntent);
     }
 }

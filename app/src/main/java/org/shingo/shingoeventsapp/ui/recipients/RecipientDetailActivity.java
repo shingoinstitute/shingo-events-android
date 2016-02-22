@@ -59,6 +59,7 @@ public class RecipientDetailActivity extends AppCompatActivity {
                     getIntent().getStringExtra(RecipientDetailFragment.ARG_ITEM_ID));
             RecipientDetailFragment fragment = new RecipientDetailFragment();
             fragment.setArguments(arguments);
+            arguments.putString("recipient_type", getIntent().getExtras().getString("recipient_type"));
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipient_detail_container, fragment)
                     .commit();
@@ -75,7 +76,9 @@ public class RecipientDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, RecipientListActivity.class));
+            Intent i = new Intent(this, RecipientListActivity.class);
+            i.putExtra("event_id", RecipientListActivity.mEvent);
+            navigateUpTo(new Intent(i));
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -18,7 +18,7 @@ import org.shingo.shingoeventsapp.data.recipients.Recipients;
  * in two-pane mode (on tablets) or a {@link RecipientDetailActivity}
  * on handsets.
  */
-public class RecipientDetailFragment<T> extends Fragment {
+public class RecipientDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -28,7 +28,7 @@ public class RecipientDetailFragment<T> extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private T mItem;
+    private Object mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,10 +45,10 @@ public class RecipientDetailFragment<T> extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            if(mItem instanceof Recipients.AwardRecipient) {
-                mItem = (T)Recipients.AWARD_RECIPIENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
-            } else if(mItem instanceof Recipients.ResearchRecipient){
-                mItem = (T)Recipients.RESEARCH_RECIPIENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            if(getArguments().getString("recipient_type").equals("award")) {
+                mItem = Recipients.AWARD_RECIPIENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            } else {
+                mItem = Recipients.RESEARCH_RECIPIENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
             }
 
             Activity activity = this.getActivity();
