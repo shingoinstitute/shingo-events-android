@@ -32,7 +32,6 @@ import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * An activity representing a list of Recipients. This activity
@@ -117,18 +116,23 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         list.addAll(Recipients.RESEARCH_RECIPIENTS);
 
 
-        ListView recipients = (ListView)findViewById(R.id.recipient_list);
-        recipients.setAdapter(new RecipientsListAdapter<>(this, list));
+        final ListView recipients = (ListView)findViewById(R.id.recipient_list);
+        final RecipientsListAdapter adapter = new RecipientsListAdapter(this);
+        adapter.addSectionHeaderItem("Prize Challengers");
+        adapter.addAllItems(Recipients.AWARD_RECIPIENTS);
+        adapter.addSectionHeaderItem("Research Recipients");
+        adapter.addAllItems(Recipients.RESEARCH_RECIPIENTS);
+        recipients.setAdapter(adapter);
         recipients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position < Recipients.AWARD_RECIPIENTS.size()){
+                if(position < Recipients.AWARD_RECIPIENTS.size() + 1 && adapter.getItemViewType(position) == 0){
                     if (mTwoPane) {
                         // In two-pane mode, show the detail view in this activity by
                         // adding or replacing the detail fragment using a
                         // fragment transaction.
                         Bundle arguments = new Bundle();
-                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position).id);
+                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - 1).id);
                         arguments.putString("recipient_type", "award");
                         RecipientDetailFragment fragment = new RecipientDetailFragment();
                         fragment.setArguments(arguments);
@@ -139,15 +143,15 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
                     } else {
                         // In single-pane mode, simply start the detail activity
                         // for the selected item ID.
-                        startRecipientDetailActivity(position, 0);
+                        startRecipientDetailActivity(position - 1, 0);
                     }
-                } else {
+                } else if (adapter.getItemViewType(position) == 0 && position > Recipients.AWARD_RECIPIENTS.size() + 1) {
                     if (mTwoPane) {
                         // In two-pane mode, show the detail view in this activity by
                         // adding or replacing the detail fragment using a
                         // fragment transaction.
                         Bundle arguments = new Bundle();
-                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - Recipients.AWARD_RECIPIENTS.size()).id);
+                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - (Recipients.AWARD_RECIPIENTS.size() + 2)).id);
                         arguments.putString("recipient_type", "research");
                         RecipientDetailFragment fragment = new RecipientDetailFragment();
                         fragment.setArguments(arguments);
@@ -158,7 +162,7 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
                     } else {
                         // In single-pane mode, simply start the detail activity
                         // for the selected item ID.
-                        startRecipientDetailActivity(position - Recipients.AWARD_RECIPIENTS.size(), 1);
+                        startRecipientDetailActivity(position - (Recipients.AWARD_RECIPIENTS.size() + 2), 1);
                     }
                 }
             }

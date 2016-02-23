@@ -219,6 +219,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.ui.recipients.RecipientListActivity" />
         </activity>
+        <activity
+            android:name=".ui.sponsors.SponsorListActivity"
+            android:label="@string/title_sponsor_list"
+            android:parentActivityName=".ui.events.EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.events.EventListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.sponsors.SponsorDetailActivity"
+            android:label="@string/title_sponsor_detail"
+            android:parentActivityName=".ui.sponsors.SponsorListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.sponsors.SponsorListActivity" />
+        </activity>
     </application>
 
 </manifest>

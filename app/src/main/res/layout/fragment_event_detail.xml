@@ -42,5 +42,12 @@
         android:layout_below="@id/action_affiliates"
         android:layout_toRightOf="@id/action_exhibitors"
         android:background="@drawable/recipients_button" />
+    <Button
+        android:layout_width="@dimen/button_wh"
+        android:layout_height="@dimen/button_wh"
+        android:layout_margin="@dimen/fab_margin"
+        android:id="@+id/action_sponsors"
+        android:layout_below="@id/action_exhibitors"
+        android:background="@drawable/sponsors_button" />
 
 </RelativeLayout>

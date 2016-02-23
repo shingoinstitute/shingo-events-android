@@ -3,6 +3,7 @@ package org.shingo.shingoeventsapp.data.recipients;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,14 @@ public class Recipients {
 
     public static List<ResearchRecipient> RESEARCH_RECIPIENTS = new ArrayList<>();
     public static Map<String,ResearchRecipient> RESEARCH_RECIPIENT_MAP = new HashMap<>();
+
+    public static Date refresh;
+
+    public static boolean needsRefresh(){
+        if(refresh == null) return true;
+        Date now = new Date();
+        return now.after(new Date(refresh.getTime() + (20 * 60000)));
+    }
 
     public static void addAwardRecipient(AwardRecipient awardRecipient){
         if(AWARD_RECIPIENT_MAP.get(awardRecipient.id) == null){
@@ -37,6 +46,7 @@ public class Recipients {
         AWARD_RECIPIENTS.clear();
         RESEARCH_RECIPIENT_MAP.clear();
         RESEARCH_RECIPIENTS.clear();
+        refresh = new Date();
     }
 
     public static class AwardRecipient implements Comparable<AwardRecipient> {

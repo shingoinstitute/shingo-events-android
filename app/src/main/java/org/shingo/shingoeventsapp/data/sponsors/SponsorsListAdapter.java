@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.data.recipients;
+package org.shingo.shingoeventsapp.data.sponsors;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.data.recipients.Recipients;
+import org.shingo.shingoeventsapp.data.recipients.RecipientsListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.TreeSet;
 /**
  * Created by dustinehoman on 2/1/16.
  */
-public class RecipientsListAdapter extends BaseAdapter {
+public class SponsorsListAdapter extends BaseAdapter {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -30,7 +32,7 @@ public class RecipientsListAdapter extends BaseAdapter {
     private Context context;
     private static LayoutInflater inflater;
 
-    public RecipientsListAdapter(Context context){
+    public SponsorsListAdapter(Context context){
         this.context = context;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -102,18 +104,9 @@ public class RecipientsListAdapter extends BaseAdapter {
 
         if(holder instanceof ContentHolder) {
             Object item = getItem(position);
-            if (item instanceof Recipients.AwardRecipient) {
-                Recipients.AwardRecipient recipient = (Recipients.AwardRecipient) item;
-                ((ContentHolder)holder).image.setImageDrawable(new BitmapDrawable(context.getResources(), recipient.logo));
-                ((ContentHolder)holder).name.setText(recipient.name);
-                ((ContentHolder)holder).detail.setText(recipient.award);
-            } else if (item instanceof Recipients.ResearchRecipient) {
-                Recipients.ResearchRecipient recipient = (Recipients.ResearchRecipient) item;
-                ((ContentHolder)holder).image.setImageDrawable(new BitmapDrawable(context.getResources(), recipient.cover));
-                ((ContentHolder)holder).name.setText(recipient.book);
-                ((ContentHolder)holder).detail.setText(recipient.author);
-            }
-
+            ((ContentHolder) holder).image.setImageDrawable(new BitmapDrawable(context.getResources(), ((Sponsors.Sponsor)item).logo));
+            ((ContentHolder) holder).name.setText(((Sponsors.Sponsor) item).name);
+            ((ContentHolder) holder).detail.setText(((Sponsors.Sponsor) item).level);
 
             convertView.setOnTouchListener(new View.OnTouchListener() {
                 @Override

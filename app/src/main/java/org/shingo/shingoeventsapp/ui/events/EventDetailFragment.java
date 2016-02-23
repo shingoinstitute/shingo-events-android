@@ -17,6 +17,7 @@ import org.shingo.shingoeventsapp.ui.affiliates.AffiliateListActivity;
 import org.shingo.shingoeventsapp.ui.agendas.AgendaListActivity;
 import org.shingo.shingoeventsapp.ui.exhibitors.ExhibitorListActivity;
 import org.shingo.shingoeventsapp.ui.recipients.RecipientListActivity;
+import org.shingo.shingoeventsapp.ui.sponsors.SponsorListActivity;
 
 /**
  * A fragment representing a single Event detail screen.
@@ -105,6 +106,12 @@ public class EventDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     navigateTo(RecipientListActivity.class);
+                }
+            });
+            (rootView.findViewById(R.id.action_sponsors)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateTo(SponsorListActivity.class);
                 }
             });
         }

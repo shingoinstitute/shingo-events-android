@@ -61,7 +61,7 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
             JSONObject response = new JSONObject(output);
             System.out.println("Exhibitors: " + output);
             success = response.getBoolean("success");
-            if (success) {
+            if (success && Recipients.needsRefresh()) {
                 Recipients.clear();
                 JSONArray jAwardRecipients = response.getJSONObject("award_recipients").getJSONArray("records");
                 for(int i = 0; i < jAwardRecipients.length(); i++){

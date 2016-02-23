@@ -55,4 +55,6 @@
     <string name="title_exhibitor_detail">Exhibitor Detail</string>
     <string name="title_recipient_list">Recipients</string>
     <string name="title_recipient_detail">Recipient Detail</string>
+    <string name="title_sponsor_list">Sponsors</string>
+    <string name="title_sponsor_detail">Sponsor Detail</string>
 </resources>
