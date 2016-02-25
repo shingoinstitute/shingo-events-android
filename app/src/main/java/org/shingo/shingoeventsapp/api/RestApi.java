@@ -18,6 +18,7 @@ import org.shingo.shingoeventsapp.data.sessions.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.events.RegIdTask;
 import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
+import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 
 /**
  * Created by dustinehoman on 1/8/16.
@@ -87,4 +88,6 @@ public class RestApi {
     public GetRecipientsTask getRecipients(String id) { return new GetRecipientsTask(id, mListener); }
 
     public GetSponsorsTask getSponsors(String id) { return new GetSponsorsTask(id, mListener); }
+
+    public GetVenueMapsTask getVenueMaps(String id) { return new GetVenueMapsTask(id, mListener); }
 }

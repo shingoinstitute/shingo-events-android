@@ -3,6 +3,7 @@ package org.shingo.shingoeventsapp.data.exhibitors;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,14 @@ public class Exhibitors {
 
     public static Map<String, Exhibitor> EXHIBITOR_MAP = new HashMap<>();
 
+    public static Date refresh;
+
+    public static boolean needsRefresh(){
+        if(refresh == null) return true;
+        Date now = new Date();
+        return now.after(new Date(refresh.getTime() + (20 * 60000)));
+    }
+
     public static void addExhibitor(Exhibitor exhibitor){
         if(EXHIBITOR_MAP.get(exhibitor.id) == null){
             EXHIBITORS.add(exhibitor);
@@ -26,6 +35,7 @@ public class Exhibitors {
     public static void clear(){
         EXHIBITORS.clear();
         EXHIBITOR_MAP.clear();
+        refresh = new Date();
     }
 
     public static class Exhibitor implements Comparable<Exhibitor>{

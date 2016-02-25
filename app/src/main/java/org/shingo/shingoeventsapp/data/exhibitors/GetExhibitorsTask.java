@@ -39,6 +39,7 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetExhibitorsTask.doInBackground called");
         boolean success = false;
+        if(!Exhibitors.needsRefresh()) return true;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "="
                     + URLEncoder.encode(mEvent, "UTF-8");

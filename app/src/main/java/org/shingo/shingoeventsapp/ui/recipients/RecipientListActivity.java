@@ -60,14 +60,6 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -126,6 +118,7 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         recipients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setBackgroundColor(getResources().getColor(R.color.colorTransAccent));
                 if(position < Recipients.AWARD_RECIPIENTS.size() + 1 && adapter.getItemViewType(position) == 0){
                     if (mTwoPane) {
                         // In two-pane mode, show the detail view in this activity by

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.events.Events;
@@ -18,6 +17,7 @@ import org.shingo.shingoeventsapp.ui.agendas.AgendaListActivity;
 import org.shingo.shingoeventsapp.ui.exhibitors.ExhibitorListActivity;
 import org.shingo.shingoeventsapp.ui.recipients.RecipientListActivity;
 import org.shingo.shingoeventsapp.ui.sponsors.SponsorListActivity;
+import org.shingo.shingoeventsapp.ui.venuemaps.VenueMapsActivity;
 
 /**
  * A fragment representing a single Event detail screen.
@@ -112,6 +112,12 @@ public class EventDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     navigateTo(SponsorListActivity.class);
+                }
+            });
+            (rootView.findViewById(R.id.action_venue_maps)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateTo(VenueMapsActivity.class);
                 }
             });
         }

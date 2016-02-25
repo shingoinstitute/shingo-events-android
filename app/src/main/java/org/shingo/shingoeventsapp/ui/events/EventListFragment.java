@@ -42,11 +42,15 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
 
     @Override
     public void onTaskComplete() {
-        setListAdapter(new ArrayAdapter<Events.Event>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                Events.EVENTS));
+        try {
+            setListAdapter(new ArrayAdapter<Events.Event>(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    Events.EVENTS));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

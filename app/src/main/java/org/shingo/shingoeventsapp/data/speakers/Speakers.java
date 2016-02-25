@@ -6,6 +6,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,14 @@ public class Speakers {
 
     public static Map<String, Speaker> SPEAKER_MAP = new HashMap<>();
 
+    public static Date refresh;
+
+    public static boolean needsRefresh(){
+        if(refresh == null) return true;
+        Date now = new Date();
+        return now.after(new Date(refresh.getTime() + (20 * 60000)));
+    }
+
     public static void addSpeaker(Speaker speaker){
         if(SPEAKER_MAP.get(speaker.id) == null){
             SPEAKERS.add(speaker);
@@ -29,6 +38,7 @@ public class Speakers {
     public static void clear(){
         SPEAKERS.clear();
         SPEAKER_MAP.clear();
+        refresh = new Date();
     }
 
     public static class Speaker implements Comparable<Speaker>{

@@ -41,6 +41,7 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
         // TODO: attempt authentication against a network service.
         System.out.println("GetSpeakersTask.doInBackground called");
         boolean success = false;
+        if(!Speakers.needsRefresh()) return true;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
             URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/speakers?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);

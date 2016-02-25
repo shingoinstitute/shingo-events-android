@@ -237,6 +237,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.shingo.shingoeventsapp.ui.sponsors.SponsorListActivity" />
         </activity>
+        <activity
+            android:name=".ui.venuemaps.VenueMapsActivity"
+            android:label="@string/title_activity_venue_maps"
+            android:parentActivityName=".ui.events.EventListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.shingo.shingoeventsapp.ui.events.EventListActivity" />
+        </activity>
     </application>
 
 </manifest>
