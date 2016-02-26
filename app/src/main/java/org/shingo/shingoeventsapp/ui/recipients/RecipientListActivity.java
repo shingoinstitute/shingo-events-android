@@ -51,6 +51,8 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
 
     public static String mEvent;
 
+    private LinearLayout pb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +69,13 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         }
 
         mEvent = getIntent().getExtras().getString("event_id");
+        pb = (LinearLayout)findViewById(R.id.recipient_pb);
 
         RestApi rest = new RestApi(this, this);
         GetRecipientsTask getRecipientsTask = rest.getRecipients(mEvent);
         getRecipientsTask.execute((Void) null);
+
+        pb.setVisibility(View.VISIBLE);
 
         if (findViewById(R.id.recipient_detail_container) != null) {
             // The detail container view will be present only in the
@@ -161,6 +166,7 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
             }
         });
 
+        pb.setVisibility(View.GONE);
     }
 
     private void startRecipientDetailActivity(int position, int type)

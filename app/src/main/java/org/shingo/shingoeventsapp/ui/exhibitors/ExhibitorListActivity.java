@@ -1,21 +1,14 @@
 package org.shingo.shingoeventsapp.ui.exhibitors;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
@@ -48,6 +41,7 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
     private boolean mTwoPane;
 
     public static String mEvent_id;
+    private LinearLayout pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +59,11 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
         }
 
         mEvent_id = getIntent().getExtras().getString("event_id");
-
+        pb = (LinearLayout)findViewById(R.id.exhibitor_pb);
         RestApi api = new RestApi(this, this);
         GetExhibitorsTask getExhibitorsTask = api.getExhibitors(mEvent_id);
         getExhibitorsTask.execute((Void) null);
-
+        pb.setVisibility(View.VISIBLE);
         if (findViewById(R.id.exhibitor_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -136,5 +130,6 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
         View recyclerView = findViewById(R.id.exhibitor_list);
         assert recyclerView != null;
         setupRecyclerView((ListView) recyclerView);
+        pb.setVisibility(View.GONE);
     }
 }

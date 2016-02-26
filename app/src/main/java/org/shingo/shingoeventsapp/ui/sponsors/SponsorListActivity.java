@@ -13,7 +13,9 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import android.support.v7.app.ActionBar;
@@ -47,6 +49,8 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
     private boolean mTwoPane;
     public static String mEvent;
 
+    private LinearLayout pb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +67,12 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
         }
 
         mEvent = getIntent().getExtras().getString("event_id");
+        pb = (LinearLayout)findViewById(R.id.sponsor_pb);
 
         RestApi api = new RestApi(this, this);
         GetSponsorsTask getSponsorsTask = api.getSponsors(mEvent);
         getSponsorsTask.execute((Void) null);
+        pb.setVisibility(View.VISIBLE);
 
         if (findViewById(R.id.sponsor_detail_container) != null) {
             // The detail container view will be present only in the
@@ -131,6 +137,6 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
             adapter.addAllItems(friends);
             list.setAdapter(adapter);
         }
-
+        pb.setVisibility(View.GONE);
     }
 }

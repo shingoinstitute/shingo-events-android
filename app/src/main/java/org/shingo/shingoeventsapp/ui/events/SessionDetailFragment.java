@@ -1,6 +1,7 @@
 package org.shingo.shingoeventsapp.ui.events;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
@@ -100,6 +101,8 @@ public class SessionDetailFragment extends Fragment {
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ProgressDialog pd = new ProgressDialog(getContext());
+                        pd.show();
                         String sId = Sessions.SESSION_MAP.get(mSession.id).speakers.get(position).id;
                         Bundle args = new Bundle();
                         args.putString("speaker_id", sId);
@@ -107,6 +110,7 @@ public class SessionDetailFragment extends Fragment {
                         Intent i = new Intent(getContext(), SpeakerListActivity.class);
                         i.putExtras(args);
                         startActivity(i);
+                        pd.dismiss();
                     }
                 });
                 sessions.addView(item,layoutParams);

@@ -1,5 +1,6 @@
 package org.shingo.shingoeventsapp.ui.venuemaps;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
@@ -42,6 +44,7 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
      */
     private ViewPager mViewPager;
     private String mEvent;
+    private ProgressDialog pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +58,13 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mEvent = getIntent().getExtras().getString("event_id");
-
+        pb = new ProgressDialog(this);
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         RestApi api = new RestApi(this, this);
         GetVenueMapsTask getVenueMapsTask = api.getVenueMaps(mEvent);
         getVenueMapsTask.execute((Void) null);
+        pb.show();
     }
 
 
@@ -86,6 +90,7 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
     @Override
     public void onTaskComplete() {
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        pb.dismiss();
     }
 
     /**

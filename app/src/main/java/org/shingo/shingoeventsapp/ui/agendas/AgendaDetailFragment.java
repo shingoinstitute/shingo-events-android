@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
@@ -38,6 +39,7 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
      */
     private Agendas.Day mDay;
     private View rootView;
+    private LinearLayout progressBar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -61,6 +63,9 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mDay.toString());
             }
+
+            progressBar = (LinearLayout)activity.findViewById(R.id.agenda_progress);
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -98,30 +103,20 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    progressBar.setVisibility(View.VISIBLE);
                     String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
                     Bundle args = new Bundle();
                     args.putString("session_id", sId);
                     args.putString("event_id", AgendaListActivity.mEventId);
+                    args.putString("day_id", mDay.id);
                     Intent i = new Intent(getContext(), SessionListActivity.class);
                     i.putExtras(args);
                     startActivity(i);
+                    progressBar.setVisibility(View.GONE);
                 }
             });
             sessions.addView(item,layoutParams);
         }
-//        sessions.setAdapter(new SessionsListAdapter(getContext(),
-//                Agendas.AGENDA_MAP.get(mDay.id).sessions));
-//        sessions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
-//                Bundle args = new Bundle();
-//                args.putString("session_id", sId);
-//                args.putString("event_id", AgendaListActivity.mEventId);
-//                Intent i = new Intent(getContext(), SessionListActivity.class);
-//                i.putExtras(args);
-//                startActivity(i);
-//            }
-//        });
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

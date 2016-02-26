@@ -61,6 +61,9 @@ public class Speakers {
             if(displayName.isEmpty()){
                 this.displayName = name;
             }
+            if(title.equals("null")) this.title = "";
+            if(company.equals("null")) this.company = "";
+            if(bio.equals("null")) this.bio = "";
         }
 
         public Bitmap getRoundPicture(){

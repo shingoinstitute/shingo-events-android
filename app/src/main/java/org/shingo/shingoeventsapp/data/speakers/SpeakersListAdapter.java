@@ -54,7 +54,10 @@ public class SpeakersListAdapter extends BaseAdapter {
         Speakers.Speaker item = (Speakers.Speaker) getItem(position);
         img.setImageDrawable(new BitmapDrawable(context.getResources(), item.getRoundPicture()));
         name.setText(item.displayName);
-        title.setText(item.title + ", " + item.company);
+        if(!item.company.equals(""))
+            title.setText(item.title + ", " + item.company);
+        else
+            title.setText(item.title);
 
         row.setOnTouchListener(new View.OnTouchListener() {
             @Override

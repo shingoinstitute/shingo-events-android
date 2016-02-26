@@ -51,11 +51,9 @@ public class ExhibitorsListAdapter extends BaseAdapter {
         View row = inflater.inflate(R.layout.img_adapter_row, parent, false);
         ImageView img = (ImageView)row.findViewById(R.id.list_image);
         TextView name = (TextView)row.findViewById(R.id.list_name);
-        TextView title = (TextView)row.findViewById(R.id.list_title);
         Exhibitors.Exhibitor item = (Exhibitors.Exhibitor) getItem(position);
         img.setImageDrawable(new BitmapDrawable(context.getResources(), item.logo));
         name.setText(item.name);
-        title.setText(item.website);
 
         row.setOnTouchListener(new View.OnTouchListener() {
             @Override

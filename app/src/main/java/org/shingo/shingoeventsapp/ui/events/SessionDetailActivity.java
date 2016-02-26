@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.ui.agendas.AgendaListActivity;
 
 /**
  * An activity representing a single Session detail screen. This
@@ -23,6 +24,7 @@ import org.shingo.shingoeventsapp.R;
 public class SessionDetailActivity extends AppCompatActivity {
 
     private String mEventId;
+    private String mDayId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class SessionDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mEventId = getIntent().getExtras().getString("event_id");
+
+        if(getIntent().getExtras().containsKey("day_id"))
+            mDayId = getIntent().getExtras().getString("day_id");
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,8 +74,9 @@ public class SessionDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            Intent i = new Intent(this, SessionListActivity.class);
+            Intent i = new Intent(this, AgendaListActivity.class);
             i.putExtra("event_id", mEventId);
+            if(mDayId != null) i.putExtra("day_id", mDayId);
             navigateUpTo(i);
             return true;
         }

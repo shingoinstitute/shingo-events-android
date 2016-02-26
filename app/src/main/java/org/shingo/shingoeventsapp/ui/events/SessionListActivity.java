@@ -102,6 +102,7 @@ public class SessionListActivity extends AppCompatActivity
             Bundle arguments = new Bundle();
             arguments.putString(SessionDetailFragment.ARG_ITEM_ID, id);
             arguments.putString("event_id",eventId);
+            arguments.putString("day_id", getIntent().getExtras().getString("day_id"));
             SessionDetailFragment fragment = new SessionDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -114,6 +115,7 @@ public class SessionListActivity extends AppCompatActivity
             Intent detailIntent = new Intent(this, SessionDetailActivity.class);
             detailIntent.putExtra(SessionDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra("event_id", eventId);
+            detailIntent.putExtra("day_id", getIntent().getExtras().getString("day_id"));
             startActivity(detailIntent);
         }
     }

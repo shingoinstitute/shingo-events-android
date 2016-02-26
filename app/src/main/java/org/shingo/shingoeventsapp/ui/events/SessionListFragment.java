@@ -43,12 +43,16 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
 
     @Override
     public void onTaskComplete() {
-        setListAdapter(new ArrayAdapter<Sessions.Session>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                Sessions.SESSIONS));
-        setListAdapter(new SessionsListAdapter(getContext(),Sessions.SESSIONS));
+        try {
+            setListAdapter(new ArrayAdapter<Sessions.Session>(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    Sessions.SESSIONS));
+            setListAdapter(new SessionsListAdapter(getContext(), Sessions.SESSIONS));
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     /**

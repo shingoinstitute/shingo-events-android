@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:layoutManager="LinearLayoutManager"
-    android:id="@+id/recipient_list"
+    tools:context="org.shingo.shingoeventsapp.ui.exhibitors.ExhibitorListActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <LinearLayout android:id="@+id/recipient_pb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
+    <ListView
+        android:id="@+id/recipient_list"
+        android:name="org.shingo.shingoeventsapp.ui.exhibitors.ExhibitorListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:listitem="@layout/exhibitor_list_content" />
+</LinearLayout>
