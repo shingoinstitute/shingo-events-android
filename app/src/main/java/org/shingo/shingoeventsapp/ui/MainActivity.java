@@ -29,14 +29,21 @@ public class MainActivity extends AppCompatActivity {
         events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startEvents();
+                startThisActivity(EventListActivity.class);
+            }
+        });
+
+        (findViewById(R.id.action_model)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startThisActivity(ModelActivity.class);
             }
         });
 
     }
 
-    private void startEvents(){
-        Intent i = new Intent(this, EventListActivity.class);
+    private void startThisActivity(Class dest){
+        Intent i = new Intent(this, dest);
         startActivity(i);
     }
 

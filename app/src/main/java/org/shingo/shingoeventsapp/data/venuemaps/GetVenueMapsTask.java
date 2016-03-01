@@ -45,16 +45,21 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
         boolean success = true;
         if(VenueMaps.needsRefresh()) {
             VenueMaps.clear();
-            for (Events.Event.VenueMaps vm : Events.EVENT_MAP.get(mEvent).venueMaps) {
-                try {
-                    URL url = new URL(vm.url);
-                    Bitmap map = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                    VenueMaps.addMap(new VenueMaps.VMap(vm.name, map));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    success = false;
-                    break;
+            try {
+                for (Events.Event.VenueMaps vm : Events.EVENT_MAP.get(mEvent).venueMaps) {
+                    try {
+                        URL url = new URL(vm.url);
+                        Bitmap map = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                        VenueMaps.addMap(new VenueMaps.VMap(vm.name, map));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        success = false;
+                        break;
+                    }
                 }
+            } catch(NullPointerException e){
+                e.printStackTrace();
+                return false;
             }
         }
 

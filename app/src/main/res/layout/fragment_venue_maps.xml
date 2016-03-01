@@ -15,9 +15,16 @@
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="#000000" android:textStyle="bold"
         android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/section_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <org.shingo.shingoeventsapp.ui.ZoomView
+            android:id="@+id/section_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter" />
+    </ScrollView>
+
 
 </LinearLayout>

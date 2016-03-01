@@ -25,6 +25,7 @@ import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 import org.shingo.shingoeventsapp.data.venuemaps.VenueMaps;
+import org.shingo.shingoeventsapp.ui.ZoomView;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
 public class VenueMapsActivity extends AppCompatActivity implements OnTaskComplete{
@@ -126,7 +127,7 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
             View rootView = inflater.inflate(R.layout.fragment_venue_maps, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(map.name);
-            ImageView imageView = (ImageView) rootView.findViewById(R.id.section_image);
+            ZoomView imageView = (ZoomView) rootView.findViewById(R.id.section_image);
             imageView.setImageDrawable(new BitmapDrawable(getResources(), map.map));
             return rootView;
         }
