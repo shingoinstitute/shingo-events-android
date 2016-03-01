@@ -107,11 +107,8 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
 
     @Override
     public void onTaskComplete() {
-        Collections.sort(Recipients.AWARD_RECIPIENTS);
+        Collections.sort(Recipients.AWARD_RECIPIENTS, Collections.reverseOrder());
         Collections.sort(Recipients.RESEARCH_RECIPIENTS);
-        List<Object> list = new ArrayList<Object>(Recipients.AWARD_RECIPIENTS);
-        list.addAll(Recipients.RESEARCH_RECIPIENTS);
-
 
         final ListView recipients = (ListView)findViewById(R.id.recipient_list);
         final RecipientsListAdapter adapter = new RecipientsListAdapter(this);

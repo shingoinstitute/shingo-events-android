@@ -56,6 +56,8 @@ public class Sessions {
             this.startTime = date + " " + time.split("-")[0];
             this.endTime = date + " " + time.split("-")[1];
             this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+            if(sAbstract.equals("null")) this.sAbstract = "";
+
         }
 
         public Session(String id, String name, String startTime, String endTime){

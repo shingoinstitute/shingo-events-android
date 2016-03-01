@@ -59,6 +59,7 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mEvent = getIntent().getExtras().getString("event_id");
         pb = new ProgressDialog(this);
+        pb.setMessage("Loading Images...");
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         RestApi api = new RestApi(this, this);

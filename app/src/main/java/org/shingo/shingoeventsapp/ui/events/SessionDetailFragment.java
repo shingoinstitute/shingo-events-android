@@ -86,7 +86,7 @@ public class SessionDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.session_abstract)).setText(mSession.sAbstract);
             LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.session_speakers);
             SpeakersListAdapter listAdapter = new SpeakersListAdapter(getContext(),
-                    Sessions.SESSION_MAP.get(mSession.id).speakers);
+                    Sessions.SESSION_MAP.get(mSession.id).speakers, true);
             Collections.sort(Sessions.SESSION_MAP.get(mSession.id).speakers);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(

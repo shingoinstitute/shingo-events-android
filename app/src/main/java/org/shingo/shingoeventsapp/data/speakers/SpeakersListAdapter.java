@@ -23,11 +23,13 @@ public class SpeakersListAdapter extends BaseAdapter {
     private List<Speakers.Speaker> data;
     private Context context;
     private static LayoutInflater inflater;
+    private boolean highlight;
 
-    public SpeakersListAdapter(Context context, List<Speakers.Speaker> data){
+    public SpeakersListAdapter(Context context, List<Speakers.Speaker> data, boolean highlight){
         this.context = context;
         this.data = data;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.highlight = highlight;
     }
 
     @Override
@@ -59,17 +61,19 @@ public class SpeakersListAdapter extends BaseAdapter {
         else
             title.setText(item.title);
 
-        row.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN)
-                    v.setBackgroundColor(context.getResources().getColor(R.color.colorTransAccent));
-                else if (event.getAction() == MotionEvent.ACTION_UP)
-                    v.setBackgroundColor(Color.TRANSPARENT);
+        if(highlight) {
+            row.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN)
+                        v.setBackgroundColor(context.getResources().getColor(R.color.colorTransAccent));
+                    else if (event.getAction() == MotionEvent.ACTION_UP)
+                        v.setBackgroundColor(Color.TRANSPARENT);
 
-                return false;
-            }
-        });
+                    return false;
+                }
+            });
+        }
 
         return row;
     }

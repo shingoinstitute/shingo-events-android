@@ -65,26 +65,37 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
                 Recipients.clear();
                 JSONArray jAwardRecipients = response.getJSONObject("award_recipients").getJSONArray("records");
                 for(int i = 0; i < jAwardRecipients.length(); i++){
-                    JSONObject jRecipient = jAwardRecipients.getJSONObject(i);
-                    URL image = new URL(jRecipient.getString("Logo_Book_Cover__c"));
-                    Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
-                    Recipients.addAwardRecipient(new Recipients.AwardRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
-                            jRecipient.getString("Abstract__c"),jRecipient.getString("Award__c"),picture));
+                    try {
+                        JSONObject jRecipient = jAwardRecipients.getJSONObject(i);
+                        URL image = new URL(jRecipient.getString("Logo_Book_Cover__c"));
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        Recipients.addAwardRecipient(new Recipients.AwardRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
+                                jRecipient.getString("Abstract__c"), jRecipient.getString("Award__c"), picture));
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
                 }
                 JSONArray jResearchRecipients = response.getJSONObject("research_recipients").getJSONArray("records");
                 for(int i = 0; i < jResearchRecipients.length(); i++){
-                    JSONObject jRecipient = jResearchRecipients.getJSONObject(i);
-                    URL image = new URL(jRecipient.getString("Logo_Book_Cover__c"));
-                    Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
-                    Recipients.addResearchRecipient(new Recipients.ResearchRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
-                            jRecipient.getString("Abstract__c"), jRecipient.getString("Author_s__c"), picture));
+                    try {
+                        JSONObject jRecipient = jResearchRecipients.getJSONObject(i);
+                        URL image = new URL(jRecipient.getString("Logo_Book_Cover__c"));
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        Recipients.addResearchRecipient(new Recipients.ResearchRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
+                                jRecipient.getString("Abstract__c"), jRecipient.getString("Author_s__c"), picture));
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
             return success;
         } catch (IOException e) {
+            e.printStackTrace();
             return success;
         } catch (JSONException e) {
+            e.printStackTrace();
             return false;
         }
 

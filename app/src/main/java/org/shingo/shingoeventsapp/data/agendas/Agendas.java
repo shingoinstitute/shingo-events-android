@@ -20,6 +20,15 @@ public class Agendas {
 
     public static Map<String, Day> AGENDA_MAP = new HashMap<>();
 
+    public static Date refresh;
+
+    public static boolean needsRefresh(){
+        if(refresh == null) return true;
+        Date now = new Date();
+        return now.after(new Date(refresh.getTime() + (20 * 60000)));
+    }
+
+
     public static void addAgenda(Day day){
         if(AGENDA_MAP.get(day.id) == null){
             AGENDAS.add(day);
@@ -30,6 +39,10 @@ public class Agendas {
     public static void clear(){
         AGENDAS.clear();
         AGENDA_MAP.clear();
+    }
+
+    public static void setRefresh(){
+        refresh = new Date();
     }
 
     public static class Day implements Comparable<Day>{

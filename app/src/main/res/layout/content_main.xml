@@ -14,26 +14,31 @@
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:text="@string/action_events"
+        android:background="@color/colorPrimary"
         android:id="@+id/action_events"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:textColor="#FFFFFF"
         android:layout_margin="@dimen/fab_margin"/>
 
     <Button
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:text="@string/action_model"
+        android:background="@color/colorPrimary"
         android:id="@+id/action_model"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:textColor="#FFFFFF"
         android:layout_margin="@dimen/fab_margin" />
 
     <Button
         android:layout_width="@dimen/button_wh"
         android:layout_height="@dimen/button_wh"
         android:text="@string/action_newsletter"
+        android:background="@color/colorPrimary"
         android:id="@+id/action_newsletter"
         android:layout_below="@+id/action_events"
-        android:layout_alignEnd="@+id/action_events"
+        android:textColor="#FFFFFF"
         android:layout_margin="@dimen/fab_margin" />
 </RelativeLayout>

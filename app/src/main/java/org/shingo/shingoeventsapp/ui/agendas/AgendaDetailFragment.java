@@ -1,6 +1,7 @@
 package org.shingo.shingoeventsapp.ui.agendas;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
@@ -103,7 +104,9 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    progressBar.setVisibility(View.VISIBLE);
+                    ProgressDialog pd = new ProgressDialog(getContext());
+                    pd.setMessage("Loading session...");
+                    pd.show();
                     String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
                     Bundle args = new Bundle();
                     args.putString("session_id", sId);
@@ -112,11 +115,10 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
                     Intent i = new Intent(getContext(), SessionListActivity.class);
                     i.putExtras(args);
                     startActivity(i);
-                    progressBar.setVisibility(View.GONE);
                 }
             });
             sessions.addView(item,layoutParams);
         }
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

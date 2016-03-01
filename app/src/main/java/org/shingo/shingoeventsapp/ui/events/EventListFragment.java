@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
+import org.shingo.shingoeventsapp.data.events.EventsListAdapter;
 import org.shingo.shingoeventsapp.data.events.GetEventsTask;
 import org.shingo.shingoeventsapp.data.events.Events;
 
@@ -43,11 +44,7 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
     @Override
     public void onTaskComplete() {
         try {
-            setListAdapter(new ArrayAdapter<Events.Event>(
-                    getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1,
-                    Events.EVENTS));
+            setListAdapter(new EventsListAdapter(getContext(), Events.EVENTS));
         }catch(Exception e){
             e.printStackTrace();
         }

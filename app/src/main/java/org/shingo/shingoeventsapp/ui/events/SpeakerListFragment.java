@@ -51,7 +51,7 @@ public class SpeakerListFragment extends ListFragment implements OnTaskComplete 
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 Speakers.SPEAKERS)); */
-        setListAdapter(new SpeakersListAdapter(getContext(), Speakers.SPEAKERS));
+        setListAdapter(new SpeakersListAdapter(getContext(), Speakers.SPEAKERS, false));
     }
 
     /**

@@ -55,18 +55,6 @@ public class ExhibitorsListAdapter extends BaseAdapter {
         img.setImageDrawable(new BitmapDrawable(context.getResources(), item.logo));
         name.setText(item.name);
 
-        row.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN)
-                    v.setBackgroundColor(context.getResources().getColor(R.color.colorTransAccent));
-                else if (event.getAction() == MotionEvent.ACTION_UP)
-                    v.setBackgroundColor(Color.TRANSPARENT);
-
-                return false;
-            }
-        });
-
         return row;
     }
 }
