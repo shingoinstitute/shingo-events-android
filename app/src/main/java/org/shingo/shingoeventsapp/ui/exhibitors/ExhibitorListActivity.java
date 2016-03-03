@@ -22,7 +22,6 @@ import org.shingo.shingoeventsapp.data.exhibitors.GetExhibitorsTask;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
 import java.util.Collections;
-import java.util.List;
 
 /**
  * An activity representing a list of Exhibitors. This activity
@@ -58,11 +57,15 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mEvent_id = getIntent().getExtras().getString("event_id");
+        mEvent_id = getIntent().getExtras().getString("event_id");  // Related Event SF ID
         pb = (LinearLayout)findViewById(R.id.exhibitor_pb);
+
+        // Async Call to api to get list of Exhibitors
         RestApi api = new RestApi(this, this);
         GetExhibitorsTask getExhibitorsTask = api.getExhibitors(mEvent_id);
         getExhibitorsTask.execute((Void) null);
+
+        // Set the progress bar to visible
         pb.setVisibility(View.VISIBLE);
         if (findViewById(R.id.exhibitor_detail_container) != null) {
             // The detail container view will be present only in the
@@ -92,31 +95,37 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupRecyclerView(@NonNull ListView recyclerView) {
+    private void setupListView(@NonNull ListView listView) {
         Collections.sort(Exhibitors.EXHIBITORS);
-        recyclerView.setAdapter(new ExhibitorsListAdapter(this, Exhibitors.EXHIBITORS));
-        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mTwoPane) {
-                    // In two-pane mode, show the detail view in this activity by
-                    // adding or replacing the detail fragment using a
-                    // fragment transaction.
-                    Bundle arguments = new Bundle();
-                    arguments.putString(ExhibitorDetailFragment.ARG_ITEM_ID, Exhibitors.EXHIBITORS.get(position).id);
-                    ExhibitorDetailFragment fragment = new ExhibitorDetailFragment();
-                    fragment.setArguments(arguments);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.event_detail_container, fragment)
-                            .commit();
-
-                } else {
-                    // In single-pane mode, simply start the detail activity
-                    // for the selected item ID.
-                    startExhibitorDetailActivity(position);
-                }
-            }
-        });
+        listView.setAdapter(new ExhibitorsListAdapter(this, Exhibitors.EXHIBITORS));
+        /*******************************************
+         * OnItemClickListener is commented out    *
+         * until we decide what details to display *
+         * for the Exhibitors.                     *
+         *******************************************/
+        //TODO: Decide what details to display then uncomment
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (mTwoPane) {
+//                    // In two-pane mode, show the detail view in this activity by
+//                    // adding or replacing the detail fragment using a
+//                    // fragment transaction.
+//                    Bundle arguments = new Bundle();
+//                    arguments.putString(ExhibitorDetailFragment.ARG_ITEM_ID, Exhibitors.EXHIBITORS.get(position).id);
+//                    ExhibitorDetailFragment fragment = new ExhibitorDetailFragment();
+//                    fragment.setArguments(arguments);
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.event_detail_container, fragment)
+//                            .commit();
+//
+//                } else {
+//                    // In single-pane mode, simply start the detail activity
+//                    // for the selected item ID.
+//                    startExhibitorDetailActivity(position);
+//                }
+//            }
+//        });
     }
 
     void startExhibitorDetailActivity(int position){
@@ -127,9 +136,9 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
 
     @Override
     public void onTaskComplete() {
-        View recyclerView = findViewById(R.id.exhibitor_list);
-        assert recyclerView != null;
-        setupRecyclerView((ListView) recyclerView);
-        pb.setVisibility(View.GONE);
+        View listView = findViewById(R.id.exhibitor_list);
+        assert listView != null;
+        setupListView((ListView) listView);
+        pb.setVisibility(View.GONE); // Dismiss progress bar
     }
 }

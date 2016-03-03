@@ -1,10 +1,8 @@
-package org.shingo.shingoeventsapp.data.recipients;
+package org.shingo.shingoeventsapp.data.sessions;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
-import org.shingo.shingoeventsapp.data.sponsors.SponsorsListAdapter;
+import org.shingo.shingoeventsapp.data.recipients.Recipients;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -21,7 +22,7 @@ import java.util.TreeSet;
 /**
  * Created by dustinehoman on 2/1/16.
  */
-public class RecipientsListAdapter extends BaseAdapter {
+public class SessionsListAdapter extends BaseAdapter {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -31,7 +32,7 @@ public class RecipientsListAdapter extends BaseAdapter {
     private Context context;
     private static LayoutInflater inflater;
 
-    public RecipientsListAdapter(Context context){
+    public SessionsListAdapter(Context context){
         this.context = context;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -85,11 +86,9 @@ public class RecipientsListAdapter extends BaseAdapter {
             switch (rowType){
                 case TYPE_ITEM:
                     holder = new ContentHolder();
-                    convertView = inflater.inflate(R.layout.img_adapter_row, parent, false);
-                    ((ContentHolder)holder).image = (ImageView)convertView.findViewById(R.id.list_image);
-                    if(((ContentHolder)holder).image == null) ((ContentHolder)holder).image.setVisibility(View.GONE);
-                    ((ContentHolder)holder).name = (TextView)convertView.findViewById(R.id.list_name);
-                    ((ContentHolder)holder).detail = (TextView)convertView.findViewById(R.id.list_title);
+                    convertView = inflater.inflate(R.layout.agenda_list_row, parent, false);
+                    ((ContentHolder)holder).time = (TextView)convertView.findViewById(R.id.top_row);
+                    ((ContentHolder)holder).name = (TextView)convertView.findViewById(R.id.bottom_row);
                     break;
                 case TYPE_SEPARATOR:
                     holder = new HeaderHolder();
@@ -103,18 +102,20 @@ public class RecipientsListAdapter extends BaseAdapter {
         }
 
         if(holder instanceof ContentHolder) {
-            Object item = getItem(position);
-            if (item instanceof Recipients.AwardRecipient) {
-                Recipients.AwardRecipient recipient = (Recipients.AwardRecipient) item;
-                ((ContentHolder)holder).image.setImageDrawable(new BitmapDrawable(context.getResources(), recipient.logo));
-                ((ContentHolder)holder).name.setText(recipient.name);
-                ((ContentHolder)holder).detail.setText(recipient.award);
-            } else if (item instanceof Recipients.ResearchRecipient) {
-                Recipients.ResearchRecipient recipient = (Recipients.ResearchRecipient) item;
-                ((ContentHolder)holder).image.setImageDrawable(new BitmapDrawable(context.getResources(), recipient.cover));
-                ((ContentHolder)holder).name.setText(recipient.book);
-                ((ContentHolder)holder).detail.setText(recipient.author);
+            Sessions.Session item = (Sessions.Session)getItem(position);
+
+            DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+            String start = null;
+            String end = null;
+            try {
+                start = format.format(formatter.parse(item.startTime).getTime());
+                end = format.format(formatter.parse(item.endTime).getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
+            ((ContentHolder)holder).time.setText(start + " -- " + end);
+            ((ContentHolder)holder).name.setText(item.name);
 
 
         } else {
@@ -125,9 +126,8 @@ public class RecipientsListAdapter extends BaseAdapter {
     }
 
     public static class ContentHolder{
-        public ImageView image;
+        public TextView time;
         public TextView name;
-        public TextView detail;
     }
 
     public static class HeaderHolder{

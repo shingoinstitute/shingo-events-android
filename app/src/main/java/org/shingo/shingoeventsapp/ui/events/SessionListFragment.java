@@ -4,14 +4,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.agendas.SessionsListAdapter;
+import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
 import org.shingo.shingoeventsapp.data.sessions.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A list fragment representing a list of Sessions. This fragment
@@ -36,6 +42,12 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
      */
     private Callbacks mCallbacks = sDummyCallbacks;
 
+    private List monday = new ArrayList<>();
+    private List tuesday = new ArrayList<>();
+    private List wednesday = new ArrayList<>();
+    private List thursday = new ArrayList<>();
+    private List friday = new ArrayList<>();
+
     /**
      * The current activated item position. Only used on tablets.
      */
@@ -44,13 +56,50 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
     @Override
     public void onTaskComplete() {
         try {
-            setListAdapter(new ArrayAdapter<Sessions.Session>(
-                    getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1,
-                    Sessions.SESSIONS));
-            setListAdapter(new SessionsListAdapter(getContext(), Sessions.SESSIONS));
+            SessionsListAdapter adapter = new SessionsListAdapter(getContext());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+            for(Sessions.Session s : Sessions.SESSIONS){
+                Date start = formatter.parse(s.startTime);
+                switch(start.getDay()){
+                    // 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
+                    case 1:
+                        monday.add(s);
+                        break;
+                    case 2:
+                        tuesday.add(s);
+                        break;
+                    case 3:
+                        wednesday.add(s);
+                        break;
+                    case 4:
+                        thursday.add(s);
+                        break;
+                    case 5:
+                        friday.add(s);
+                        break;
+                }
+            }
+
+            Collections.sort(monday);
+            Collections.sort(tuesday);
+            Collections.sort(wednesday);
+            Collections.sort(thursday);
+            Collections.sort(friday);
+            adapter.addSectionHeaderItem("Monday");
+            adapter.addAllItems(monday);
+            adapter.addSectionHeaderItem("Tuesday");
+            adapter.addAllItems(tuesday);
+            adapter.addSectionHeaderItem("Wednesday");
+            adapter.addAllItems(wednesday);
+            adapter.addSectionHeaderItem("Thursday");
+            adapter.addAllItems(thursday);
+            adapter.addSectionHeaderItem("Friday");
+            adapter.addAllItems(friday);
+
+            setListAdapter(adapter);
         } catch (NullPointerException e){
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }
@@ -102,7 +151,8 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+            int position = terpPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+            setActivatedPosition(position);
         }
     }
 
@@ -126,13 +176,50 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
         mCallbacks = sDummyCallbacks;
     }
 
+    private int terpPosition(int position){
+        if(position <= monday.size() + 1) position -= 1;
+        else if(position <= monday.size() + tuesday.size() + 2) position -= monday.size() + 2;
+        else if(position <= monday.size() + tuesday.size() + wednesday.size() + 3) position -= monday.size() + tuesday.size() + 3;
+        else if(position <= monday.size() + tuesday.size() + wednesday.size() + thursday.size() + 4) position -= monday.size() + tuesday.size() + wednesday.size() + 4;
+        else if(position <= monday.size() + tuesday.size() + wednesday.size() + thursday.size() + friday.size() + 5) position -= monday.size() + tuesday.size() + wednesday.size() + thursday.size() + 5;
+
+        return position;
+    }
+
+    private int terpDay(int position){
+        if(position <= monday.size() + 1) return 1;
+        else if(position <= monday.size() + tuesday.size() + 2) return 2;
+        else if(position <= monday.size() + tuesday.size() + wednesday.size() + 3) return 3;
+        else if(position <= monday.size() + tuesday.size() + wednesday.size() + thursday.size() + 4) return 4;
+        else if(position <= monday.size() + tuesday.size() + wednesday.size() + thursday.size() + friday.size() + 5) return 5;
+        return -1;
+    }
+
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
+        int day = terpDay(position);
         super.onListItemClick(listView, view, position, id);
 
+        position = terpPosition(position);
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(Sessions.SESSIONS.get(position).id);
+        switch (day){
+            case 1:
+                mCallbacks.onItemSelected(((Sessions.Session)monday.get(position)).id);
+                break;
+            case 2:
+                mCallbacks.onItemSelected(((Sessions.Session)tuesday.get(position)).id);
+                break;
+            case 3:
+                mCallbacks.onItemSelected(((Sessions.Session)wednesday.get(position)).id);
+                break;
+            case 4:
+                mCallbacks.onItemSelected(((Sessions.Session)thursday.get(position)).id);
+                break;
+            case 5:
+                mCallbacks.onItemSelected(((Sessions.Session)friday.get(position)).id);
+                break;
+        }
     }
 
     @Override

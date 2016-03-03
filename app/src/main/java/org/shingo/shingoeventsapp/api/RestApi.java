@@ -20,15 +20,24 @@ import org.shingo.shingoeventsapp.data.events.RegIdTask;
 import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 
-/**
- * Created by dustinehoman on 1/8/16.
- */
+/*********************************************
+ * Created by Dustin Homan on 1/8/16.        *
+ * Purpose: A central object to store needed *
+ *      data and return an initialized       *
+ *      AsyncTask                            *
+ *********************************************/
 public class RestApi {
     private final String mEmail;
     private final String mPassword;
     private final int mId;
     private OnTaskComplete mListener;
 
+    /**
+     * Constructor
+     *
+     * @param listener a OnTaskComplete interface
+     * @param context the calling classes context
+     */
     public RestApi(OnTaskComplete listener, Context context){
         mListener = listener;
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
@@ -37,32 +46,77 @@ public class RestApi {
         mId = sharedPreferences.getInt("id", -1);
     }
 
+    /**
+     *
+     * @return a new GetEventsTask
+     * @see GetEventsTask
+     */
     public GetEventsTask getEvents(){
         return new GetEventsTask(mListener);
     }
 
+    /**
+     *
+     * @param regId the RegOnline Id of an attendee
+     * @return a new RegIdTask
+     * @see RegIdTask
+     */
     public RegIdTask addRegId(String regId) {
         return new RegIdTask(mEmail, mPassword, regId, mListener);
     }
 
+    /**
+     *
+     * @return a new GetConnectionsTask
+     * @see GetConnectionsTask
+     */
     public GetConnectionsTask getConnections() {
         return new GetConnectionsTask(mId, mListener);
     }
 
+    /**
+     *
+     * @param email email of the connection
+     * @param approve boolean whether to approve connection
+     * @return a new ConnectionApproveTask
+     * @see ConnectionApproveTask
+     */
     public ConnectionApproveTask approveConnection(String email, boolean approve) {
         return new ConnectionApproveTask(mEmail, mPassword, email, approve, mListener);
     }
 
+    /**
+     *
+     * @return a new GetAttendeesTask
+     * @see GetAttendeesTask
+     */
     public GetAttendeesTask getAttendees() {
         return new GetAttendeesTask(mEmail, mListener);
     }
 
+    /**
+     *
+     * @param connection email of the connection to request
+     * @return a new ConnectionRequestTask
+     * @see ConnectionRequestTask
+     */
     public ConnectionRequestTask sendRequest(String connection) {
         return new ConnectionRequestTask(mEmail, mPassword, connection, mId, mListener);
     }
 
+    /**
+     *
+     * @param id the SF session id to get
+     * @return a new GetSessionTask
+     * @see GetSessionTask
+     */
     public GetSessionTask getSession(String id) { return new GetSessionTask(id, mListener); }
 
+    /**
+     *
+     * @param id the SF event id to get session of
+     * @return
+     */
     public GetSessionsTask getSessions(String id) {
         return new GetSessionsTask(id, mListener);
     }

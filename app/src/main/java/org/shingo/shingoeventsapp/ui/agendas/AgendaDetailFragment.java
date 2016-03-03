@@ -41,6 +41,7 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
     private Agendas.Day mDay;
     private View rootView;
     private LinearLayout progressBar;
+    private ProgressDialog pd;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,6 +59,7 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mDay = Agendas.AGENDA_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            System.out.println("New day selected: " + mDay.name + " : " + mDay.id);
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
@@ -66,14 +68,22 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             }
 
             progressBar = (LinearLayout)activity.findViewById(R.id.agenda_progress);
-            progressBar.setVisibility(View.VISIBLE);
+            if(progressBar != null) progressBar.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onResume(){
+        if(pd != null) pd.dismiss();
+        super.onResume();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_agenda_detail, container, false);
+
+        if(progressBar==null) progressBar = (LinearLayout)rootView.findViewById(R.id.agenda_progress);
 
         // Show the dummy content as text in a TextView.
         if (mDay != null) {
@@ -104,7 +114,7 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ProgressDialog pd = new ProgressDialog(getContext());
+                    pd = new ProgressDialog(getContext());
                     pd.setMessage("Loading session...");
                     pd.show();
                     String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
@@ -117,7 +127,7 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
                     startActivity(i);
                 }
             });
-            sessions.addView(item,layoutParams);
+            sessions.addView(item, layoutParams);
         }
         progressBar.setVisibility(View.GONE);
     }

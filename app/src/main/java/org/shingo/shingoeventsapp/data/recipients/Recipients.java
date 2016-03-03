@@ -63,13 +63,14 @@ public class Recipients {
             this.Abstract = Abstract;
             this.award = award;
             this.logo = logo;
+            if(Abstract.equals("null")) this.Abstract = "Abstract coming soon!";
         }
 
         @Override
         public int compareTo(AwardRecipient another) {
             if(this.award.equals(another.award)) return this.name.compareTo(another.name);
             if(this.award.equals("Shingo Prize")) return 1;
-            if(this.award.equals("Silver Medallion") && another.equals("Bronze Medallion")) return 1;
+            if(this.award.equals("Silver Medallion") && !another.award.equals("Shingo Prize")) return 1;
 
             return -1;
         }
@@ -88,6 +89,7 @@ public class Recipients {
             this.Abstract = Abstract;
             this.author = author;
             this.cover = cover;
+            if(Abstract.equals("null")) this.Abstract = "Abstract coming soon!";
         }
 
         @Override

@@ -63,6 +63,7 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
                 JSONObject jDay = response.getJSONObject("day");
                 if(jDay != null){
                     JSONArray jSessions = jDay.getJSONObject("Sessions").getJSONArray("records");
+                    Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions.clear();
                     for(int i = 0; i < jSessions.length(); i++){
                         JSONObject jSession = jSessions.getJSONObject(i);
                         String date = jSession.getString("Session_Date__c");

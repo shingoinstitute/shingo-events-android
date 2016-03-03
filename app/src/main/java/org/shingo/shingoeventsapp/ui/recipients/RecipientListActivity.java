@@ -120,7 +120,6 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         recipients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                view.setBackgroundColor(getResources().getColor(R.color.colorTransAccent));
                 if(position < Recipients.AWARD_RECIPIENTS.size() + 1 && adapter.getItemViewType(position) == 0){
                     if (mTwoPane) {
                         // In two-pane mode, show the detail view in this activity by
@@ -132,7 +131,7 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
                         RecipientDetailFragment fragment = new RecipientDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.event_detail_container, fragment)
+                                .replace(R.id.recipient_detail_container, fragment)
                                 .commit();
 
                     } else {
@@ -146,12 +145,12 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
                         // adding or replacing the detail fragment using a
                         // fragment transaction.
                         Bundle arguments = new Bundle();
-                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - (Recipients.AWARD_RECIPIENTS.size() + 2)).id);
+                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.RESEARCH_RECIPIENTS.get(position - (Recipients.AWARD_RECIPIENTS.size() + 2)).id);
                         arguments.putString("recipient_type", "research");
                         RecipientDetailFragment fragment = new RecipientDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.event_detail_container, fragment)
+                                .replace(R.id.recipient_detail_container, fragment)
                                 .commit();
 
                     } else {
