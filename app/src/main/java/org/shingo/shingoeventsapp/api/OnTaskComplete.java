@@ -1,7 +1,8 @@
 package org.shingo.shingoeventsapp.api;
 
 /**
- * Created by dustinehoman on 1/8/16.
+ * This interface is used as callback for
+ * {@link android.os.AsyncTask}.
  */
 public interface OnTaskComplete {
     void onTaskComplete();

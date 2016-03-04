@@ -21,7 +21,7 @@ import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 
 /*********************************************
- * Created by Dustin Homan on 1/8/16.        *
+ * @author Dustin Homan                      *
  * Purpose: A central object to store needed *
  *      data and return an initialized       *
  *      AsyncTask                            *
@@ -33,7 +33,21 @@ public class RestApi {
     private OnTaskComplete mListener;
 
     /**
-     * Constructor
+     * Constructor to be used with all other calls.
+     *
+     * @param listener a OnTaskComplete interface
+     */
+
+    public RestApi(OnTaskComplete listener){
+        mListener = listener;
+        mEmail = "";
+        mPassword = "";
+        mId = 0;
+    }
+
+    /**
+     * Constructor to be used with calls to the
+     * attendee api.
      *
      * @param listener a OnTaskComplete interface
      * @param context the calling classes context
@@ -105,7 +119,8 @@ public class RestApi {
     }
 
     /**
-     *
+     *when accounts
+     * are enabled.
      * @param id the SF session id to get
      * @return a new GetSessionTask
      * @see GetSessionTask
@@ -114,34 +129,82 @@ public class RestApi {
 
     /**
      *
-     * @param id the SF event id to get session of
-     * @return
+     * @param id the SF event id to get sessions of
+     * @return a new GetSessionsTask
+     * @see GetSessionsTask
      */
     public GetSessionsTask getSessions(String id) {
         return new GetSessionsTask(id, mListener);
     }
 
+    /**
+     *
+     * @param id the SF event id to get speakers of
+     * @return a new GetSpeakersTask
+     * @see GetSpeakersTask
+     */
     public GetSpeakersTask getSpeakers(String id) {
         return new GetSpeakersTask(id, mListener);
     }
 
+    /**
+     *
+     * @param id the SF event id to get the agenda of
+     * @return a new GetAgendasTask
+     * @see GetAgendasTask
+     */
     public GetAgendasTask getAgendas(String id){
         return new GetAgendasTask(id, mListener);
     }
 
+    /**
+     *
+     * @param id the SF day id to get
+     * @return a new GetDayTask
+     * @see GetDayTask
+     */
     public GetDayTask getDay(String id){
         return new GetDayTask(id, mListener);
     }
 
+    /**
+     *
+     * @return a new GetAffiliatesTask
+     * @see GetAffiliatesTask
+     */
     public GetAffiliatesTask getAffiliates() {
         return new GetAffiliatesTask(mListener);
     }
 
+    /**
+     *
+     * @param id the SF event id to get exhibitors for
+     * @return a new GetExhibitorsTask
+     * @see GetExhibitorsTask
+     */
     public GetExhibitorsTask getExhibitors(String id) { return new GetExhibitorsTask(id, mListener); }
 
+    /**
+     *
+     * @param id the SF event id to get exhibitors for
+     * @return a new GetRecipientsTask
+     * @see GetRecipientsTask
+     */
     public GetRecipientsTask getRecipients(String id) { return new GetRecipientsTask(id, mListener); }
 
+    /**
+     *
+     * @param id the SF event id to get sponsors for
+     * @return a new GetSponsorsTask
+     * @see GetSponsorsTask
+     */
     public GetSponsorsTask getSponsors(String id) { return new GetSponsorsTask(id, mListener); }
 
+    /**
+     *
+     * @param id the SF event id to get venue maps for
+     * @return a new GetVenueMapsTask
+     * @see GetVenueMapsTask
+     */
     public GetVenueMapsTask getVenueMaps(String id) { return new GetVenueMapsTask(id, mListener); }
 }

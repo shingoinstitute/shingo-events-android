@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.api.InitLoader;
 import org.shingo.shingoeventsapp.data.events.Events;
 import org.shingo.shingoeventsapp.ui.MapsActivity;
 import org.shingo.shingoeventsapp.ui.affiliates.AffiliateListActivity;
@@ -52,6 +53,9 @@ public class EventDetailFragment extends Fragment {
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mEvent_id = getArguments().getString(ARG_ITEM_ID);
             mEvent = Events.EVENT_MAP.get(mEvent_id);
+
+            InitLoader loader = new InitLoader(mEvent_id);
+            loader.load();
         }
     }
 
