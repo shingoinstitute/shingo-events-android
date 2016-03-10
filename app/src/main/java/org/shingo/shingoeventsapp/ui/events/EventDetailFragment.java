@@ -54,7 +54,7 @@ public class EventDetailFragment extends Fragment {
             mEvent_id = getArguments().getString(ARG_ITEM_ID);
             mEvent = Events.EVENT_MAP.get(mEvent_id);
 
-            InitLoader loader = new InitLoader(mEvent_id);
+            InitLoader loader = new InitLoader(mEvent_id, getContext());
             loader.load();
         }
     }

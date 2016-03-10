@@ -1,5 +1,7 @@
 package org.shingo.shingoeventsapp.api;
 
+import android.content.Context;
+
 /**
  * @author Dustin Homan
  * This class is used to load all of the data
@@ -10,16 +12,18 @@ package org.shingo.shingoeventsapp.api;
  */
 public class InitLoader implements OnTaskComplete {
     private String mEvent;
+    private Context mContext;
 
-    public InitLoader(String event){
+    public InitLoader(String event, Context context){
         mEvent = event;
+        mContext = context;
     }
 
     /**
      * Use the {@link RestApi} to load data for the events.
      */
     public void load(){
-        RestApi api = new RestApi(this);
+        RestApi api = new RestApi(this, mContext);
         api.getAgendas(mEvent).execute((Void) null);
         api.getAffiliates().execute((Void) null);
         api.getExhibitors(mEvent).execute((Void) null);
