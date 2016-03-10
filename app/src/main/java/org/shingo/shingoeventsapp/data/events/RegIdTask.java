@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 
@@ -44,7 +45,7 @@ public class RegIdTask extends AsyncTask<Void, Void, Boolean> {
             String data = URLEncoder.encode("reg_id", "UTF-8") + "=" + URLEncoder.encode(mRegId,"UTF-8");
             data += "&" + URLEncoder.encode("email","UTF-8") + "=" + URLEncoder.encode(mEmail, "UTF-8");
             data += "&" + URLEncoder.encode("password", "UTF-8") + "=" +URLEncoder.encode(mPassword, "UTF-8");
-            URL url = new URL("https://shingo-events.herokuapp.com/api/attendees/addregid/?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            URL url = new URL(RestApi.API_URL + "/attendees/addregid/?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.data.connections.Connections;
@@ -38,7 +39,7 @@ public class GetAttendeesTask extends AsyncTask<Void, Void, Boolean> {
         System.out.println("GetAttendees.doInBackground called");
         boolean success  = false;
         try {
-            URL url = new URL("https://shingo-events.herokuapp.com/api/attendees?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            URL url = new URL(RestApi.API_URL + "/attendees?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             System.out.println("Opening connection: " + url.getPath());
             URLConnection conn = url.openConnection();
             System.out.println("Got connection: " + conn.getURL());

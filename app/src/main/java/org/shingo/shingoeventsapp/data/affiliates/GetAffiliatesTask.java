@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
+import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.events.Events;
 import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
@@ -52,7 +53,7 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
         System.out.println("GetAffiliatesTask.doInBackground called");
         boolean success;
         try {
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/affiliates?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            URL url = new URL( RestApi.API_URL + "/sfevents/affiliates?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -86,7 +87,6 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(final Boolean success) {
         if (success) {
             System.out.println("Calling mListener.onTaskComplete");
-            Collections.sort(Events.EVENTS);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");

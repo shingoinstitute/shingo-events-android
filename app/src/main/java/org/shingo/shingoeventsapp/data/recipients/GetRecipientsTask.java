@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
+import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.exhibitors.Exhibitors;
 import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
@@ -43,8 +44,8 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "="
                     + URLEncoder.encode(mEvent, "UTF-8");
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents/recipients?client_id="
-                    + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            URL url = new URL(RestApi.API_URL + "/sfevents/recipients?client_id="
+                    + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());

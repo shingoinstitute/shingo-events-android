@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 
@@ -37,7 +38,7 @@ public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
         System.out.println("GetEventsTask.doInBackground called");
         boolean success = false;
         try {
-            URL url = new URL("https://shingo-events.herokuapp.com/api/sfevents?client_id=" + LoginActivity.CLIENT_ID + "&client_secret=" + LoginActivity.CLIENT_SECRET);
+            URL url = new URL(RestApi.API_URL + "/sfevents?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));

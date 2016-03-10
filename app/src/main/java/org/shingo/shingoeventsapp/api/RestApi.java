@@ -3,6 +3,7 @@ package org.shingo.shingoeventsapp.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.affiliates.GetAffiliatesTask;
 import org.shingo.shingoeventsapp.data.connections.ConnectionApproveTask;
 import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
@@ -32,22 +33,12 @@ public class RestApi {
     private final int mId;
     private OnTaskComplete mListener;
 
-    /**
-     * Constructor to be used with all other calls.
-     *
-     * @param listener a OnTaskComplete interface
-     */
-
-    public RestApi(OnTaskComplete listener){
-        mListener = listener;
-        mEmail = "";
-        mPassword = "";
-        mId = 0;
-    }
+    public static final String CLIENT_ID = "b5a635526386a516edcafa2479a7a8ac";
+    public static final String CLIENT_SECRET = "72988d72f5e3496e8e8a0edf5a3f87c9";
+    public static String API_URL;
 
     /**
-     * Constructor to be used with calls to the
-     * attendee api.
+     * Constructor
      *
      * @param listener a OnTaskComplete interface
      * @param context the calling classes context
@@ -58,6 +49,7 @@ public class RestApi {
         mEmail = sharedPreferences.getString("email", "");
         mPassword = sharedPreferences.getString("password", "");
         mId = sharedPreferences.getInt("id", -1);
+        API_URL = context.getResources().getString(R.string.api_prod_url);
     }
 
     /**

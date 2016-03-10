@@ -59,4 +59,6 @@
     <string name="title_sponsor_detail">Sponsor Detail</string>
     <string name="title_activity_venue_maps">Venue Maps</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="api_dev_url">https://shingo-events.herokuapp.com/api</string>
+    <string name="api_prod_url">http://104.131.77.136:5000/api</string>
 </resources>
