@@ -30,7 +30,7 @@ public class GetSponsorsTask extends AsyncTask<Void, Void, Boolean> {
 
     private String mEvent;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetSponsorsTask(String event, OnTaskComplete listener) {
         mEvent = event;
@@ -41,7 +41,19 @@ public class GetSponsorsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetSponsorsTask.doInBackground called");
-        boolean success = false;
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        if(!Sponsors.needsRefresh()) return true;
+        boolean success;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "="
                     + URLEncoder.encode(mEvent, "UTF-8");
@@ -55,11 +67,11 @@ public class GetSponsorsTask extends AsyncTask<Void, Void, Boolean> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("Sponsors: " + output);
             success = response.getBoolean("success");
@@ -104,10 +116,13 @@ public class GetSponsorsTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (JSONException e) {
+            e.printStackTrace();
             return false;
         }
 
@@ -116,6 +131,10 @@ public class GetSponsorsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
             mListener.onTaskComplete();

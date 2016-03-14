@@ -25,7 +25,7 @@ public class GetAttendeesTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mEmail;
     private final OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetAttendeesTask(String email, OnTaskComplete listener) {
         mEmail = email;
@@ -35,9 +35,19 @@ public class GetAttendeesTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
         System.out.println("GetAttendees.doInBackground called");
-        boolean success  = false;
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        boolean success;
         try {
             URL url = new URL(RestApi.API_URL + "/attendees?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             System.out.println("Opening connection: " + url.getPath());
@@ -46,11 +56,11 @@ public class GetAttendeesTask extends AsyncTask<Void, Void, Boolean> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while((line = reader.readLine()) != null){
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("getAttendees() response: " + output);
             success = response.getBoolean("success");
@@ -75,10 +85,10 @@ public class GetAttendeesTask extends AsyncTask<Void, Void, Boolean> {
             }
         } catch(UnsupportedEncodingException e){
             e.printStackTrace();
-            return success;
+            return false;
         } catch(IOException e ){
             e.printStackTrace();
-            return success;
+            return false;
         } catch(JSONException e){
             e.printStackTrace();
             return false;
@@ -89,9 +99,12 @@ public class GetAttendeesTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
-            Collections.sort(Attendees.ATTENDEES);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");

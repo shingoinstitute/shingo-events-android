@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
-import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by dustinehoman on 1/14/16.
@@ -28,19 +26,30 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
 
     private String mEvent;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetAgendasTask(String event, OnTaskComplete listener) {
         mEvent = event;
         mListener = listener;
-        System.out.println("GetEventsTask created");
+        System.out.println("GetAgendasTask created");
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
-        System.out.println("GetEventsTask.doInBackground called");
-        boolean success = false;
+        System.out.println("GetAgendasTask.doInBackground called");
+        synchronized (this) {
+            if (isWorking) {
+                try {
+                    wait();
+                    return true;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        boolean success;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "="
                     + URLEncoder.encode(mEvent, "UTF-8");
@@ -54,11 +63,11 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("Agendas: " + output);
             success = response.getBoolean("success");
@@ -74,10 +83,13 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (JSONException e) {
+            e.printStackTrace();
             return false;
         }
 
@@ -86,9 +98,12 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
-            Collections.sort(Agendas.AGENDAS);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");

@@ -19,6 +19,14 @@ public class Sessions {
 
     public static Map<String, Session> SESSION_MAP = new HashMap<>();
 
+    public static Date refresh;
+
+    public static boolean needsRefresh(){
+        if(refresh == null) return true;
+        Date now = new Date();
+        return now.after(new Date(refresh.getTime() + (20 * 60000)));
+    }
+
     public static void addSession(Session session){
         if(SESSION_MAP.get(session.id) == null){
             SESSIONS.add(session);
@@ -29,6 +37,7 @@ public class Sessions {
     public static void clear(){
         SESSIONS.clear();
         SESSION_MAP.clear();
+        refresh = new Date();
     }
 
     public static class Session implements Comparable<Session>{

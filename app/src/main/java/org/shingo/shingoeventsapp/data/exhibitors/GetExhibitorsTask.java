@@ -28,7 +28,7 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
 
     private String mEvent;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetExhibitorsTask(String event, OnTaskComplete listener) {
         mEvent = event;
@@ -39,7 +39,18 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetExhibitorsTask.doInBackground called");
-        boolean success = false;
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        boolean success;
         if(!Exhibitors.needsRefresh()) return true;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "="
@@ -54,11 +65,11 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("Exhibitors: " + output);
             success = response.getBoolean("success");
@@ -75,9 +86,11 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (JSONException e) {
             return false;
         }
@@ -87,6 +100,10 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
             mListener.onTaskComplete();

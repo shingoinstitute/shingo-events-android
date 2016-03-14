@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.events.Events;
-import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +17,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Collections;
 
 /**
  * @author Dustin Homan
@@ -30,6 +28,7 @@ import java.util.Collections;
 public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
 
     private OnTaskComplete mListener;
+    private static boolean isWorking = false;
 
     /**
      * Constructor
@@ -51,8 +50,21 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetAffiliatesTask.doInBackground called");
+        synchronized (this) {
+            if (isWorking) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        if(!Affiliates.needsRefresh()) return true;
         boolean success;
         try {
+            Affiliates.clear();
             URL url = new URL( RestApi.API_URL + "/sfevents/affiliates?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
 
@@ -85,6 +97,10 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
      */
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Calling mListener.onTaskComplete");
             mListener.onTaskComplete();
@@ -105,7 +121,6 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
         JSONObject response = new JSONObject(output);
         System.out.println("Affiliates " + output);
         boolean success = response.getBoolean("success");
-        Events.clear();
         if (success) {
             Affiliates.clear();
             JSONArray jAffiliates = response.getJSONObject("affiliates").getJSONArray("records");

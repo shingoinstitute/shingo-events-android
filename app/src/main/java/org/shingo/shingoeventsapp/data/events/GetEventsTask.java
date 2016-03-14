@@ -25,7 +25,6 @@ import java.util.List;
 public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
 
     private OnTaskComplete mListener;
-    private String output;
 
     public GetEventsTask(OnTaskComplete listener) {
         mListener = listener;
@@ -34,20 +33,19 @@ public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
         System.out.println("GetEventsTask.doInBackground called");
-        boolean success = false;
+        boolean success;
         try {
             URL url = new URL(RestApi.API_URL + "/sfevents?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("SFEvents " + output);
             success = response.getBoolean("success");
@@ -76,10 +74,10 @@ public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            return success;
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
-            return success;
+            return false;
         } catch (JSONException e) {
             e.printStackTrace();
             return false;

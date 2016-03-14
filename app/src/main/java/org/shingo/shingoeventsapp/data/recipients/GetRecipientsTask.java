@@ -29,7 +29,7 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
 
     private String mEvent;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetRecipientsTask(String event, OnTaskComplete listener) {
         mEvent = event;
@@ -40,7 +40,19 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetRecipientsTask.doInBackground called");
-        boolean success = false;
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        if(!Exhibitors.needsRefresh()) return true;
+        boolean success;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "="
                     + URLEncoder.encode(mEvent, "UTF-8");
@@ -58,11 +70,11 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
-            System.out.println("Exhibitors: " + output);
+            System.out.println("Recipients: " + output);
             success = response.getBoolean("success");
-            if (success && Recipients.needsRefresh()) {
+            if (success) {
                 Recipients.clear();
                 JSONArray jAwardRecipients = response.getJSONObject("award_recipients").getJSONArray("records");
                 for(int i = 0; i < jAwardRecipients.length(); i++){
@@ -97,10 +109,10 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            return success;
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
-            return success;
+            return false;
         } catch (JSONException e) {
             e.printStackTrace();
             return false;
@@ -111,6 +123,10 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
             mListener.onTaskComplete();

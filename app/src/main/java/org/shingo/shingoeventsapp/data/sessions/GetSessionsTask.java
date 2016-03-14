@@ -31,7 +31,7 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mId;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetSessionsTask(String id, OnTaskComplete listener) {
         mId = id;
@@ -41,9 +41,20 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
-        System.out.println("GetEventsTask.doInBackground called");
-        boolean success = false;
+        System.out.println("GetSessionsTask.doInBackground called");
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        if(!Sessions.needsRefresh()) return true;
+        boolean success;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
             URL url = new URL(RestApi.API_URL + "/sfevents/sessions?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
@@ -55,11 +66,11 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("Sessions response: " + output);
             success = response.getBoolean("success");
@@ -85,6 +96,7 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
                                     jSpeaker.getString("Organization"), "", null));
                         }
                     }
+                    if(!jSession.has("Room")) jSession.put("Room", "null");
                     Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
                             jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
                             jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"),
@@ -93,10 +105,10 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            return success;
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
-            return success;
+            return false;
         } catch (JSONException e) {
             e.printStackTrace();
             return false;
@@ -107,9 +119,12 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
-            Collections.sort(Sessions.SESSIONS);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");

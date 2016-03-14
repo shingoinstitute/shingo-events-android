@@ -1,6 +1,9 @@
 package org.shingo.shingoeventsapp.api;
 
 import android.content.Context;
+import android.os.AsyncTask;
+
+import java.util.concurrent.Executor;
 
 /**
  * @author Dustin Homan
@@ -24,13 +27,13 @@ public class InitLoader implements OnTaskComplete {
      */
     public void load(){
         RestApi api = new RestApi(this, mContext);
-        api.getAgendas(mEvent).execute((Void) null);
-        api.getAffiliates().execute((Void) null);
-        api.getExhibitors(mEvent).execute((Void) null);
-        api.getRecipients(mEvent).execute((Void) null);
-        api.getSessions(mEvent).execute((Void) null);
-        api.getSpeakers(mEvent).execute((Void) null);
-        api.getSponsors(mEvent).execute((Void) null);
+        api.getAgendas(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(Void) null);
+        api.getAffiliates().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(Void) null);
+        api.getExhibitors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+        api.getRecipients(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+        api.getSessions(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+        api.getSpeakers(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+        api.getSponsors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
     }
 
     /**

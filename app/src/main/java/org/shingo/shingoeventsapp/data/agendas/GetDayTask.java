@@ -26,7 +26,7 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
 
     private String mDay;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetDayTask(String day, OnTaskComplete listener) {
         mDay = day;
@@ -36,9 +36,20 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
         System.out.println("GetDayTask.doInBackground called");
-        boolean success = false;
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                    return true;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        boolean success;
         try {
             String data = URLEncoder.encode("day_id", "UTF-8") + "="
                     + URLEncoder.encode(mDay, "UTF-8");
@@ -52,11 +63,11 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("Day: " + output);
             success = response.getBoolean("success");
@@ -79,10 +90,13 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (JSONException e) {
+            e.printStackTrace();
             return false;
         }
 
@@ -91,6 +105,10 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
             mListener.onTaskComplete();

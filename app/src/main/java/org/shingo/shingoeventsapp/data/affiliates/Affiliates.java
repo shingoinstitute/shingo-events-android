@@ -1,7 +1,6 @@
 package org.shingo.shingoeventsapp.data.affiliates;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -103,7 +102,7 @@ public class Affiliates {
          * @return this.name.compareTo(another.name)
          */
         @Override
-        public int compareTo(@NonNull Affiliate another) {
+        public int compareTo(Affiliate another) {
             return this.name.compareTo(another.name);
         }
     }

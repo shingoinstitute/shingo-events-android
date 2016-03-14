@@ -31,7 +31,7 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
 
     private String mEvent;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetVenueMapsTask(String event, OnTaskComplete listener) {
         mEvent = event;
@@ -42,25 +42,35 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetVenueMapsTask.doInBackground called");
-        boolean success = true;
-        if(VenueMaps.needsRefresh()) {
-            VenueMaps.clear();
-            try {
-                for (Events.Event.VenueMaps vm : Events.EVENT_MAP.get(mEvent).venueMaps) {
-                    try {
-                        URL url = new URL(vm.url);
-                        Bitmap map = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        VenueMaps.addMap(new VenueMaps.VMap(vm.name, map));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        success = false;
-                        break;
-                    }
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch(NullPointerException e){
-                e.printStackTrace();
-                return false;
+            } else {
+                isWorking = true;
             }
+        }
+        if(!VenueMaps.needsRefresh()) return true;
+        boolean success = true;
+        VenueMaps.clear();
+        try {
+            for (Events.Event.VenueMaps vm : Events.EVENT_MAP.get(mEvent).venueMaps) {
+                try {
+                    URL url = new URL(vm.url);
+                    Bitmap map = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    VenueMaps.addMap(new VenueMaps.VMap(vm.name, map));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    success = false;
+                    break;
+                }
+            }
+        } catch(NullPointerException e){
+            e.printStackTrace();
+            return false;
         }
 
         return success;
@@ -68,6 +78,10 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
             mListener.onTaskComplete();

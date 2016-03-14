@@ -29,7 +29,7 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mId;
     private OnTaskComplete mListener;
-    private String output;
+    private static boolean isWorking;
 
     public GetSpeakersTask(String id, OnTaskComplete listener) {
         mId = id;
@@ -39,9 +39,19 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
         System.out.println("GetSpeakersTask.doInBackground called");
-        boolean success = false;
+        synchronized (this){
+            if(isWorking){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                isWorking = true;
+            }
+        }
+        boolean success;
         if(!Speakers.needsRefresh()) return true;
         try {
             String data = URLEncoder.encode("event_id", "UTF-8") + "=" + URLEncoder.encode(mId, "UTF-8");
@@ -54,11 +64,11 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            output = sb.toString();
+            String output = sb.toString();
             JSONObject response = new JSONObject(output);
             System.out.println("Speakers response: " + output);
             success = response.getBoolean("success");
@@ -76,10 +86,13 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            return success;
+            e.printStackTrace();
+            return false;
         } catch (JSONException e) {
+            e.printStackTrace();
             return false;
         }
 
@@ -88,9 +101,12 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        synchronized (this){
+            isWorking = false;
+            notifyAll();
+        }
         if (success) {
             System.out.println("Setting list adapter");
-            Collections.sort(Events.EVENTS);
             mListener.onTaskComplete();
         } else {
             System.out.println("An error occurred...");
