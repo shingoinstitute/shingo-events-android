@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.events.Events;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,6 +28,7 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
 
     private OnTaskComplete mListener;
     private static boolean isWorking = false;
+    private static Object mutex = new Object();
 
     /**
      * Constructor
@@ -50,10 +50,10 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetAffiliatesTask.doInBackground called");
-        synchronized (this) {
+        synchronized (mutex) {
             if (isWorking) {
                 try {
-                    wait();
+                    mutex.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -97,15 +97,15 @@ public class GetAffiliatesTask extends AsyncTask<Void, Void, Boolean> {
      */
     @Override
     protected void onPostExecute(final Boolean success) {
-        synchronized (this){
+        synchronized (mutex) {
             isWorking = false;
-            notifyAll();
+            mutex.notifyAll();
         }
         if (success) {
-            System.out.println("Calling mListener.onTaskComplete");
+            System.out.println("GetAffiliatesTask completed");
             mListener.onTaskComplete();
         } else {
-            System.out.println("An error occurred...");
+            System.out.println("An error occurred in GetAffiliatesTask...");
         }
     }
 

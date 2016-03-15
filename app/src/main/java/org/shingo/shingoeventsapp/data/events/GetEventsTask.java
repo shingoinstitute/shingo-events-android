@@ -89,11 +89,11 @@ public class GetEventsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         if (success) {
-            System.out.println("Setting list adapter");
+            System.out.println("GetEventsTask completed");
             Collections.sort(Events.EVENTS);
             mListener.onTaskComplete();
         } else {
-            System.out.println("An error occurred...");
+            System.out.println("An error occurred in GetEventsTask...");
         }
     }
 

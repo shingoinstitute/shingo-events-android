@@ -49,19 +49,17 @@ public class Agendas {
 
         @Override
         public int compareTo(@NonNull Day another) {
-            SimpleDateFormat formatter = new SimpleDateFormat("EEEE", Locale.getDefault());
-            Date thisStart;
-            Date anotherStart;
-            try {
-                thisStart = formatter.parse(this.name);
-                anotherStart = formatter.parse(another.name);
-
-                if(thisStart.after(anotherStart)) return 1;
-                if(thisStart.before(anotherStart)) return -1;
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return 0;
+            if(this.name.equals(another.name)) return 0;
+            if(this.name.equals("Monday")) return -1;
+            if(this.name.equals("Friday")) return 1;
+            if(another.name.equals("Monday")) return 1;
+            if(another.name.equals("Friday")) return -1;
+            if(this.name.equals("Tuesday")) return -1;
+            if(another.name.equals("Tuesday")) return 1;
+            if(this.name.equals("Wednesday")) return -1;
+            if(another.name.equals("Wednesday")) return 1;
+            if(this.name.equals("Thursday")) return  -1;
+            return 1;
         }
 
         @Override

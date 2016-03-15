@@ -32,6 +32,7 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
     private String mEvent;
     private OnTaskComplete mListener;
     private static boolean isWorking;
+    private static Object mutex = new Object();
 
     public GetVenueMapsTask(String event, OnTaskComplete listener) {
         mEvent = event;
@@ -42,10 +43,10 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetVenueMapsTask.doInBackground called");
-        synchronized (this){
-            if(isWorking){
+        synchronized (mutex) {
+            if (isWorking) {
                 try {
-                    wait();
+                    mutex.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -78,15 +79,15 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-        synchronized (this){
+        synchronized (mutex) {
             isWorking = false;
-            notifyAll();
+            mutex.notifyAll();
         }
         if (success) {
-            System.out.println("Setting list adapter");
+            System.out.println("GetVenueMapsTask completed");
             mListener.onTaskComplete();
         } else {
-            System.out.println("An error occurred...");
+            System.out.println("An error occurred in GetVenueMapsTask...");
         }
     }
 

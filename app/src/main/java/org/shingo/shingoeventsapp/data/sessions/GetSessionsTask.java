@@ -32,6 +32,7 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
     private final String mId;
     private OnTaskComplete mListener;
     private static boolean isWorking;
+    private static Object mutex = new Object();
 
     public GetSessionsTask(String id, OnTaskComplete listener) {
         mId = id;
@@ -42,10 +43,10 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetSessionsTask.doInBackground called");
-        synchronized (this){
-            if(isWorking){
+        synchronized (mutex) {
+            if (isWorking) {
                 try {
-                    wait();
+                    mutex.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -83,7 +84,7 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
                     JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
                     for(int j = 0; j < jSpeakers.length(); j++){
                         JSONObject jSpeaker = jSpeakers.getJSONObject(j);
-                        URL image = null;
+                        URL image;
                         if(!jSpeaker.getString("Speaker_Image__c").equals("null")) {
                             image = new URL(jSpeaker.getString("Speaker_Image__c"));
                             Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
@@ -119,15 +120,15 @@ public class GetSessionsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-        synchronized (this){
+        synchronized (mutex) {
             isWorking = false;
-            notifyAll();
+            mutex.notifyAll();
         }
         if (success) {
-            System.out.println("Setting list adapter");
+            System.out.println("GetSessionsTask completed");
             mListener.onTaskComplete();
         } else {
-            System.out.println("An error occurred...");
+            System.out.println("An error occurred in GetSessionsTask...");
         }
     }
 

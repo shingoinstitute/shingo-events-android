@@ -67,7 +67,6 @@ public class AgendaListActivity extends AppCompatActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
         if(getIntent().getExtras().containsKey("day_id"))
             onItemSelected(getIntent().getExtras().getString("day_id"));
     }

@@ -29,6 +29,7 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
     private String mEvent;
     private OnTaskComplete mListener;
     private static boolean isWorking;
+    private static Object mutex = new Object();
 
     public GetExhibitorsTask(String event, OnTaskComplete listener) {
         mEvent = event;
@@ -39,10 +40,10 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetExhibitorsTask.doInBackground called");
-        synchronized (this){
-            if(isWorking){
+        synchronized (mutex) {
+            if (isWorking) {
                 try {
-                    wait();
+                    mutex.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -78,8 +79,14 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
                 JSONArray jExhibitors = response.getJSONObject("exhibitors").getJSONArray("records");
                 for(int i = 0; i < jExhibitors.length(); i++){
                     JSONObject jExhibitor = jExhibitors.getJSONObject(i);
-                    URL image = new URL(jExhibitor.getString("Logo__c"));
-                    Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                    URL image;
+                    Bitmap picture = null;
+                    try {
+                        image = new URL(jExhibitor.getString("Logo__c"));
+                        picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                     Exhibitors.addExhibitor(new Exhibitors.Exhibitor(jExhibitor.getString("Id"), jExhibitor.getString("Name"),
                             jExhibitor.getString("Description__c"), jExhibitor.getString("Phone__c"), jExhibitor.getString("Email__c"),
                             jExhibitor.getString("Website__c"), picture));
@@ -100,15 +107,15 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-        synchronized (this){
+        synchronized (mutex) {
             isWorking = false;
-            notifyAll();
+            mutex.notifyAll();
         }
         if (success) {
-            System.out.println("Setting list adapter");
+            System.out.println("GetExhibitorsTask completed");
             mListener.onTaskComplete();
         } else {
-            System.out.println("An error occurred...");
+            System.out.println("An error occurred in GetExhibitorsTask...");
         }
     }
 

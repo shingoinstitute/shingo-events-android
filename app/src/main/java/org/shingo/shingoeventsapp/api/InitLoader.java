@@ -16,6 +16,7 @@ import java.util.concurrent.Executor;
 public class InitLoader implements OnTaskComplete {
     private String mEvent;
     private Context mContext;
+    private int count;
 
     public InitLoader(String event, Context context){
         mEvent = event;
@@ -34,6 +35,7 @@ public class InitLoader implements OnTaskComplete {
         api.getSessions(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
         api.getSpeakers(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
         api.getSponsors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+        api.getVenueMaps(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
     }
 
     /**
@@ -41,6 +43,7 @@ public class InitLoader implements OnTaskComplete {
      */
     @Override
     public void onTaskComplete() {
-        System.out.println("API call complete");
+        count++;
+        System.out.println("API call complete " + count + "/8");
     }
 }

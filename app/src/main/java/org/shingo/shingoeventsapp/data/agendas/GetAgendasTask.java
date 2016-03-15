@@ -27,6 +27,7 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
     private String mEvent;
     private OnTaskComplete mListener;
     private static boolean isWorking;
+    private static Object mutex = new Object();
 
     public GetAgendasTask(String event, OnTaskComplete listener) {
         mEvent = event;
@@ -37,10 +38,10 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetAgendasTask.doInBackground called");
-        synchronized (this) {
+        synchronized (mutex) {
             if (isWorking) {
                 try {
-                    wait();
+                    mutex.wait();
                     return true;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -98,15 +99,15 @@ public class GetAgendasTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-        synchronized (this){
+        synchronized (mutex) {
             isWorking = false;
-            notifyAll();
+            mutex.notifyAll();
         }
         if (success) {
-            System.out.println("Setting list adapter");
+            System.out.println("GetAgendasTask complete");
             mListener.onTaskComplete();
         } else {
-            System.out.println("An error occurred...");
+            System.out.println("An error occurred in GetAgendasTask...");
         }
     }
 
