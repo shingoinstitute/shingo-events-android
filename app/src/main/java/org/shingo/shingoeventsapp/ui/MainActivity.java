@@ -26,20 +26,27 @@ public class MainActivity extends AppCompatActivity {
         events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startThisActivity(EventListActivity.class);
+                startActivity(EventListActivity.class);
             }
         });
 
         (findViewById(R.id.action_model)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startThisActivity(ModelActivity.class);
+                startActivity(ModelActivity.class);
+            }
+        });
+
+        (findViewById(R.id.action_support)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SupportActivity.class);
             }
         });
 
     }
 
-    private void startThisActivity(Class dest){
+    private void startActivity(Class dest){
         Intent i = new Intent(this, dest);
         startActivity(i);
     }

@@ -61,4 +61,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="api_dev_url">https://shingo-events.herokuapp.com/api</string>
     <string name="api_prod_url">http://104.131.77.136:5000/api</string>
+    <string name="prompt_email_opt">Email (Optional)</string>
+    <string name="prompt_description">Description of Bug</string>
+    <string name="action_support">Support</string>
+    <string name="action_cancel">Cancel</string>
 </resources>

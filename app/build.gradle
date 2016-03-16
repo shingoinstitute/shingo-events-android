@@ -22,8 +22,8 @@ android {
         applicationId "org.shingo.shingoeventsapp"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 5
-        versionName '1.4'
+        versionCode 6
+        versionName '1.5'
     }
     buildTypes {
         release {
@@ -44,5 +44,8 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.4.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
+    }
+    compile('com.github.ganfra:material-spinner:1.1.1') {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 }

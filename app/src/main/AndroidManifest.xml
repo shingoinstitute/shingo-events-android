@@ -252,8 +252,8 @@
             android:name="io.fabric.ApiKey"
             android:value="7b270db836d504381374de50e898a9c6867f3861" />
 
-        <activity android:name=".ui.ModelActivity" />
-        <activity android:name=".ui.SupportActivity"></activity>
+        <activity android:label="Shingo Model" android:name=".ui.ModelActivity" />
+        <activity android:label="Support/Contact Us" android:name=".ui.SupportActivity"></activity>
     </application>
 
 </manifest>
