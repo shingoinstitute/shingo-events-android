@@ -36,7 +36,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         tools:context="org.shingo.shingoeventsapp.ui.sponsors.SponsorListActivity"
-        tools:listitem="@layout/sponsor_list_content" />
+        tools:listitem="@layout/sponsor_list_content"
+        android:listSelector="@android:color/transparent"/>
 
     <!--<FrameLayout-->
         <!--android:id="@+id/sponsor_detail_container"-->

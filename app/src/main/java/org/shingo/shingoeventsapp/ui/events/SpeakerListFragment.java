@@ -44,14 +44,18 @@ public class SpeakerListFragment extends ListFragment implements OnTaskComplete 
 
     @Override
     public void onTaskComplete() {
-        Collections.sort(Speakers.SPEAKERS);
-        // Comment/Uncomment to use a simple list adapter
-        /*setListAdapter(new ArrayAdapter<Speakers.Speaker>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                Speakers.SPEAKERS)); */
-        setListAdapter(new SpeakersListAdapter(getContext(), Speakers.SPEAKERS, false));
+        try {
+            Collections.sort(Speakers.SPEAKERS);
+            // Comment/Uncomment to use a simple list adapter
+            /*setListAdapter(new ArrayAdapter<Speakers.Speaker>(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    Speakers.SPEAKERS)); */
+            setListAdapter(new SpeakersListAdapter(getContext(), Speakers.SPEAKERS, false));
+        } catch(NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     /**

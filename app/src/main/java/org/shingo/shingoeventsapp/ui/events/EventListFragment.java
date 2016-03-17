@@ -45,7 +45,7 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
     public void onTaskComplete() {
         try {
             setListAdapter(new EventsListAdapter(getContext(), Events.EVENTS));
-        }catch(Exception e){
+        }catch(NullPointerException e){
             e.printStackTrace();
         }
     }

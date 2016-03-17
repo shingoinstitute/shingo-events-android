@@ -44,12 +44,16 @@ public class AgendaListFragment extends ListFragment implements OnTaskComplete {
 
     @Override
     public void onTaskComplete() {
-        Collections.sort(Agendas.AGENDAS);
-        setListAdapter(new ArrayAdapter<Agendas.Day>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                Agendas.AGENDAS));
+        try {
+            Collections.sort(Agendas.AGENDAS);
+            setListAdapter(new ArrayAdapter<Agendas.Day>(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    Agendas.AGENDAS));
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     /**

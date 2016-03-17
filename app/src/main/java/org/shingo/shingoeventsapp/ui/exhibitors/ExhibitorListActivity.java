@@ -136,9 +136,13 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
 
     @Override
     public void onTaskComplete() {
-        View listView = findViewById(R.id.exhibitor_list);
-        assert listView != null;
-        setupListView((ListView) listView);
-        pb.setVisibility(View.GONE); // Dismiss progress bar
+        try {
+            View listView = findViewById(R.id.exhibitor_list);
+            assert listView != null;
+            setupListView((ListView) listView);
+            pb.setVisibility(View.GONE); // Dismiss progress bar
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 }

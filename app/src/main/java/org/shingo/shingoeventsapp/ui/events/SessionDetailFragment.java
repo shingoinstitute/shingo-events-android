@@ -36,8 +36,6 @@ public class SessionDetailFragment extends Fragment {
      */
     private Sessions.Session mSession;
 
-    private View rootView;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -77,14 +75,14 @@ public class SessionDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_session_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_session_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mSession != null) {
             ((TextView) rootView.findViewById(R.id.session_name)).setText(mSession.name);
             ((TextView) rootView.findViewById(R.id.session_room)).setText(mSession.room);
             ((TextView) rootView.findViewById(R.id.session_abstract)).setText(mSession.sAbstract);
-            LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.session_speakers);
+            LinearLayout sessions = (LinearLayout) rootView.findViewById(R.id.session_speakers);
             SpeakersListAdapter listAdapter = new SpeakersListAdapter(getContext(),
                     Sessions.SESSION_MAP.get(mSession.id).speakers, true);
             Collections.sort(Sessions.SESSION_MAP.get(mSession.id).speakers);
@@ -107,6 +105,7 @@ public class SessionDetailFragment extends Fragment {
                         Bundle args = new Bundle();
                         args.putString("speaker_id", sId);
                         args.putString("event_id", SessionListActivity.eventId);
+                        args.putString("session_id", mSession.id);
                         Intent i = new Intent(getContext(), SpeakerListActivity.class);
                         i.putExtras(args);
                         startActivity(i);

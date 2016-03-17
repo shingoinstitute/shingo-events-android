@@ -34,6 +34,7 @@ public class SpeakerListActivity extends AppCompatActivity
      * device.
      */
     private boolean mTwoPane;
+    private String mSession;
 
     public static String mId;
 
@@ -43,6 +44,9 @@ public class SpeakerListActivity extends AppCompatActivity
 
         mId = getIntent().getExtras().getString("event_id");
         if(getIntent().getExtras().containsKey("speaker_id")){
+            if(getIntent().getExtras().containsKey("session_id")){
+                mSession = getIntent().getExtras().getString("session_id");
+            }
             onItemSelected(getIntent().getExtras().getString("speaker_id"));
         }
 
@@ -116,6 +120,7 @@ public class SpeakerListActivity extends AppCompatActivity
             Intent detailIntent = new Intent(this, SpeakerDetailActivity.class);
             detailIntent.putExtra(SpeakerDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra("event_id", mId);
+            if(mSession != null) detailIntent.putExtra("session_id", mSession);
             startActivity(detailIntent);
         }
     }

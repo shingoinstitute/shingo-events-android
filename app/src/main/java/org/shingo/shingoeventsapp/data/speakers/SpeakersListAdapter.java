@@ -49,20 +49,23 @@ public class SpeakersListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row = inflater.inflate(R.layout.img_adapter_row, parent, false);
-        ImageView img = (ImageView)row.findViewById(R.id.list_image);
-        TextView name = (TextView)row.findViewById(R.id.list_name);
-        TextView title = (TextView)row.findViewById(R.id.list_title);
+        if(convertView == null) {
+            convertView = inflater.inflate(R.layout.img_adapter_row, parent, false);
+        }
+
+        ImageView img = (ImageView) convertView.findViewById(R.id.list_image);
+        TextView name = (TextView) convertView.findViewById(R.id.list_name);
+        TextView title = (TextView) convertView.findViewById(R.id.list_title);
         Speakers.Speaker item = (Speakers.Speaker) getItem(position);
         img.setImageDrawable(new BitmapDrawable(context.getResources(), item.getRoundPicture()));
         name.setText(item.displayName);
-        if(!item.company.equals(""))
+        if (!item.company.equals(""))
             title.setText(item.title + ", " + item.company);
         else
             title.setText(item.title);
 
-        if(highlight) {
-            row.setOnTouchListener(new View.OnTouchListener() {
+        if (highlight) {
+            convertView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN)
@@ -75,6 +78,6 @@ public class SpeakersListAdapter extends BaseAdapter {
             });
         }
 
-        return row;
+        return convertView;
     }
 }

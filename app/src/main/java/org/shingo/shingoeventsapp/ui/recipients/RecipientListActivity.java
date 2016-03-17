@@ -107,62 +107,66 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
 
     @Override
     public void onTaskComplete() {
-        Collections.sort(Recipients.AWARD_RECIPIENTS, Collections.reverseOrder());
-        Collections.sort(Recipients.RESEARCH_RECIPIENTS);
+        try {
+            Collections.sort(Recipients.AWARD_RECIPIENTS, Collections.reverseOrder());
+            Collections.sort(Recipients.RESEARCH_RECIPIENTS);
 
-        final ListView recipients = (ListView)findViewById(R.id.recipient_list);
-        final RecipientsListAdapter adapter = new RecipientsListAdapter(this);
-        adapter.addSectionHeaderItem("Prize Challengers");
-        adapter.addAllItems(Recipients.AWARD_RECIPIENTS);
-        adapter.addSectionHeaderItem("Research Recipients");
-        adapter.addAllItems(Recipients.RESEARCH_RECIPIENTS);
-        recipients.setAdapter(adapter);
-        recipients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position < Recipients.AWARD_RECIPIENTS.size() + 1 && adapter.getItemViewType(position) == 0){
-                    if (mTwoPane) {
-                        // In two-pane mode, show the detail view in this activity by
-                        // adding or replacing the detail fragment using a
-                        // fragment transaction.
-                        Bundle arguments = new Bundle();
-                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - 1).id);
-                        arguments.putString("recipient_type", "award");
-                        RecipientDetailFragment fragment = new RecipientDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.recipient_detail_container, fragment)
-                                .commit();
+            final ListView recipients = (ListView) findViewById(R.id.recipient_list);
+            final RecipientsListAdapter adapter = new RecipientsListAdapter(this);
+            adapter.addSectionHeaderItem("Prize Challengers");
+            adapter.addAllItems(Recipients.AWARD_RECIPIENTS);
+            adapter.addSectionHeaderItem("Research Recipients");
+            adapter.addAllItems(Recipients.RESEARCH_RECIPIENTS);
+            recipients.setAdapter(adapter);
+            recipients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (position < Recipients.AWARD_RECIPIENTS.size() + 1 && adapter.getItemViewType(position) == 0) {
+                        if (mTwoPane) {
+                            // In two-pane mode, show the detail view in this activity by
+                            // adding or replacing the detail fragment using a
+                            // fragment transaction.
+                            Bundle arguments = new Bundle();
+                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - 1).id);
+                            arguments.putString("recipient_type", "award");
+                            RecipientDetailFragment fragment = new RecipientDetailFragment();
+                            fragment.setArguments(arguments);
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.recipient_detail_container, fragment)
+                                    .commit();
 
-                    } else {
-                        // In single-pane mode, simply start the detail activity
-                        // for the selected item ID.
-                        startRecipientDetailActivity(position - 1, 0);
-                    }
-                } else if (adapter.getItemViewType(position) == 0 && position > Recipients.AWARD_RECIPIENTS.size() + 1) {
-                    if (mTwoPane) {
-                        // In two-pane mode, show the detail view in this activity by
-                        // adding or replacing the detail fragment using a
-                        // fragment transaction.
-                        Bundle arguments = new Bundle();
-                        arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.RESEARCH_RECIPIENTS.get(position - (Recipients.AWARD_RECIPIENTS.size() + 2)).id);
-                        arguments.putString("recipient_type", "research");
-                        RecipientDetailFragment fragment = new RecipientDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.recipient_detail_container, fragment)
-                                .commit();
+                        } else {
+                            // In single-pane mode, simply start the detail activity
+                            // for the selected item ID.
+                            startRecipientDetailActivity(position - 1, 0);
+                        }
+                    } else if (adapter.getItemViewType(position) == 0 && position > Recipients.AWARD_RECIPIENTS.size() + 1) {
+                        if (mTwoPane) {
+                            // In two-pane mode, show the detail view in this activity by
+                            // adding or replacing the detail fragment using a
+                            // fragment transaction.
+                            Bundle arguments = new Bundle();
+                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.RESEARCH_RECIPIENTS.get(position - (Recipients.AWARD_RECIPIENTS.size() + 2)).id);
+                            arguments.putString("recipient_type", "research");
+                            RecipientDetailFragment fragment = new RecipientDetailFragment();
+                            fragment.setArguments(arguments);
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.recipient_detail_container, fragment)
+                                    .commit();
 
-                    } else {
-                        // In single-pane mode, simply start the detail activity
-                        // for the selected item ID.
-                        startRecipientDetailActivity(position - (Recipients.AWARD_RECIPIENTS.size() + 2), 1);
+                        } else {
+                            // In single-pane mode, simply start the detail activity
+                            // for the selected item ID.
+                            startRecipientDetailActivity(position - (Recipients.AWARD_RECIPIENTS.size() + 2), 1);
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        pb.setVisibility(View.GONE);
+            pb.setVisibility(View.GONE);
+        } catch(NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     private void startRecipientDetailActivity(int position, int type)

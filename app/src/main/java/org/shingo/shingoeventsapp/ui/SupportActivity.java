@@ -98,14 +98,18 @@ public class SupportActivity extends AppCompatActivity implements OnTaskComplete
 
     @Override
     public void onTaskComplete() {
-        Snackbar snackbar = Snackbar
-                .make(findViewById(R.id.support_container), "Report submitted", Snackbar.LENGTH_LONG)
-                .setAction("Done", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    }
-                });
-        snackbar.show();
+        try {
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.support_container), "Report submitted", Snackbar.LENGTH_LONG)
+                    .setAction("Done", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
+                    });
+            snackbar.show();
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 }

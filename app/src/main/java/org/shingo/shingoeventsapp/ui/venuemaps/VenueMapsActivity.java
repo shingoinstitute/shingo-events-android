@@ -91,8 +91,12 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
 
     @Override
     public void onTaskComplete() {
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        pb.dismiss();
+        try {
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            pb.dismiss();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

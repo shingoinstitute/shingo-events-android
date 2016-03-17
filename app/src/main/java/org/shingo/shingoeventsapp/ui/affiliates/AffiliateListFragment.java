@@ -44,8 +44,12 @@ public class AffiliateListFragment extends ListFragment implements OnTaskComplet
 
     @Override
     public void onTaskComplete() {
-        Collections.sort(Affiliates.AFFILIATES);
-        setListAdapter(new AffiliatesListAdapter(getContext(), Affiliates.AFFILIATES));
+        try {
+            Collections.sort(Affiliates.AFFILIATES);
+            setListAdapter(new AffiliatesListAdapter(getContext(), Affiliates.AFFILIATES));
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     /**
