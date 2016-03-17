@@ -44,20 +44,17 @@ public class SpeakerDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mSpeaker = Speakers.SPEAKER_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
-            while (mSpeaker == null){
-                try {
-                    Thread.sleep(1000);
-
-                    mSpeaker = Speakers.SPEAKER_MAP.get(getArguments().getString(ARG_ITEM_ID));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+//            while (mSpeaker == null){
+//                try {
+//                    Thread.sleep(1000);
+//
+//                    mSpeaker = Speakers.SPEAKER_MAP.get(getArguments().getString(ARG_ITEM_ID));
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

@@ -20,6 +20,7 @@ import org.shingo.shingoeventsapp.R;
 public class SpeakerDetailActivity extends AppCompatActivity {
 
     private String eventId;
+    private String mSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class SpeakerDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         eventId = getIntent().getExtras().getString("event_id");
+        if(getIntent().hasExtra("session_id")) mSession = getIntent().getExtras().getString("session_id");
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,5 +74,16 @@ public class SpeakerDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(mSession != null){
+            Intent i = new Intent(this, SessionListActivity.class);
+            i.putExtra("session_id", mSession);
+            navigateUpTo(i);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
