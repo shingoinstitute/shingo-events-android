@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,11 +78,12 @@ public class SessionDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_session_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mSession != null) {
             ((TextView) rootView.findViewById(R.id.session_name)).setText(mSession.name);
             ((TextView) rootView.findViewById(R.id.session_room)).setText(mSession.room);
-            ((TextView) rootView.findViewById(R.id.session_abstract)).setText(mSession.sAbstract);
+            ((TextView) rootView.findViewById(R.id.session_abstract))
+                    .setText(Html.fromHtml("<font color='black'>Summary:</font>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            + mSession.sAbstract), TextView.BufferType.SPANNABLE);
             LinearLayout sessions = (LinearLayout) rootView.findViewById(R.id.session_speakers);
             SpeakersListAdapter listAdapter = new SpeakersListAdapter(getContext(),
                     Sessions.SESSION_MAP.get(mSession.id).speakers, true);

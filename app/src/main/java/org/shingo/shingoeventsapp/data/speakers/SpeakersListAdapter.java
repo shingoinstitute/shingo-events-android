@@ -61,8 +61,10 @@ public class SpeakersListAdapter extends BaseAdapter {
         name.setText(item.displayName);
         if (!item.company.equals(""))
             title.setText(item.title + ", " + item.company);
-        else
+        else if(!item.title.equals(""))
             title.setText(item.title);
+        else if(!item.company.equals(""))
+            title.setText(item.company);
 
         if (highlight) {
             convertView.setOnTouchListener(new View.OnTouchListener() {

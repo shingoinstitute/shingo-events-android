@@ -5,43 +5,23 @@
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
         tools:context=".ui.events.SessionDetailFragment" />
-    <TextView android:text="@string/title_room"
-        style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context=".ui.events.SessionDetailFragment" />
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="10px"
-        android:paddingBottom="5px"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:src="@android:drawable/divider_horizontal_bright" />
-    <TextView android:id="@+id/session_room" style="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context=".ui.events.SessionDetailFragment" />
-    <TextView android:text="@string/title_abstract"
-        style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
-        tools:context=".ui.events.SessionDetailFragment" />
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="10px"
-        android:paddingBottom="5px"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:src="@android:drawable/divider_horizontal_bright" />
+        android:orientation="horizontal">
+        <TextView android:text="@string/title_room"
+            style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
+            tools:context=".ui.events.SessionDetailFragment" />
+        <TextView android:id="@+id/session_room" style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
+            tools:context=".ui.events.SessionDetailFragment" />
+    </LinearLayout>
     <TextView android:id="@+id/session_abstract"
         style="?android:attr/textAppearanceMedium" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
         tools:context=".ui.events.SessionDetailFragment" />
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="10px"
-        android:paddingBottom="5px"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:src="@android:drawable/divider_horizontal_bright" />
     <TextView android:text="@string/title_speaker_list"
         style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"

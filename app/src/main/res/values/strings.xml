@@ -65,4 +65,5 @@
     <string name="prompt_description">Description of Bug</string>
     <string name="action_support">Support</string>
     <string name="action_cancel">Cancel</string>
+    <string name="title_summary">Summary</string>
 </resources>

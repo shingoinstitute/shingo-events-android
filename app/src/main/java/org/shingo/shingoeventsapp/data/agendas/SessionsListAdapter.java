@@ -50,8 +50,8 @@ public class SessionsListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = inflater.inflate(R.layout.agenda_list_row, parent, false);
-        TextView top = (TextView)row.findViewById(R.id.top_row);
-        TextView bottom = (TextView)row.findViewById(R.id.bottom_row);
+        TextView top = (TextView)row.findViewById(R.id.time_row);
+        TextView middle = (TextView)row.findViewById(R.id.info_row);
         Sessions.Session item = (Sessions.Session) getItem(position);
 
         DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
@@ -67,7 +67,7 @@ public class SessionsListAdapter extends BaseAdapter {
         }
 
         top.setText(start + " - " + end);
-        bottom.setText(item.name);
+        middle.setText(item.name);
 
         return row;
     }

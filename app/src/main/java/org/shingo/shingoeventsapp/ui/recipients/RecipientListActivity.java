@@ -1,22 +1,13 @@
 package org.shingo.shingoeventsapp.ui.recipients;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
@@ -110,11 +101,31 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         try {
             Collections.sort(Recipients.AWARD_RECIPIENTS, Collections.reverseOrder());
             Collections.sort(Recipients.RESEARCH_RECIPIENTS);
+            List shingoPrize = new ArrayList<>();
+            List silverMedallion = new ArrayList<>();
+            List bronzeMedallion = new ArrayList<>();
+            for(Recipients.AwardRecipient recipient : Recipients.AWARD_RECIPIENTS){
+                switch (recipient.award){
+                    case "Shingo Prize":
+                        shingoPrize.add(recipient);
+                        break;
+                    case "Silver Medallion":
+                        silverMedallion.add(recipient);
+                        break;
+                    case "Bronze Medallion":
+                        bronzeMedallion.add(recipient);
+                        break;
+                }
+            }
 
             final ListView recipients = (ListView) findViewById(R.id.recipient_list);
             final RecipientsListAdapter adapter = new RecipientsListAdapter(this);
-            adapter.addSectionHeaderItem("Prize Challengers");
-            adapter.addAllItems(Recipients.AWARD_RECIPIENTS);
+            adapter.addSectionHeaderItem("Shingo Prize");
+            adapter.addAllItems(shingoPrize);
+            adapter.addSectionHeaderItem("Silver Medallion");
+            adapter.addAllItems(silverMedallion);
+            adapter.addSectionHeaderItem("Bronze Medallion");
+            adapter.addAllItems(bronzeMedallion);
             adapter.addSectionHeaderItem("Research Recipients");
             adapter.addAllItems(Recipients.RESEARCH_RECIPIENTS);
             recipients.setAdapter(adapter);

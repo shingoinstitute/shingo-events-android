@@ -87,8 +87,8 @@ public class SessionsListAdapter extends BaseAdapter {
                 case TYPE_ITEM:
                     holder = new ContentHolder();
                     convertView = inflater.inflate(R.layout.agenda_list_row, parent, false);
-                    ((ContentHolder)holder).time = (TextView)convertView.findViewById(R.id.top_row);
-                    ((ContentHolder)holder).name = (TextView)convertView.findViewById(R.id.bottom_row);
+                    ((ContentHolder)holder).time = (TextView)convertView.findViewById(R.id.time_row);
+                    ((ContentHolder)holder).info = (TextView)convertView.findViewById(R.id.info_row);
                     break;
                 case TYPE_SEPARATOR:
                     holder = new HeaderHolder();
@@ -115,7 +115,7 @@ public class SessionsListAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
             ((ContentHolder)holder).time.setText(start + " -- " + end);
-            ((ContentHolder)holder).name.setText(item.name);
+            ((ContentHolder)holder).info.setText(item.name);
 
 
         } else {
@@ -127,7 +127,7 @@ public class SessionsListAdapter extends BaseAdapter {
 
     public static class ContentHolder{
         public TextView time;
-        public TextView name;
+        public TextView info;
     }
 
     public static class HeaderHolder{
