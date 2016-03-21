@@ -50,10 +50,11 @@ public class Sessions {
         public String room;
         public String startTime;
         public String endTime;
+        public String format;
         public List<Speakers.Speaker> speakers;
         private SimpleDateFormat formatter;
 
-        public Session(String id, String name, String sAbstract, String notes, String date, String time, List<Speakers.Speaker> speakers, String room){
+        public Session(String id, String name, String sAbstract, String notes, String date, String format, String time, List<Speakers.Speaker> speakers, String room){
             this.id = id;
             this.name = name;
             this.sAbstract = sAbstract;
@@ -62,6 +63,7 @@ public class Sessions {
             this.time = time;
             this.speakers = speakers;
             this.room = room;
+            this.format = format;
             this.startTime = date + " " + time.split("-")[0];
             this.endTime = date + " " + time.split("-")[1];
             this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
@@ -69,11 +71,12 @@ public class Sessions {
 
         }
 
-        public Session(String id, String name, String startTime, String endTime){
+        public Session(String id, String name, String format, String startTime, String endTime){
             this.id = id;
             this.name = name;
             this.startTime = startTime;
             this.endTime = endTime;
+            this.format = format;
             this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
         }
 

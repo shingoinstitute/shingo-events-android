@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.recipients.Recipients;
+import org.shingo.shingoeventsapp.data.speakers.Speakers;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -89,6 +90,7 @@ public class SessionsListAdapter extends BaseAdapter {
                     convertView = inflater.inflate(R.layout.agenda_list_row, parent, false);
                     ((ContentHolder)holder).time = (TextView)convertView.findViewById(R.id.time_row);
                     ((ContentHolder)holder).info = (TextView)convertView.findViewById(R.id.info_row);
+                    ((ContentHolder)holder).title = (TextView)convertView.findViewById(R.id.title_row);
                     break;
                 case TYPE_SEPARATOR:
                     holder = new HeaderHolder();
@@ -115,9 +117,9 @@ public class SessionsListAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
             ((ContentHolder)holder).time.setText(start + " -- " + end);
-            ((ContentHolder)holder).info.setText(item.name);
-
-
+            Speakers.Speaker speaker = item.speakers.get(0);
+            ((ContentHolder) holder).info.setText(item.format + ": " + speaker.name + ", " + speaker.title + ", " + speaker.company);
+            ((ContentHolder) holder).title.setText(item.name);
         } else {
             ((HeaderHolder)holder).header.setText((String) getItem(position));
         }
@@ -128,6 +130,7 @@ public class SessionsListAdapter extends BaseAdapter {
     public static class ContentHolder{
         public TextView time;
         public TextView info;
+        public TextView title;
     }
 
     public static class HeaderHolder{

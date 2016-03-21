@@ -1,5 +1,7 @@
 package org.shingo.shingoeventsapp.data.agendas;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -8,6 +10,7 @@ import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
+import org.shingo.shingoeventsapp.data.speakers.Speakers;
 import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
 import java.io.BufferedReader;
@@ -18,6 +21,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dustinehoman on 1/19/16.
@@ -73,21 +78,31 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
             System.out.println("Day: " + output);
             success = response.getBoolean("success");
             if (success) {
-                JSONObject jDay = response.getJSONObject("day");
-                if(jDay != null){
-                    JSONArray jSessions = jDay.getJSONObject("Sessions").getJSONArray("records");
-                    Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions.clear();
-                    for(int i = 0; i < jSessions.length(); i++){
-                        JSONObject jSession = jSessions.getJSONObject(i);
-                        String date = jSession.getString("Session_Date__c");
-                        String start = jSession.getString("Session_Time__c").split("-")[0];
-                        String end = jSession.getString("Session_Time__c").split("-")[1];
-                        Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions.add(
-                                new Sessions.Session(jSession.getString("Id"),
-                                        jSession.getString("Name"),
-                                        date + " " + start,
-                                        date + " " + end));
+                JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
+                for(int i = 0; i < response.getJSONObject("sessions").getInt("size"); i++){
+                    JSONObject jSession = jSessions.getJSONObject(i);
+                    List<Speakers.Speaker> speakers = new ArrayList<>();
+                    JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
+                    for(int j = 0; j < jSpeakers.length(); j++){
+                        JSONObject jSpeaker = jSpeakers.getJSONObject(j);
+                        URL image;
+                        if(!jSpeaker.getString("Speaker_Image__c").equals("null")) {
+                            image = new URL(jSpeaker.getString("Speaker_Image__c"));
+                            Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                            speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
+                                    jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
+                                    jSpeaker.getString("Organization"), "", picture));
+                        } else {
+                            speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
+                                    jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
+                                    jSpeaker.getString("Organization"), "", null));
+                        }
                     }
+                    if(!jSession.has("Room")) jSession.put("Room", "null");
+                    Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
+                            jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
+                            jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),
+                            jSession.getString("Session_Time__c"), speakers, jSession.getString("Room")));
                 }
             }
         } catch (UnsupportedEncodingException e) {
