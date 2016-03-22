@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.events.Events;
+import org.shingo.shingoeventsapp.data.exhibitors.Exhibitors;
 import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
 import java.io.BufferedReader;
@@ -78,8 +79,14 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
                 JSONArray jSpeakers = response.getJSONObject("speakers").getJSONArray("records");
                 for(int i = 0; i < jSpeakers.length(); i++){
                     JSONObject jSpeaker = jSpeakers.getJSONObject(i);
-                    URL image = new URL(jSpeaker.getString("Speaker_Image__c"));
-                    Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                    URL image;
+                    Bitmap picture = null;
+                    try {
+                        image = new URL(jSpeaker.getString("Speaker_Image__c"));
+                        picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                     Speakers.addSpeaker(new Speakers.Speaker(jSpeaker.getString("Id"),
                             jSpeaker.getString("Name"),jSpeaker.getString("Speaker_Display_Name__c"),
                             jSpeaker.getString("Title"), jSpeaker.getString("Organization"),

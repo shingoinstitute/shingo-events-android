@@ -76,7 +76,7 @@ public class GetSessionTask extends AsyncTask<Void, Void, Boolean> {
                 }
                 Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
                         jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
-                        jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"),
+                        jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),
                         jSession.getString("Session_Time__c"), speakers, jSession.getString("Room")));
             }
         } catch (UnsupportedEncodingException e) {

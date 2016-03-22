@@ -117,9 +117,17 @@ public class SessionsListAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
             ((ContentHolder)holder).time.setText(start + " -- " + end);
-            Speakers.Speaker speaker = item.speakers.get(0);
-            ((ContentHolder) holder).info.setText(item.format + ": " + speaker.name + ", " + speaker.title + ", " + speaker.company);
+            if(item.format.equals("Social"))
+                ((ContentHolder) holder).info.setText(item.format);
+            else if(item.speakers.size() > 0) {
+                Speakers.Speaker speaker = item.speakers.get(0);
+                ((ContentHolder) holder).info.setText(item.format +
+                        ((item.format.equals("") || (speaker.name == null && speaker.title == null && speaker.company == null)) ? "" : ": ") +
+                        speaker.name + ((speaker.title == null && speaker.company == null) ? "" : ", ") +
+                        speaker.title + (speaker.company == null ? "" : ", ") + speaker.company);
+            }
             ((ContentHolder) holder).title.setText(item.name);
+            if(item.speakers.size() < 1) ((ContentHolder)holder).info.setVisibility(View.GONE);
         } else {
             ((HeaderHolder)holder).header.setText((String) getItem(position));
         }

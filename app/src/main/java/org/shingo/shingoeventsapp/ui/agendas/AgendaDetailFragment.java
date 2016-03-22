@@ -10,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
-import org.shingo.shingoeventsapp.data.agendas.SessionsListAdapter;
+import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
 import org.shingo.shingoeventsapp.ui.events.SessionListActivity;
 
 import java.util.Collections;
@@ -98,9 +97,9 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
     @Override
     public void onTaskComplete() {
         LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.agenda_sessions);
-        SessionsListAdapter listAdapter = new SessionsListAdapter(getContext(),
-                Agendas.AGENDA_MAP.get(mDay.id).sessions);
+        SessionsListAdapter listAdapter = new SessionsListAdapter(getContext());
         Collections.sort(Agendas.AGENDA_MAP.get(mDay.id).sessions);
+        listAdapter.addAllItems(Agendas.AGENDA_MAP.get(mDay.id).sessions);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

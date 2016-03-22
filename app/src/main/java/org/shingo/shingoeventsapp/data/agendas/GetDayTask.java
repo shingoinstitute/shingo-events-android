@@ -78,31 +78,25 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
             System.out.println("Day: " + output);
             success = response.getBoolean("success");
             if (success) {
-                JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
-                for(int i = 0; i < response.getJSONObject("sessions").getInt("size"); i++){
-                    JSONObject jSession = jSessions.getJSONObject(i);
-                    List<Speakers.Speaker> speakers = new ArrayList<>();
-                    JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
-                    for(int j = 0; j < jSpeakers.length(); j++){
-                        JSONObject jSpeaker = jSpeakers.getJSONObject(j);
-                        URL image;
-                        if(!jSpeaker.getString("Speaker_Image__c").equals("null")) {
-                            image = new URL(jSpeaker.getString("Speaker_Image__c"));
-                            Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
-                            speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
-                                    jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
-                                    jSpeaker.getString("Organization"), "", picture));
-                        } else {
+                JSONObject jDay = response.getJSONObject("day");
+                if(jDay != null){
+                    JSONArray jSessions = jDay.getJSONObject("Sessions").getJSONArray("records");
+                    for(int i = 0; i < jSessions.length(); i++){
+                        JSONObject jSession = jSessions.getJSONObject(i);
+                        List<Speakers.Speaker> speakers = new ArrayList<>();
+                        JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
+                        for (int j = 0; j < jSpeakers.length(); j++) {
+                            JSONObject jSpeaker = jSpeakers.getJSONObject(j);
                             speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
                                     jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
                                     jSpeaker.getString("Organization"), "", null));
                         }
+                        if(!jSession.has("Room")) jSession.put("Room", "null");
+                        Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions.add((new Sessions.Session(jSession.getString("Id"),
+                                jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
+                                jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),
+                                jSession.getString("Session_Time__c"), speakers, jSession.getString("Room"))));
                     }
-                    if(!jSession.has("Room")) jSession.put("Room", "null");
-                    Sessions.addSession(new Sessions.Session(jSession.getString("Id"),
-                            jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
-                            jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),
-                            jSession.getString("Session_Time__c"), speakers, jSession.getString("Room")));
                 }
             }
         } catch (UnsupportedEncodingException e) {
