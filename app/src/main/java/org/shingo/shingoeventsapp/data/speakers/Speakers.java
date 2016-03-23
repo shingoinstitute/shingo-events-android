@@ -1,9 +1,13 @@
 package org.shingo.shingoeventsapp.data.speakers;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
+
+import org.shingo.shingoeventsapp.R;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,7 +70,7 @@ public class Speakers {
             if(bio.equals("null")) this.bio = "";
         }
 
-        public Bitmap getRoundPicture(){
+        public Bitmap getRoundPicture(Context context){
             int targetWidth = 250;
             int targetHeight = 250;
             Bitmap target = Bitmap.createBitmap(targetWidth,targetHeight, Bitmap.Config.ARGB_8888);
@@ -77,8 +81,15 @@ public class Speakers {
                     (Math.min(((float) (targetWidth / 2)), ((float) (targetHeight / 2)))),
                     Path.Direction.CCW);
             canvas.clipPath(path);
-            canvas.drawBitmap(picture, new Rect(0,0,picture.getWidth(), picture.getHeight()),
-                    new Rect(0,0, targetWidth, targetHeight), null);
+            if(picture == null) {
+                Bitmap sill = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_silhouette);
+                canvas.drawBitmap(sill, new Rect(0,0,sill.getWidth(), sill.getHeight()),
+                        new Rect(0,0, targetWidth, targetHeight), null);
+            }
+            else {
+                canvas.drawBitmap(picture, new Rect(0, 0, picture.getWidth(), picture.getHeight()),
+                        new Rect(0, 0, targetWidth, targetHeight), null);
+            }
             return target;
         }
 

@@ -9,9 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.shingo.shingoeventsapp.ui.ModelActivity"
     android:layout_gravity="center">
-    <org.shingo.shingoeventsapp.ui.ZoomView
-        android:background="@drawable/model"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <org.shingo.shingoeventsapp.ui.TouchImageView
+        android:id="@+id/model"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -38,7 +38,7 @@
         android:dividerPadding="5dp"
         android:layout_marginTop="75dp"/>
 
-    <android.support.v4.view.ViewPager
+    <org.shingo.shingoeventsapp.ui.ExtendedViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

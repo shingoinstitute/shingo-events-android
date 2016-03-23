@@ -11,5 +11,7 @@ public class ModelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_model);
+        TouchImageView img = (TouchImageView)findViewById(R.id.model);
+        img.setImageResource(R.drawable.model);
     }
 }

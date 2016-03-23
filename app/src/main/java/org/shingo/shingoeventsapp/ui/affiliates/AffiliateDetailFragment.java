@@ -1,12 +1,16 @@
 package org.shingo.shingoeventsapp.ui.affiliates;
 
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
@@ -47,11 +51,7 @@ public class AffiliateDetailFragment extends Fragment {
             // to load content from a content provider.
             mAffiliate = Affiliates.AFFILIATE_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mAffiliate.name);
-            }
+
         }
     }
 
@@ -60,8 +60,19 @@ public class AffiliateDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_affiliate_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mAffiliate.name);
+            appBarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+            if(mAffiliate.logo != null)
+                ((ImageView)activity.findViewById(R.id.affiliate_logo)).setImageDrawable(new BitmapDrawable(getResources(),mAffiliate.logo));
+            else
+                activity.findViewById(R.id.affiliate_logo).setVisibility(View.GONE);
+        }
+
         if (mAffiliate != null) {
+
             ((TextView) rootView.findViewById(R.id.affiliate_detail)).setText(mAffiliate.appAbstract);
         }
 

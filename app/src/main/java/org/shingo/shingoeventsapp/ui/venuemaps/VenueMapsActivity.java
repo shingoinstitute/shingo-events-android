@@ -1,7 +1,6 @@
 package org.shingo.shingoeventsapp.ui.venuemaps;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -27,13 +26,13 @@ import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 import org.shingo.shingoeventsapp.data.venuemaps.VenueMaps;
-import org.shingo.shingoeventsapp.ui.ZoomView;
+import org.shingo.shingoeventsapp.ui.ExtendedViewPager;
+import org.shingo.shingoeventsapp.ui.TouchImageView;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class VenueMapsActivity extends AppCompatActivity implements OnTaskComplete{
@@ -51,7 +50,7 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private ExtendedViewPager mViewPager;
     private String mEvent;
     private ProgressDialog pb;
     private List<BreadCrumb> breadCrumbList;
@@ -72,7 +71,7 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
         pb = new ProgressDialog(this);
         pb.setMessage("Loading Images...");
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ExtendedViewPager) findViewById(R.id.container);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -83,8 +82,8 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
             public void onPageSelected(int position) {
                 System.out.println("onPageSelected: " + position);
                 breadCrumbList.get(position).activate();
-                for(int i = 0; i < breadCrumbList.size(); i++){
-                    if(i != position) breadCrumbList.get(i).deactivate();
+                for (int i = 0; i < breadCrumbList.size(); i++) {
+                    if (i != position) breadCrumbList.get(i).deactivate();
                 }
             }
 
@@ -125,7 +124,6 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     WRAP_CONTENT, WRAP_CONTENT);
             layoutParams.setMargins(20, 10, 20, 10);
-            mViewPager.setAdapter(mSectionsPagerAdapter);
             for(int i = 0; i < VenueMaps.MAPS.size(); i++){
                 TextView tv = new TextView(this);
                 tv.setClickable(true);
@@ -133,18 +131,20 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8.0f);
                 tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 tv.setTextColor(getResources().getColor(R.color.colorTransAccent));
-//                final int position = i;
-//                tv.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        System.out.println("view clicked: " + position);
-//                        mViewPager.setCurrentItem(position, true);
-//                    }
-//                });
+                final int position = i;
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println("view clicked: " + position);
+                        mViewPager.setCurrentItem(position, true);
+                    }
+                });
                 breadcrumbs.addView(tv, i, layoutParams);
                 breadCrumbList.add(new BreadCrumb(tv));
             }
             breadCrumbList.get(0).activate();
+
+            mViewPager.setAdapter(mSectionsPagerAdapter);
             pb.dismiss();
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -183,11 +183,40 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
             View rootView = inflater.inflate(R.layout.fragment_venue_maps, container, false);
 //            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 //            textView.setText(map.name);
-            ZoomView imageView = (ZoomView) rootView.findViewById(R.id.section_image);
+            TouchImageView imageView = (TouchImageView) rootView.findViewById(R.id.section_image);
             imageView.setImageDrawable(new BitmapDrawable(getResources(), map.map));
             return rootView;
         }
     }
+
+
+//    static class TouchImageAdapter extends PagerAdapter {
+//
+//
+//        @Override
+//        public int getCount() {
+//            return VenueMaps.MAPS.size();
+//        }
+//
+//        @Override
+//        public View instantiateItem(ViewGroup container, int position) {
+//            TouchImageView img = new TouchImageView(container.getContext());
+//            img.setImageDrawable(new BitmapDrawable(VenueMaps.MAPS.get(position).map));
+//            container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//            return img;
+//        }
+//
+//        @Override
+//        public void destroyItem(ViewGroup container, int position, Object object) {
+//            container.removeView((View) object);
+//        }
+//
+//        @Override
+//        public boolean isViewFromObject(View view, Object object) {
+//            return view == object;
+//        }
+//
+//    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

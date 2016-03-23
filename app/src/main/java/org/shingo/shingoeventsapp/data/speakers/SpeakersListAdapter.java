@@ -57,7 +57,7 @@ public class SpeakersListAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(R.id.list_name);
         TextView title = (TextView) convertView.findViewById(R.id.list_title);
         Speakers.Speaker item = (Speakers.Speaker) getItem(position);
-        img.setImageDrawable(new BitmapDrawable(context.getResources(), item.getRoundPicture()));
+        img.setImageDrawable(new BitmapDrawable(context.getResources(), item.getRoundPicture(context)));
         name.setText(item.displayName);
         if (!item.company.equals(""))
             title.setText(item.title + ", " + item.company);

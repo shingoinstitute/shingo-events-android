@@ -74,7 +74,7 @@ public class SpeakerDetailFragment extends Fragment {
         if (mSpeaker != null) {
             ((TextView) rootView.findViewById(R.id.speaker_detail)).setText(mSpeaker.bio);
             ImageView picture = (ImageView) parent.findViewById(R.id.speaker_image);
-            if(picture != null) picture.setImageDrawable(new BitmapDrawable(getResources(), mSpeaker.getRoundPicture()));
+            if(picture != null) picture.setImageDrawable(new BitmapDrawable(getResources(), mSpeaker.getRoundPicture(getContext())));
         }
 
         return rootView;
