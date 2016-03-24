@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.ui.events;
+package org.shingo.shingoeventsapp.ui.sessions;
 
 import android.content.Intent;
 import android.os.Bundle;

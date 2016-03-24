@@ -17,6 +17,7 @@ import org.shingo.shingoeventsapp.ui.affiliates.AffiliateListActivity;
 import org.shingo.shingoeventsapp.ui.agendas.AgendaListActivity;
 import org.shingo.shingoeventsapp.ui.exhibitors.ExhibitorListActivity;
 import org.shingo.shingoeventsapp.ui.recipients.RecipientListActivity;
+import org.shingo.shingoeventsapp.ui.speakers.SpeakerListActivity;
 import org.shingo.shingoeventsapp.ui.sponsors.SponsorListActivity;
 import org.shingo.shingoeventsapp.ui.venuemaps.VenueMapsActivity;
 

@@ -101,9 +101,9 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         try {
             Collections.sort(Recipients.AWARD_RECIPIENTS, Collections.reverseOrder());
             Collections.sort(Recipients.RESEARCH_RECIPIENTS);
-            List shingoPrize = new ArrayList<>();
-            List silverMedallion = new ArrayList<>();
-            List bronzeMedallion = new ArrayList<>();
+            final List<Recipients.AwardRecipient> shingoPrize = new ArrayList<>();
+            final List<Recipients.AwardRecipient> silverMedallion = new ArrayList<>();
+            final List<Recipients.AwardRecipient> bronzeMedallion = new ArrayList<>();
             for(Recipients.AwardRecipient recipient : Recipients.AWARD_RECIPIENTS){
                 switch (recipient.award){
                     case "Shingo Prize":
@@ -132,14 +132,15 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
             recipients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (position < Recipients.AWARD_RECIPIENTS.size() + 1 && adapter.getItemViewType(position) == 0) {
+                    Bundle arguments = new Bundle();
+                    if (position < shingoPrize.size() + 1 && adapter.getItemViewType(position) == 0) {
                         if (mTwoPane) {
                             // In two-pane mode, show the detail view in this activity by
                             // adding or replacing the detail fragment using a
                             // fragment transaction.
-                            Bundle arguments = new Bundle();
-                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position - 1).id);
+                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, shingoPrize.get(position - 1).id);
                             arguments.putString("recipient_type", "award");
+
                             RecipientDetailFragment fragment = new RecipientDetailFragment();
                             fragment.setArguments(arguments);
                             getSupportFragmentManager().beginTransaction()
@@ -149,16 +150,16 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
                         } else {
                             // In single-pane mode, simply start the detail activity
                             // for the selected item ID.
-                            startRecipientDetailActivity(position - 1, 0);
+                            startRecipientDetailActivity(shingoPrize.get(position - 1).id, 0);
                         }
-                    } else if (adapter.getItemViewType(position) == 0 && position > Recipients.AWARD_RECIPIENTS.size() + 1) {
+                    } else if(adapter.getItemViewType(position) == 0 && position < shingoPrize.size() + silverMedallion.size() + 2){
                         if (mTwoPane) {
                             // In two-pane mode, show the detail view in this activity by
                             // adding or replacing the detail fragment using a
                             // fragment transaction.
-                            Bundle arguments = new Bundle();
-                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.RESEARCH_RECIPIENTS.get(position - (Recipients.AWARD_RECIPIENTS.size() + 2)).id);
-                            arguments.putString("recipient_type", "research");
+                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, silverMedallion.get(position - (shingoPrize.size() + 2)).id);
+                            arguments.putString("recipient_type", "award");
+
                             RecipientDetailFragment fragment = new RecipientDetailFragment();
                             fragment.setArguments(arguments);
                             getSupportFragmentManager().beginTransaction()
@@ -168,7 +169,46 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
                         } else {
                             // In single-pane mode, simply start the detail activity
                             // for the selected item ID.
-                            startRecipientDetailActivity(position - (Recipients.AWARD_RECIPIENTS.size() + 2), 1);
+                            startRecipientDetailActivity(silverMedallion.get(position - (shingoPrize.size() + 2)).id, 0);
+                        }
+                    } else if(adapter.getItemViewType(position) == 0 && position < shingoPrize.size() + silverMedallion.size() + bronzeMedallion.size() + 3){
+                        if (mTwoPane) {
+                            // In two-pane mode, show the detail view in this activity by
+                            // adding or replacing the detail fragment using a
+                            // fragment transaction.
+                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, bronzeMedallion.get(position - (shingoPrize.size() + silverMedallion.size() + 3)).id);
+                            arguments.putString("recipient_type", "award");
+
+                            RecipientDetailFragment fragment = new RecipientDetailFragment();
+                            fragment.setArguments(arguments);
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.recipient_detail_container, fragment)
+                                    .commit();
+
+                        } else {
+                            // In single-pane mode, simply start the detail activity
+                            // for the selected item ID.
+                            startRecipientDetailActivity(bronzeMedallion.get(position - (shingoPrize.size() + silverMedallion.size() + 3)).id, 0);
+                        }
+                    }
+                    else {
+                        if (mTwoPane) {
+                            // In two-pane mode, show the detail view in this activity by
+                            // adding or replacing the detail fragment using a
+                            // fragment transaction.
+                            arguments.putString(RecipientDetailFragment.ARG_ITEM_ID, Recipients.RESEARCH_RECIPIENTS.get(position - (shingoPrize.size() + silverMedallion.size() + bronzeMedallion.size() + 4)).id);
+                            arguments.putString("recipient_type", "research");
+
+                            RecipientDetailFragment fragment = new RecipientDetailFragment();
+                            fragment.setArguments(arguments);
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.recipient_detail_container, fragment)
+                                    .commit();
+
+                        } else {
+                            // In single-pane mode, simply start the detail activity
+                            // for the selected item ID.
+                            startRecipientDetailActivity(Recipients.RESEARCH_RECIPIENTS.get(position - (shingoPrize.size() + silverMedallion.size() + bronzeMedallion.size() + 4)).id, 1);
                         }
                     }
                 }
@@ -180,14 +220,14 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         }
     }
 
-    private void startRecipientDetailActivity(int position, int type)
+    private void startRecipientDetailActivity(String id, int type)
     {
         Intent detailIntent = new Intent(this, RecipientDetailActivity.class);
         if(type == 0) {
-            detailIntent.putExtra(RecipientDetailFragment.ARG_ITEM_ID, Recipients.AWARD_RECIPIENTS.get(position).id);
+            detailIntent.putExtra(RecipientDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra("recipient_type", "award");
         } else {
-            detailIntent.putExtra(RecipientDetailFragment.ARG_ITEM_ID, Recipients.RESEARCH_RECIPIENTS.get(position).id);
+            detailIntent.putExtra(RecipientDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra("recipient_type", "research");
         }
         startActivity(detailIntent);

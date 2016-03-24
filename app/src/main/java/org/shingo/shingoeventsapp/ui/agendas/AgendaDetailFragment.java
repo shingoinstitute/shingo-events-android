@@ -17,7 +17,7 @@ import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
 import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
-import org.shingo.shingoeventsapp.ui.events.SessionListActivity;
+import org.shingo.shingoeventsapp.ui.sessions.SessionListActivity;
 
 import java.util.Collections;
 
@@ -53,6 +53,18 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onResume(){
+        if(pd != null) pd.dismiss();
+        super.onResume();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_agenda_detail, container, false);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
@@ -69,22 +81,9 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             progressBar = (LinearLayout)activity.findViewById(R.id.agenda_progress);
             if(progressBar != null) progressBar.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    public void onResume(){
-        if(pd != null) pd.dismiss();
-        super.onResume();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_agenda_detail, container, false);
 
         if(progressBar==null) progressBar = (LinearLayout)rootView.findViewById(R.id.agenda_progress);
 
-        // Show the dummy content as text in a TextView.
         if (mDay != null) {
             RestApi api = new RestApi(this, getContext());
             GetDayTask getDayTask = api.getDay(mDay.id);

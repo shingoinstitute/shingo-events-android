@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.ui.events;
+package org.shingo.shingoeventsapp.ui.speakers;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.ui.attendees.AttendeeListActivity;
+import org.shingo.shingoeventsapp.ui.events.EventDetailFragment;
 
 /**
  * An activity representing a list of Speakers. This activity

@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.shingo.shingoeventsapp">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!--
@@ -84,7 +80,7 @@
                 android:value=".ui.attendees.ConnectionListActivity" />
         </activity>
         <activity
-            android:name=".ui.events.SessionListActivity"
+            android:name=".ui.sessions.SessionListActivity"
             android:label="@string/title_session_list"
             android:parentActivityName=".ui.events.EventListActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -93,16 +89,16 @@
                 android:value=".ui.events.EventListActivity" />
         </activity>
         <activity
-            android:name=".ui.events.SessionDetailActivity"
+            android:name=".ui.sessions.SessionDetailActivity"
             android:label="@string/title_session_detail"
-            android:parentActivityName=".ui.events.SessionListActivity"
+            android:parentActivityName=".ui.sessions.SessionListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.events.SessionListActivity" />
+                android:value=".ui.sessions.SessionListActivity" />
         </activity>
         <activity
-            android:name=".ui.events.SpeakerListActivity"
+            android:name=".ui.speakers.SpeakerListActivity"
             android:label="@string/title_speaker_list"
             android:parentActivityName=".ui.events.EventListActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -111,13 +107,13 @@
                 android:value=".ui.events.EventListActivity" />
         </activity>
         <activity
-            android:name=".ui.events.SpeakerDetailActivity"
+            android:name=".ui.speakers.SpeakerDetailActivity"
             android:label="@string/title_speaker_detail"
-            android:parentActivityName=".ui.events.SpeakerListActivity"
+            android:parentActivityName=".ui.speakers.SpeakerListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.events.SpeakerListActivity" />
+                android:value=".ui.speakers.SpeakerListActivity" />
         </activity>
         <activity
             android:name=".ui.MainActivity"
@@ -254,6 +250,11 @@
 
         <activity android:label="Shingo Model" android:name=".ui.ModelActivity" />
         <activity android:label="Support/Contact Us" android:name=".ui.SupportActivity"></activity>
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -1,12 +1,14 @@
 package org.shingo.shingoeventsapp.ui.exhibitors;
 
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
@@ -46,12 +48,6 @@ public class ExhibitorDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mExhibitor = Exhibitors.EXHIBITOR_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mExhibitor.name);
-            }
         }
     }
 
@@ -60,9 +56,21 @@ public class ExhibitorDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.exhibitor_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mExhibitor.name);
+            appBarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+            if(mExhibitor.logo != null)
+                ((ImageView)activity.findViewById(R.id.exhibitor_logo)).setImageDrawable(new BitmapDrawable(getResources(),mExhibitor.logo));
+            else
+                activity.findViewById(R.id.exhibitor_logo).setVisibility(View.GONE);
+        }
+
         if (mExhibitor != null) {
-            ((TextView) rootView.findViewById(R.id.exhibitor_detail)).setText(mExhibitor.email);
+            ((TextView) rootView.findViewById(R.id.exhibitor_website)).setText((mExhibitor.website.equals("null")) ? "" : mExhibitor.website);
+            ((TextView) rootView.findViewById(R.id.exhibitor_email)).setText((mExhibitor.email.equals("null")) ? "" : mExhibitor.email);
+            ((TextView) rootView.findViewById(R.id.exhibitor_detail)).setText(mExhibitor.description);
         }
 
         return rootView;

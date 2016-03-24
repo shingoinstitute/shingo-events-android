@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.ui.events;
+package org.shingo.shingoeventsapp.ui.speakers;
 
 import android.app.Activity;
 import android.os.Bundle;

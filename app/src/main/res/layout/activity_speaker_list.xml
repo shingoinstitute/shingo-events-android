@@ -1,7 +1,7 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/speaker_list"
-    android:name="org.shingo.shingoeventsapp.ui.events.SpeakerListFragment"
+    android:name="org.shingo.shingoeventsapp.ui.speakers.SpeakerListFragment"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
-    tools:context=".ui.events.SpeakerListActivity"
+    tools:context=".ui.speakers.SpeakerListActivity"
     tools:layout="@android:layout/list_content" />

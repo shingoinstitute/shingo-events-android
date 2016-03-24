@@ -16,14 +16,22 @@ repositories {
 
 
 android {
+    signingConfigs {
+        debug {
+            keyAlias 'Shingo Events'
+            keyPassword 'JoeSmith1820!!'
+            storeFile file('/home/dustinehoman/shingo.jks')
+            storePassword 'JoeSmith1820!!'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "org.shingo.shingoeventsapp"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 7
-        versionName '1.6'
+        versionCode 8
+        versionName '1.7'
     }
     buildTypes {
         release {
@@ -36,7 +44,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'

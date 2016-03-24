@@ -1,12 +1,14 @@
 package org.shingo.shingoeventsapp.ui.recipients;
 
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shingo.shingoeventsapp.R;
@@ -51,15 +53,7 @@ public class RecipientDetailFragment extends Fragment {
                 mItem = Recipients.RESEARCH_RECIPIENT_MAP.get(getArguments().getString(ARG_ITEM_ID));
             }
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                if(mItem instanceof Recipients.AwardRecipient) {
-                    appBarLayout.setTitle(((Recipients.AwardRecipient) mItem).name);
-                } else if(mItem instanceof Recipients.ResearchRecipient){
-                    appBarLayout.setTitle(((Recipients.ResearchRecipient) mItem).book);
-                }
-            }
+
         }
     }
 
@@ -68,11 +62,29 @@ public class RecipientDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipient_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            if(mItem instanceof Recipients.AwardRecipient) {
+                appBarLayout.setTitle(((Recipients.AwardRecipient) mItem).award);
+                appBarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+                if(((Recipients.AwardRecipient) mItem).logo != null)
+                    ((ImageView)activity.findViewById(R.id.recipient_logo)).setImageDrawable(new BitmapDrawable(getResources(),((Recipients.AwardRecipient) mItem).logo));
+                else
+                    activity.findViewById(R.id.recipient_logo).setVisibility(View.GONE);
+            } else if(mItem instanceof Recipients.ResearchRecipient){
+                appBarLayout.setTitle("Research Award");
+                activity.findViewById(R.id.recipient_logo).setVisibility(View.GONE);
+            }
+
+        }
+
         if (mItem != null) {
             if(mItem instanceof Recipients.AwardRecipient) {
+                ((TextView) rootView.findViewById(R.id.recipient_name)).setText(((Recipients.AwardRecipient) mItem).name);
                 ((TextView) rootView.findViewById(R.id.recipient_detail)).setText(((Recipients.AwardRecipient) mItem).Abstract);
             } else if(mItem instanceof Recipients.ResearchRecipient){
+                ((TextView) rootView.findViewById(R.id.recipient_name)).setText(((Recipients.ResearchRecipient) mItem).author);
                 ((TextView) rootView.findViewById(R.id.recipient_detail)).setText(((Recipients.ResearchRecipient) mItem).Abstract);
             }
         }

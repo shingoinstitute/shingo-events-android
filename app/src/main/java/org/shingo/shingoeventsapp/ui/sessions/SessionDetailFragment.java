@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.ui.events;
+package org.shingo.shingoeventsapp.ui.sessions;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.data.speakers.SpeakersListAdapter;
+import org.shingo.shingoeventsapp.ui.speakers.SpeakerListActivity;
 
 import java.util.Collections;
 
@@ -54,22 +55,6 @@ public class SessionDetailFragment extends Fragment {
             // to load content from a content provider.
             mSession = Sessions.SESSION_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
-            while(mSession == null){
-                try {
-                    Thread.sleep(1000);
-                    mSession = Sessions.SESSION_MAP.get(getArguments().getString(ARG_ITEM_ID));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if(mSession != null) {
-                Activity activity = this.getActivity();
-                CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-                if (appBarLayout != null) {
-                    appBarLayout.setTitle(mSession.name);
-                }
-            }
         }
     }
 
@@ -77,6 +62,14 @@ public class SessionDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_session_detail, container, false);
+
+        if(mSession != null) {
+            Activity activity = this.getActivity();
+            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            if (appBarLayout != null) {
+                appBarLayout.setTitle(mSession.name);
+            }
+        }
 
         if (mSession != null) {
             ((TextView) rootView.findViewById(R.id.session_name)).setText(mSession.name);

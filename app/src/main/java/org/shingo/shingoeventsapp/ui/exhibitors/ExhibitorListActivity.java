@@ -98,34 +98,29 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
     private void setupListView(@NonNull ListView listView) {
         Collections.sort(Exhibitors.EXHIBITORS);
         listView.setAdapter(new ExhibitorsListAdapter(this, Exhibitors.EXHIBITORS));
-        /*******************************************
-         * OnItemClickListener is commented out    *
-         * until we decide what details to display *
-         * for the Exhibitors.                     *
-         *******************************************/
-        //TODO: Decide what details to display then uncomment
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (mTwoPane) {
-//                    // In two-pane mode, show the detail view in this activity by
-//                    // adding or replacing the detail fragment using a
-//                    // fragment transaction.
-//                    Bundle arguments = new Bundle();
-//                    arguments.putString(ExhibitorDetailFragment.ARG_ITEM_ID, Exhibitors.EXHIBITORS.get(position).id);
-//                    ExhibitorDetailFragment fragment = new ExhibitorDetailFragment();
-//                    fragment.setArguments(arguments);
-//                    getSupportFragmentManager().beginTransaction()
-//                            .replace(R.id.event_detail_container, fragment)
-//                            .commit();
-//
-//                } else {
-//                    // In single-pane mode, simply start the detail activity
-//                    // for the selected item ID.
-//                    startExhibitorDetailActivity(position);
-//                }
-//            }
-//        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mTwoPane) {
+                    // In two-pane mode, show the detail view in this activity by
+                    // adding or replacing the detail fragment using a
+                    // fragment transaction.
+                    Bundle arguments = new Bundle();
+                    arguments.putString(ExhibitorDetailFragment.ARG_ITEM_ID, Exhibitors.EXHIBITORS.get(position).id);
+                    ExhibitorDetailFragment fragment = new ExhibitorDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.event_detail_container, fragment)
+                            .commit();
+
+                } else {
+                    // In single-pane mode, simply start the detail activity
+                    // for the selected item ID.
+                    startExhibitorDetailActivity(position);
+                }
+            }
+        });
     }
 
     void startExhibitorDetailActivity(int position){

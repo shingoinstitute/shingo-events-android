@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.ui.events;
+package org.shingo.shingoeventsapp.ui.speakers;
 
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.ui.sessions.SessionListActivity;
 
 /**
  * An activity representing a single Speaker detail screen. This

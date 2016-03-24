@@ -1,4 +1,4 @@
-package org.shingo.shingoeventsapp.ui.events;
+package org.shingo.shingoeventsapp.ui.speakers;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
@@ -68,13 +68,16 @@ public class SpeakerDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_speaker_detail, container, false);
-        View parent = container.getRootView();
+        Activity activity = this.getActivity();
 
         // Show the dummy content as text in a TextView.
         if (mSpeaker != null) {
             ((TextView) rootView.findViewById(R.id.speaker_detail)).setText(mSpeaker.bio);
-            ImageView picture = (ImageView) parent.findViewById(R.id.speaker_image);
-            if(picture != null) picture.setImageDrawable(new BitmapDrawable(getResources(), mSpeaker.getRoundPicture(getContext())));
+            ImageView picture = (ImageView) activity.findViewById(R.id.speaker_image);
+            if(picture != null){
+                picture.setImageDrawable(new BitmapDrawable(getResources(), mSpeaker.getRoundPicture(getContext())));
+                picture.bringToFront();
+            }
         }
 
         return rootView;

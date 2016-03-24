@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context=".ui.events.SpeakerDetailActivity"
+    tools:context=".ui.speakers.SpeakerDetailActivity"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout android:id="@+id/app_bar"
@@ -24,6 +24,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v4.widget.NestedScrollView android:id="@+id/speaker_detail_container"
         android:layout_width="match_parent" android:layout_height="match_parent"
