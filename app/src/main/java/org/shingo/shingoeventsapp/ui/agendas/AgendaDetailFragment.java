@@ -129,4 +129,9 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
         }
         progressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
 }

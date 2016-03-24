@@ -7,6 +7,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,7 @@ public class AffiliateDetailFragment extends Fragment {
         if (mAffiliate != null) {
             ((TextView) rootView.findViewById(R.id.affiliate_website)).setText((mAffiliate.website.equals("null")) ? "" : mAffiliate.website);
             ((TextView) rootView.findViewById(R.id.affiliate_email)).setText((mAffiliate.email.equals("null")) ? "" : mAffiliate.email);
-            ((TextView) rootView.findViewById(R.id.affiliate_detail)).setText(mAffiliate.appAbstract);
+            ((TextView) rootView.findViewById(R.id.affiliate_detail)).setText(Html.fromHtml(mAffiliate.appAbstract));
         }
 
         return rootView;

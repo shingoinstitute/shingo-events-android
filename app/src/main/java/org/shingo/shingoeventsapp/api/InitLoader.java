@@ -29,7 +29,7 @@ public class InitLoader implements OnTaskComplete {
     public void load(){
         RestApi api = new RestApi(this, mContext);
         api.getAgendas(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(Void) null);
-        api.getAffiliates().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(Void) null);
+        api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/sfevents/affiliates");
         api.getExhibitors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
         api.getRecipients(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
         api.getSessions(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
@@ -45,5 +45,10 @@ public class InitLoader implements OnTaskComplete {
     public void onTaskComplete() {
         count++;
         System.out.println("API call complete " + count + "/8");
+    }
+
+    @Override
+    public void onTaskComplete(String response) {
+
     }
 }

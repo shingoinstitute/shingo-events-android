@@ -145,4 +145,9 @@ public class ConnectionDetailFragment extends Fragment implements OnTaskComplete
             getActivity().finish();
         }
     }
+
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
 }

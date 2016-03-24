@@ -6,12 +6,15 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import org.json.JSONException;
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.affiliates.Affiliates;
 import org.shingo.shingoeventsapp.data.affiliates.AffiliatesListAdapter;
 import org.shingo.shingoeventsapp.data.affiliates.GetAffiliatesTask;
 
+import java.io.IOException;
 import java.util.Collections;
 
 /**
@@ -44,10 +47,25 @@ public class AffiliateListFragment extends ListFragment implements OnTaskComplet
 
     @Override
     public void onTaskComplete() {
-        try {
+//        try {
+//            Collections.sort(Affiliates.AFFILIATES);
+//            setListAdapter(new AffiliatesListAdapter(getContext(), Affiliates.AFFILIATES));
+//        } catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
+    }
+
+    @Override
+    public void onTaskComplete(String response) {
+        try{
+            if(Affiliates.needsRefresh())
+                Affiliates.parseFromJSONString(response);
             Collections.sort(Affiliates.AFFILIATES);
+            while(Affiliates.is_loading > 0){ /* Wait for images to load */ }
             setListAdapter(new AffiliatesListAdapter(getContext(), Affiliates.AFFILIATES));
-        } catch (NullPointerException e){
+        } catch(JSONException e){
+            e.printStackTrace();
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
@@ -85,8 +103,9 @@ public class AffiliateListFragment extends ListFragment implements OnTaskComplet
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RestApi api = new RestApi(this, getContext());
-        GetAffiliatesTask getAffiliatesTask = api.getAffiliates();
-        getAffiliatesTask.execute((Void)null);
+        GetAsyncData getAffiliatesTask = api.getAsyncData();
+        String url = "/sfevents/affiliates";
+        getAffiliatesTask.execute(url);
     }
 
     @Override

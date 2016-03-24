@@ -6,4 +6,5 @@ package org.shingo.shingoeventsapp.api;
  */
 public interface OnTaskComplete {
     void onTaskComplete();
+    void onTaskComplete(String response);
 }

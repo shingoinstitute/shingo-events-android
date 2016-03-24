@@ -220,6 +220,11 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         }
     }
 
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
+
     private void startRecipientDetailActivity(String id, int type)
     {
         Intent detailIntent = new Intent(this, RecipientDetailActivity.class);

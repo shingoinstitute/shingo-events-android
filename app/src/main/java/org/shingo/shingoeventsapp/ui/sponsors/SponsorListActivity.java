@@ -134,4 +134,9 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
 }

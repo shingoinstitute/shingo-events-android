@@ -58,6 +58,11 @@ public class SpeakerListFragment extends ListFragment implements OnTaskComplete 
         }
     }
 
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
+
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item

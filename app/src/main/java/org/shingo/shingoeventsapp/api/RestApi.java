@@ -53,6 +53,8 @@ public class RestApi {
         API_URL = context.getResources().getString(R.string.api_prod_url);
     }
 
+    public GetAsyncData getAsyncData() { return new GetAsyncData(mListener); }
+
     /**
      *
      * @return a new GetEventsTask

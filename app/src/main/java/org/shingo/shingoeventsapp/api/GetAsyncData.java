@@ -1,18 +1,14 @@
-package org.shingo.shingoeventsapp.data.affiliates;
+package org.shingo.shingoeventsapp.api;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.shingo.shingoeventsapp.api.OnTaskComplete;
-import org.shingo.shingoeventsapp.api.RestApi;
+import org.json.JSONStringer;
+import org.shingo.shingoeventsapp.data.affiliates.Affiliates;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -21,10 +17,10 @@ import java.net.URLConnection;
  * @author Dustin Homan
  *
  * This class is used to make an asynchronus call to
- * the API to fetch the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}s
+ * the API to fetch the {@link Affiliates.Affiliate}s
  * related to the event. Extends {@link AsyncTask}
  */
-public class GetAffiliatesTask extends AsyncTask<String, Void, Boolean> {
+public class GetAsyncData extends AsyncTask<String, Void, Boolean> {
 
     private OnTaskComplete mListener;
     private static boolean isWorking = false;
@@ -35,9 +31,9 @@ public class GetAffiliatesTask extends AsyncTask<String, Void, Boolean> {
      * Constructor
      * @param listener the callback to call when task is complete
      */
-    public GetAffiliatesTask(OnTaskComplete listener) {
+    public GetAsyncData(OnTaskComplete listener) {
         mListener = listener;
-        System.out.println("GetAffiliatesTask created");
+        System.out.println("GetAsyncData created");
     }
 
     /**
@@ -45,12 +41,12 @@ public class GetAffiliatesTask extends AsyncTask<String, Void, Boolean> {
      * and stores the data in {@link Affiliates#AFFILIATES} and
      * {@link Affiliates#AFFILIATE_MAP} via {@link Affiliates#addAffiliate(Affiliates.Affiliate)}
      *
-     * @param params a list of parameters. Will always be null.
+     * @param params a list of parameters. params[0] = api path. params[1] = data for POST
      * @return the success of the task
      */
     @Override
     protected Boolean doInBackground(String... params) {
-        System.out.println("GetAffiliatesTask.doInBackground called");
+        System.out.println("GetAsyncData.doInBackground called");
         synchronized (mutex) {
             if (isWorking) {
                 try {
@@ -62,11 +58,17 @@ public class GetAffiliatesTask extends AsyncTask<String, Void, Boolean> {
                 isWorking = true;
             }
         }
-        if(!Affiliates.needsRefresh()) return true;
-        boolean success;
+
         try {
-            URL url = new URL( RestApi.API_URL + "/sfevents/affiliates?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
+            URL url = new URL( RestApi.API_URL + params[0] + "?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
+
+            if(params.length > 1){
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(params[1]);
+                wr.flush();
+            }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
@@ -75,7 +77,7 @@ public class GetAffiliatesTask extends AsyncTask<String, Void, Boolean> {
                 sb.append(line);
             }
             output = sb.toString();
-            success = output.contains("success: true") || output.contains("success:true");
+            System.out.println("GetAsyncData for " + url.toExternalForm() + ": " + output);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return false;
@@ -84,13 +86,13 @@ public class GetAffiliatesTask extends AsyncTask<String, Void, Boolean> {
             return false;
         }
 
-        return success;
+        return true;
     }
 
     /**
-     * This method is called when {@link GetAffiliatesTask#doInBackground(Void...)} is finished.
+     * This method is called when {@link GetAsyncData#doInBackground(String...)} is finished.
      *
-     * @param success the return value of {@link GetAffiliatesTask#doInBackground(Void...)}
+     * @param success the return value of {@link GetAsyncData#doInBackground(String...)}
      */
     @Override
     protected void onPostExecute(final Boolean success) {
@@ -99,10 +101,10 @@ public class GetAffiliatesTask extends AsyncTask<String, Void, Boolean> {
             mutex.notifyAll();
         }
         if (success) {
-            System.out.println("GetAffiliatesTask completed");
+            System.out.println("GetAsyncData completed");
             mListener.onTaskComplete(output);
         } else {
-            System.out.println("An error occurred in GetAffiliatesTask...");
+            System.out.println("An error occurred in GetAsyncData...");
         }
     }
 }

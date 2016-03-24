@@ -140,4 +140,9 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
 }

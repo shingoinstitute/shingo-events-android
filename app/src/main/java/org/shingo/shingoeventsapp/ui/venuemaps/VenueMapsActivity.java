@@ -151,6 +151,11 @@ public class VenueMapsActivity extends AppCompatActivity implements OnTaskComple
         }
     }
 
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */

@@ -125,4 +125,9 @@ public class AttendeeDetailFragment extends Fragment implements OnTaskComplete {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.detach(this).attach(this).commit();
     }
+
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
 }

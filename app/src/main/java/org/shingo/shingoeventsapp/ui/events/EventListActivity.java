@@ -177,4 +177,9 @@ public class EventListActivity extends AppCompatActivity
         finish();
         startActivity(i);
     }
+
+    @Override
+    public void onTaskComplete(String response) {
+
+    }
 }

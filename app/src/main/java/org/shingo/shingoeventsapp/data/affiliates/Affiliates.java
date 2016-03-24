@@ -1,7 +1,15 @@
 package org.shingo.shingoeventsapp.data.affiliates;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +31,8 @@ public class Affiliates {
     public static Map<String, Affiliate> AFFILIATE_MAP = new HashMap<>();
 
     public static Date refresh;
+
+    public static int is_loading = 0;
 
     /**
      * A check to see when the data was last pulled from the API. If
@@ -48,6 +58,14 @@ public class Affiliates {
             AFFILIATES.add(affiliate);
             AFFILIATE_MAP.put(affiliate.id, affiliate);
         }
+    }
+
+    public static void parseFromJSONString(String json) throws JSONException, IOException{
+        JSONObject response = new JSONObject(json);
+        clear();
+        JSONArray jAffiliates = response.getJSONObject("affiliates").getJSONArray("records");
+        for (int i = 0; i < jAffiliates.length(); i++)
+            addAffiliate(Affiliate.parseFromJSON(jAffiliates.getJSONObject(i)));
     }
 
     /**
@@ -94,6 +112,36 @@ public class Affiliates {
             this.phone = phone;
             this.email = email;
             if(appAbstract.equals("null")) this.appAbstract = "Abstract coming soon!";
+        }
+
+        public static Affiliate parseFromJSON(JSONObject jAffiliate) throws JSONException, IOException{
+            if(!jAffiliate.getString("Logo__c").equals("null"))
+                getLogo(jAffiliate.getString("Logo__c"),jAffiliate.getString("Id"));
+
+            return new Affiliates.Affiliate(jAffiliate.getString("Id"),
+                    jAffiliate.getString("Name"), jAffiliate.getString("App_Abstract__c"),
+                    null, jAffiliate.getString("Website"), jAffiliate.getString("Phone"),
+                    jAffiliate.getString("Public_Contact_Email__c"));
+        }
+
+        public static void getLogo(String url, String id){
+            is_loading++;
+            final String logoURL = url;
+            final String affID = id;
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        URL image = new URL(logoURL);
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        if(AFFILIATE_MAP.containsKey(affID)) AFFILIATE_MAP.get(affID).logo = picture;
+                        is_loading--;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
         }
 
         /**
