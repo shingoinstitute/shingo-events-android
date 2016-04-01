@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,10 +83,10 @@ public class RecipientDetailFragment extends Fragment {
         if (mItem != null) {
             if(mItem instanceof Recipients.AwardRecipient) {
                 ((TextView) rootView.findViewById(R.id.recipient_name)).setText(((Recipients.AwardRecipient) mItem).name);
-                ((TextView) rootView.findViewById(R.id.recipient_detail)).setText(((Recipients.AwardRecipient) mItem).Abstract);
+                ((TextView) rootView.findViewById(R.id.recipient_detail)).setText(Html.fromHtml(((Recipients.AwardRecipient) mItem).Abstract), TextView.BufferType.SPANNABLE);
             } else if(mItem instanceof Recipients.ResearchRecipient){
                 ((TextView) rootView.findViewById(R.id.recipient_name)).setText(((Recipients.ResearchRecipient) mItem).author);
-                ((TextView) rootView.findViewById(R.id.recipient_detail)).setText(((Recipients.ResearchRecipient) mItem).Abstract);
+                ((TextView) rootView.findViewById(R.id.recipient_detail)).setText(Html.fromHtml(((Recipients.ResearchRecipient) mItem).Abstract), TextView.BufferType.SPANNABLE);
             }
         }
 

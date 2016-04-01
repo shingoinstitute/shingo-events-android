@@ -93,7 +93,7 @@ public class GetDayTask extends AsyncTask<Void, Void, Boolean> {
                         }
                         if(!jSession.has("Room")) jSession.put("Room", "null");
                         Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions.add((new Sessions.Session(jSession.getString("Id"),
-                                jSession.getString("Name"),jSession.getString("Session_Abstract__c"),
+                                jSession.getString("Name"),jSession.getString("Rich_Session_Abstract"),
                                 jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),
                                 jSession.getString("Session_Time__c"), speakers, jSession.getString("Room"))));
                     }

@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,7 @@ public class SpeakerDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mSpeaker != null) {
-            ((TextView) rootView.findViewById(R.id.speaker_detail)).setText(mSpeaker.bio);
+            ((TextView) rootView.findViewById(R.id.speaker_detail)).setText(Html.fromHtml(mSpeaker.bio), TextView.BufferType.SPANNABLE);
             ImageView picture = (ImageView) activity.findViewById(R.id.speaker_image);
             if(picture != null){
                 picture.setImageDrawable(new BitmapDrawable(getResources(), mSpeaker.getRoundPicture(getContext())));

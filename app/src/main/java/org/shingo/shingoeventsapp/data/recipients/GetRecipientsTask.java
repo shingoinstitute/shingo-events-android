@@ -84,11 +84,11 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
                         URL image = new URL(jRecipient.getString("Logo_Book_Cover__c"));
                         Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
                         Recipients.addAwardRecipient(new Recipients.AwardRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
-                                jRecipient.getString("Abstract__c"), jRecipient.getString("Award__c"), picture));
+                                jRecipient.getString("Rich_Abstract"), jRecipient.getString("Award__c"), picture));
                     } catch (IOException e){
                         JSONObject jRecipient = jAwardRecipients.getJSONObject(i);
                         Recipients.addAwardRecipient(new Recipients.AwardRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
-                            jRecipient.getString("Abstract__c"), jRecipient.getString("Award__c"), null));
+                            jRecipient.getString("Rich_Abstract"), jRecipient.getString("Award__c"), null));
                         e.printStackTrace();
                     }
                 }
@@ -99,11 +99,11 @@ public class GetRecipientsTask extends AsyncTask<Void, Void, Boolean> {
                         URL image = new URL(jRecipient.getString("Logo_Book_Cover__c"));
                         Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
                         Recipients.addResearchRecipient(new Recipients.ResearchRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
-                                jRecipient.getString("Abstract__c"), jRecipient.getString("Author_s__c"), picture));
+                                jRecipient.getString("Rich_Abstract"), jRecipient.getString("Author_s__c"), picture));
                     } catch (IOException e){
                         JSONObject jRecipient = jResearchRecipients.getJSONObject(i);
                         Recipients.addResearchRecipient(new Recipients.ResearchRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
-                                jRecipient.getString("Abstract__c"), jRecipient.getString("Author_s__c"), null));
+                                jRecipient.getString("Rich_Abstract"), jRecipient.getString("Author_s__c"), null));
                         e.printStackTrace();
                     }
                 }

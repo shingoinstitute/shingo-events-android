@@ -119,7 +119,7 @@ public class Affiliates {
                 getLogo(jAffiliate.getString("Logo__c"),jAffiliate.getString("Id"));
 
             return new Affiliates.Affiliate(jAffiliate.getString("Id"),
-                    jAffiliate.getString("Name"), jAffiliate.getString("App_Abstract__c"),
+                    jAffiliate.getString("Name"), jAffiliate.getString("Rich_App_Abstract"),
                     null, jAffiliate.getString("Website"), jAffiliate.getString("Phone"),
                     jAffiliate.getString("Public_Contact_Email__c"));
         }

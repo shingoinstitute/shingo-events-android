@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class ExhibitorDetailFragment extends Fragment {
         if (mExhibitor != null) {
             ((TextView) rootView.findViewById(R.id.exhibitor_website)).setText((mExhibitor.website.equals("null")) ? "" : mExhibitor.website);
             ((TextView) rootView.findViewById(R.id.exhibitor_email)).setText((mExhibitor.email.equals("null")) ? "" : mExhibitor.email);
-            ((TextView) rootView.findViewById(R.id.exhibitor_detail)).setText(mExhibitor.description);
+            ((TextView) rootView.findViewById(R.id.exhibitor_detail)).setText(Html.fromHtml(mExhibitor.description), TextView.BufferType.SPANNABLE);
         }
 
         return rootView;

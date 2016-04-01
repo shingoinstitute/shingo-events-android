@@ -90,7 +90,7 @@ public class GetSpeakersTask extends AsyncTask<Void, Void, Boolean> {
                     Speakers.addSpeaker(new Speakers.Speaker(jSpeaker.getString("Id"),
                             jSpeaker.getString("Name"),jSpeaker.getString("Speaker_Display_Name__c"),
                             jSpeaker.getString("Title"), jSpeaker.getString("Organization"),
-                            jSpeaker.getString("Biography__c"), picture));
+                            jSpeaker.getString("Rich_Biography"), picture));
                 }
             }
         } catch (UnsupportedEncodingException e) {

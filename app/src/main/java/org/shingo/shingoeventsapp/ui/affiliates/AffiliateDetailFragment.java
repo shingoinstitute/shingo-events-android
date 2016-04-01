@@ -75,7 +75,7 @@ public class AffiliateDetailFragment extends Fragment {
         if (mAffiliate != null) {
             ((TextView) rootView.findViewById(R.id.affiliate_website)).setText((mAffiliate.website.equals("null")) ? "" : mAffiliate.website);
             ((TextView) rootView.findViewById(R.id.affiliate_email)).setText((mAffiliate.email.equals("null")) ? "" : mAffiliate.email);
-            ((TextView) rootView.findViewById(R.id.affiliate_detail)).setText(Html.fromHtml(mAffiliate.appAbstract));
+            ((TextView) rootView.findViewById(R.id.affiliate_detail)).setText(Html.fromHtml(mAffiliate.appAbstract), TextView.BufferType.SPANNABLE);
         }
 
         return rootView;

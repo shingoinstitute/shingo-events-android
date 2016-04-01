@@ -88,7 +88,7 @@ public class GetExhibitorsTask extends AsyncTask<Void, Void, Boolean> {
                         e.printStackTrace();
                     }
                     Exhibitors.addExhibitor(new Exhibitors.Exhibitor(jExhibitor.getString("Id"), jExhibitor.getString("Name"),
-                            jExhibitor.getString("Description__c"), jExhibitor.getString("Phone__c"), jExhibitor.getString("Email__c"),
+                            jExhibitor.getString("Rich_Description"), jExhibitor.getString("Phone__c"), jExhibitor.getString("Email__c"),
                             jExhibitor.getString("Website__c"), picture));
                 }
             }
