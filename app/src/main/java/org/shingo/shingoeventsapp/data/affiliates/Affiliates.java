@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,12 +59,12 @@ public class Affiliates {
         }
     }
 
-    public static void parseFromJSONString(String json) throws JSONException, IOException{
+    public static void fromJSON(String json) throws JSONException, IOException{
         JSONObject response = new JSONObject(json);
         clear();
         JSONArray jAffiliates = response.getJSONObject("affiliates").getJSONArray("records");
         for (int i = 0; i < jAffiliates.length(); i++)
-            addAffiliate(Affiliate.parseFromJSON(jAffiliates.getJSONObject(i)));
+            addAffiliate(Affiliate.fromJSON(jAffiliates.getJSONObject(i)));
     }
 
     /**
@@ -114,7 +113,7 @@ public class Affiliates {
             if(appAbstract.equals("null")) this.appAbstract = "Abstract coming soon!";
         }
 
-        public static Affiliate parseFromJSON(JSONObject jAffiliate) throws JSONException, IOException{
+        public static Affiliate fromJSON(JSONObject jAffiliate) throws JSONException, IOException{
             if(!jAffiliate.getString("Logo__c").equals("null"))
                 getLogo(jAffiliate.getString("Logo__c"),jAffiliate.getString("Id"));
 

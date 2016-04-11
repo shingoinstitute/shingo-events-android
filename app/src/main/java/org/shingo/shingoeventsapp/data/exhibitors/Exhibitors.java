@@ -1,7 +1,14 @@
 package org.shingo.shingoeventsapp.data.exhibitors;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +26,7 @@ public class Exhibitors {
 
     public static Date refresh;
 
+    public static int is_ready = 0;
     public static boolean needsRefresh(){
         if(refresh == null) return true;
         Date now = new Date();
@@ -36,6 +44,15 @@ public class Exhibitors {
         EXHIBITORS.clear();
         EXHIBITOR_MAP.clear();
         refresh = new Date();
+    }
+
+    public static void fromJSON(String json) throws JSONException{
+        Exhibitors.clear();
+        JSONObject response = new JSONObject(json);
+        JSONArray jExhibitors = response.getJSONObject("exhibitors").getJSONArray("records");
+        for(int i = 0; i < jExhibitors.length(); i++){
+            Exhibitors.addExhibitor(Exhibitor.fromJSON(jExhibitors.getJSONObject(i)));
+        }
     }
 
     public static class Exhibitor implements Comparable<Exhibitor>{
@@ -56,6 +73,38 @@ public class Exhibitors {
             this.email = email;
             this.website = website;
             this.logo = logo;
+        }
+
+        public static Exhibitor fromJSON(JSONObject jExhibitor) throws JSONException{
+            try {
+                getLogo(jExhibitor.getString("Logo__c"), jExhibitor.getString("Id"));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return new Exhibitors.Exhibitor(jExhibitor.getString("Id"), jExhibitor.getString("Name"),
+                    jExhibitor.getString("Rich_Description"), jExhibitor.getString("Phone__c"), jExhibitor.getString("Email__c"),
+                    jExhibitor.getString("Website__c"), null);
+        }
+
+        public static void getLogo(String url, String id) throws IOException{
+            is_ready++;
+            final String logoURL = url;
+            final String affID = id;
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        URL image = new URL(logoURL);
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        if(EXHIBITOR_MAP.containsKey(affID)) EXHIBITOR_MAP.get(affID).logo = picture;
+                        is_ready--;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
         }
 
         @Override

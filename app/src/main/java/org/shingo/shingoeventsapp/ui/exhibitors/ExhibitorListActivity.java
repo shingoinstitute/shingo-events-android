@@ -14,13 +14,14 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.exhibitors.Exhibitors;
 import org.shingo.shingoeventsapp.data.exhibitors.ExhibitorsListAdapter;
-import org.shingo.shingoeventsapp.data.exhibitors.GetExhibitorsTask;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
+import java.net.URLEncoder;
 import java.util.Collections;
 
 /**
@@ -62,8 +63,14 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
 
         // Async Call to api to get list of Exhibitors
         RestApi api = new RestApi(this, this);
-        GetExhibitorsTask getExhibitorsTask = api.getExhibitors(mEvent_id);
-        getExhibitorsTask.execute((Void) null);
+        GetAsyncData getExhibitorsTask = api.getAsyncData();
+        try {
+            String[] params = {"/sfevents/exhibitors", URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(mEvent_id, "UTF-8")};
+            getExhibitorsTask.execute(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Set the progress bar to visible
         pb.setVisibility(View.VISIBLE);
@@ -131,18 +138,22 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
 
     @Override
     public void onTaskComplete() {
-        try {
-            View listView = findViewById(R.id.exhibitor_list);
-            assert listView != null;
-            setupListView((ListView) listView);
-            pb.setVisibility(View.GONE); // Dismiss progress bar
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        }
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
     }
 
     @Override
     public void onTaskComplete(String response) {
-
+        try {
+            if(Exhibitors.needsRefresh())
+                Exhibitors.fromJSON(response);
+            while(Exhibitors.is_ready > 0) {/* Wait */}
+            Collections.sort(Exhibitors.EXHIBITORS);
+            View listView = findViewById(R.id.exhibitor_list);
+            assert listView != null;
+            setupListView((ListView) listView);
+            pb.setVisibility(View.GONE); // Dismiss progress bar
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

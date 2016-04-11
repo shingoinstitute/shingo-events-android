@@ -11,15 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
+import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
+import org.shingo.shingoeventsapp.data.speakers.Speakers;
 import org.shingo.shingoeventsapp.ui.sessions.SessionListActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * A fragment representing a single Agenda detail screen.
@@ -85,9 +93,15 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
         if(progressBar==null) progressBar = (LinearLayout)rootView.findViewById(R.id.agenda_progress);
 
         if (mDay != null) {
-            RestApi api = new RestApi(this, getContext());
-            GetDayTask getDayTask = api.getDay(mDay.id);
-            getDayTask.execute((Void) null);
+            try{
+                RestApi api = new RestApi(this, getContext());
+                String[] params = {"/sfevents/day", URLEncoder.encode("day_id", "UTF-8") + "="
+                            + URLEncoder.encode(mDay.id, "UTF-8")};
+                GetAsyncData getDayTask = api.getAsyncData();
+                getDayTask.execute(params);
+            }catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         return rootView;
@@ -95,6 +109,38 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
 
     @Override
     public void onTaskComplete() {
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
+    }
+
+    @Override
+    public void onTaskComplete(String json) {
+        try {
+            JSONObject response = new JSONObject(json);
+            JSONObject jDay = response.getJSONObject("day");
+            if (jDay != null) {
+                JSONArray jSessions = jDay.getJSONObject("Sessions").getJSONArray("records");
+                for (int i = 0; i < jSessions.length(); i++) {
+                    JSONObject jSession = jSessions.getJSONObject(i);
+                    List<Speakers.Speaker> speakers = new ArrayList<>();
+                    JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
+                    for (int j = 0; j < jSpeakers.length(); j++) {
+                        JSONObject jSpeaker = jSpeakers.getJSONObject(j);
+                        speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
+                                jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
+                                jSpeaker.getString("Organization"), "", null));
+                    }
+                    if (!jSession.has("Room")) jSession.put("Room", "null");
+                    Agendas.AGENDA_MAP.get(jDay.getString("Id")).sessions.add((new Sessions.Session(jSession.getString("Id"),
+                            jSession.getString("Name"), jSession.getString("Rich_Session_Abstract"),
+                            jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),
+                            jSession.getString("Session_Time__c"), speakers, jSession.getString("Room"))));
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
         LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.agenda_sessions);
         SessionsListAdapter listAdapter = new SessionsListAdapter(getContext());
         Collections.sort(Agendas.AGENDA_MAP.get(mDay.id).sessions);
@@ -128,10 +174,5 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             sessions.addView(item, layoutParams);
         }
         progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onTaskComplete(String response) {
-
     }
 }

@@ -7,11 +7,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONException;
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.agendas.GetAgendasTask;
 import org.shingo.shingoeventsapp.data.agendas.Agendas;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 
 /**
@@ -44,21 +47,22 @@ public class AgendaListFragment extends ListFragment implements OnTaskComplete {
 
     @Override
     public void onTaskComplete() {
-        try {
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
+    }
+
+    @Override
+    public void onTaskComplete(String response) {
+        try{
+            Agendas.fromJSON(response);
             Collections.sort(Agendas.AGENDAS);
             setListAdapter(new ArrayAdapter<Agendas.Day>(
                     getActivity(),
                     android.R.layout.simple_list_item_activated_1,
                     android.R.id.text1,
                     Agendas.AGENDAS));
-        } catch (NullPointerException e){
+        } catch(JSONException e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onTaskComplete(String response) {
-
     }
 
     /**
@@ -97,8 +101,19 @@ public class AgendaListFragment extends ListFragment implements OnTaskComplete {
         String mEventId = AgendaListActivity.mEventId;
         if(mEventId!=null){
             RestApi api = new RestApi(this, getContext());
-            GetAgendasTask getAgendasTask = api.getAgendas(mEventId);
-            getAgendasTask.execute((Void) null);
+            GetAsyncData getAgendasTask = api.getAsyncData();
+
+            String data = "";
+
+            try {
+                data = URLEncoder.encode("event_id", "UTF-8") + "="
+                        + URLEncoder.encode(mEventId, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            String[] params = {"/sfevents/agenda", data};
+            getAgendasTask.execute(params);
         }
     }
 

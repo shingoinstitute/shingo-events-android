@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.events.EventsListAdapter;
-import org.shingo.shingoeventsapp.data.events.GetEventsTask;
 import org.shingo.shingoeventsapp.data.events.Events;
+
+import java.util.Collections;
 
 /**
  * A list fragment representing a list of Events. This fragment
@@ -43,16 +44,18 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
 
     @Override
     public void onTaskComplete() {
-        try {
-            setListAdapter(new EventsListAdapter(getContext(), Events.EVENTS));
-        }catch(NullPointerException e){
-            e.printStackTrace();
-        }
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
     }
 
     @Override
     public void onTaskComplete(String response) {
-
+        try {
+            Events.fromJSON(response);
+            Collections.sort(Events.EVENTS);
+            setListAdapter(new EventsListAdapter(getContext(), Events.EVENTS));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -89,8 +92,8 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
         super.onCreate(savedInstanceState);
         System.out.println("Starting EventsTask");
         RestApi api = new RestApi(this, getContext());
-        GetEventsTask getGetEventsTask = api.getEvents();
-        getGetEventsTask.execute((Void) null);
+        GetAsyncData getGetEventsTask = api.getAsyncData();
+        getGetEventsTask.execute("/sfevents");
     }
 
     @Override

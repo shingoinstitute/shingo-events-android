@@ -12,7 +12,6 @@ import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.affiliates.Affiliates;
 import org.shingo.shingoeventsapp.data.affiliates.AffiliatesListAdapter;
-import org.shingo.shingoeventsapp.data.affiliates.GetAffiliatesTask;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -47,19 +46,14 @@ public class AffiliateListFragment extends ListFragment implements OnTaskComplet
 
     @Override
     public void onTaskComplete() {
-//        try {
-//            Collections.sort(Affiliates.AFFILIATES);
-//            setListAdapter(new AffiliatesListAdapter(getContext(), Affiliates.AFFILIATES));
-//        } catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
     }
 
     @Override
     public void onTaskComplete(String response) {
         try{
             if(Affiliates.needsRefresh())
-                Affiliates.parseFromJSONString(response);
+                Affiliates.fromJSON(response);
             Collections.sort(Affiliates.AFFILIATES);
             while(Affiliates.is_loading > 0){ /* Wait for images to load */ }
             setListAdapter(new AffiliatesListAdapter(getContext(), Affiliates.AFFILIATES));

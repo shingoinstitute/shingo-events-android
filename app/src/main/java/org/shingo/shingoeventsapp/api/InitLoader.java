@@ -3,6 +3,11 @@ package org.shingo.shingoeventsapp.api;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import org.json.JSONObject;
+import org.shingo.shingoeventsapp.data.affiliates.Affiliates;
+import org.shingo.shingoeventsapp.data.exhibitors.Exhibitors;
+
+import java.net.URLEncoder;
 import java.util.concurrent.Executor;
 
 /**
@@ -28,14 +33,19 @@ public class InitLoader implements OnTaskComplete {
      */
     public void load(){
         RestApi api = new RestApi(this, mContext);
-        api.getAgendas(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(Void) null);
-        api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/sfevents/affiliates");
-        api.getExhibitors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
-        api.getRecipients(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
-        api.getSessions(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
-        api.getSpeakers(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
-        api.getSponsors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
-        api.getVenueMaps(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+        try{
+            String[] exhibitorParams = {"/sfevents/exhibitors", URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(mEvent, "UTF-8")};
+            api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/sfevents/affiliates");
+            api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, exhibitorParams);
+            api.getRecipients(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+            api.getSessions(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+            api.getSpeakers(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+            api.getSponsors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+            api.getVenueMaps(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -49,6 +59,17 @@ public class InitLoader implements OnTaskComplete {
 
     @Override
     public void onTaskComplete(String response) {
-
+        try {
+            JSONObject res = new JSONObject(response);
+            if (res.has("affiliates")) {
+                if (Affiliates.needsRefresh())
+                    Affiliates.fromJSON(response);
+            } else if(res.has("exhibitors")){
+                if(Exhibitors.needsRefresh())
+                    Exhibitors.fromJSON(response);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

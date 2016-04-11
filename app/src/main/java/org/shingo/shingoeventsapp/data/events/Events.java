@@ -1,5 +1,9 @@
 package org.shingo.shingoeventsapp.data.events;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +33,14 @@ public class Events {
         EVENT_MAP.clear();
     }
 
+    public static void fromJSON(String json) throws JSONException {
+        JSONObject response = new JSONObject(json);
+        JSONArray jSfevents = response.getJSONObject("events").getJSONArray("records");
+        for (int i = 0; i < response.getJSONObject("events").getInt("size"); i++) {
+            Events.addEvent(Event.fromJSON(jSfevents.getJSONObject(i)));
+        }
+    }
+
     public static class Event implements Comparable<Event>{
         public String id;
         public String name;
@@ -52,6 +64,24 @@ public class Events {
             this.lng = lng;
             this.registration = registration;
             this.venueMaps = venueMaps;
+        }
+
+        public static Event fromJSON(JSONObject jEvent) throws JSONException{
+            String latlng = jEvent.getString("LatLng__c");
+            List<Events.Event.VenueMaps> venueMaps = new ArrayList<>();
+            for(int j = 0; j < jEvent.getJSONArray("Venue_Maps").length(); j++){
+                JSONObject map = jEvent.getJSONArray("Venue_Maps").getJSONObject(j);
+                venueMaps.add(new Events.Event.VenueMaps(map.getString("name"), map.getString("url")));
+            }
+            Events.Event mEvent;
+            if(!latlng.equals("null")){
+                return new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getString("Event_Start_Date__c"),
+                        jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), jEvent.getJSONObject("LatLng__c").getDouble("latitude"),
+                        jEvent.getJSONObject("LatLng__c").getDouble("longitude"), "", venueMaps);
+            } else {
+                return new Events.Event(jEvent.getString("Id"), jEvent.getString("Name"), jEvent.getString("Event_Start_Date__c"),
+                        jEvent.getString("Event_End_Date__c"), jEvent.getString("Host_City__c"), 0, 0, "", venueMaps);
+            }
         }
 
         @Override

@@ -4,15 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import org.shingo.shingoeventsapp.R;
-import org.shingo.shingoeventsapp.data.affiliates.GetAffiliatesTask;
 import org.shingo.shingoeventsapp.data.connections.ConnectionApproveTask;
 import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
-import org.shingo.shingoeventsapp.data.agendas.GetAgendasTask;
-import org.shingo.shingoeventsapp.data.agendas.GetDayTask;
-import org.shingo.shingoeventsapp.data.events.GetEventsTask;
 import org.shingo.shingoeventsapp.data.attendees.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.connections.GetConnectionsTask;
-import org.shingo.shingoeventsapp.data.exhibitors.GetExhibitorsTask;
 import org.shingo.shingoeventsapp.data.recipients.GetRecipientsTask;
 import org.shingo.shingoeventsapp.data.reportabug.SendReportTask;
 import org.shingo.shingoeventsapp.data.sessions.GetSessionTask;
@@ -54,15 +49,6 @@ public class RestApi {
     }
 
     public GetAsyncData getAsyncData() { return new GetAsyncData(mListener); }
-
-    /**
-     *
-     * @return a new GetEventsTask
-     * @see GetEventsTask
-     */
-    public GetEventsTask getEvents(){
-        return new GetEventsTask(mListener);
-    }
 
     /**
      *
@@ -141,43 +127,6 @@ public class RestApi {
     public GetSpeakersTask getSpeakers(String id) {
         return new GetSpeakersTask(id, mListener);
     }
-
-    /**
-     *
-     * @param id the SF event id to get the agenda of
-     * @return a new GetAgendasTask
-     * @see GetAgendasTask
-     */
-    public GetAgendasTask getAgendas(String id){
-        return new GetAgendasTask(id, mListener);
-    }
-
-    /**
-     *
-     * @param id the SF day id to get
-     * @return a new GetDayTask
-     * @see GetDayTask
-     */
-    public GetDayTask getDay(String id){
-        return new GetDayTask(id, mListener);
-    }
-
-    /**
-     *
-     * @return a new GetAffiliatesTask
-     * @see GetAffiliatesTask
-     */
-    public GetAffiliatesTask getAffiliates() {
-        return new GetAffiliatesTask(mListener);
-    }
-
-    /**
-     *
-     * @param id the SF event id to get exhibitors for
-     * @return a new GetExhibitorsTask
-     * @see GetExhibitorsTask
-     */
-    public GetExhibitorsTask getExhibitors(String id) { return new GetExhibitorsTask(id, mListener); }
 
     /**
      *

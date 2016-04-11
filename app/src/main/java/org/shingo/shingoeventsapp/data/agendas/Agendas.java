@@ -2,6 +2,9 @@ package org.shingo.shingoeventsapp.data.agendas;
 
 import android.support.annotation.NonNull;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
 
 import java.text.ParseException;
@@ -36,6 +39,17 @@ public class Agendas {
         AGENDA_MAP.clear();
     }
 
+    public static void fromJSON(String json) throws JSONException{
+        JSONObject response = new JSONObject(json);
+        JSONObject jAgenda = response.getJSONObject("agenda");
+        if(jAgenda != null){
+            JSONArray jDays = jAgenda.getJSONObject("Days").getJSONArray("records");
+            for(int i = 0; i < jDays.length(); i++){
+                Agendas.addAgenda(Day.fromJSON(jDays.getJSONObject(i)));
+            }
+        }
+    }
+
     public static class Day implements Comparable<Day>{
         public String id;
         public String name;
@@ -60,6 +74,10 @@ public class Agendas {
             if(another.name.equals("Wednesday")) return 1;
             if(this.name.equals("Thursday")) return  -1;
             return 1;
+        }
+
+        public static Day fromJSON(JSONObject jDay) throws JSONException{
+           return new Agendas.Day(jDay.getString("Id"), jDay.getString("Name"), new ArrayList<Sessions.Session>());
         }
 
         @Override
