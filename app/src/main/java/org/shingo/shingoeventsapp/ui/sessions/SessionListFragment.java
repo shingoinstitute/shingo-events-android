@@ -9,10 +9,8 @@ import android.widget.ListView;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
-import org.shingo.shingoeventsapp.data.sessions.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +53,14 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
 
     @Override
     public void onTaskComplete() {
+
+    }
+
+    @Override
+    public void onTaskComplete(String response) {
         try {
+            if(Sessions.needsRefresh())
+                Sessions.fromJSON(response);
             SessionsListAdapter adapter = new SessionsListAdapter(getContext());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
             for(Sessions.Session s : Sessions.SESSIONS){
@@ -97,16 +102,9 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
             adapter.addAllItems(friday);
 
             setListAdapter(adapter);
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onTaskComplete(String response) {
-
     }
 
     /**

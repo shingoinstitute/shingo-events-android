@@ -1,7 +1,14 @@
 package org.shingo.shingoeventsapp.data.recipients;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +27,9 @@ public class Recipients {
     public static Map<String,ResearchRecipient> RESEARCH_RECIPIENT_MAP = new HashMap<>();
 
     public static Date refresh;
+
+    public static int awards_is_ready = 0;
+    public static int research_is_ready = 0;
 
     public static boolean needsRefresh(){
         if(refresh == null) return true;
@@ -49,6 +59,48 @@ public class Recipients {
         refresh = new Date();
     }
 
+    public static void fromJSON(String json) throws JSONException{
+        Recipients.clear();
+        JSONObject response = new JSONObject(json);
+        JSONArray jAwardRecipients = response.getJSONObject("award_recipients").getJSONArray("records");
+        for(int i = 0; i < jAwardRecipients.length(); i++){
+            Recipients.addAwardRecipient(AwardRecipient.fromJSON(jAwardRecipients.getJSONObject(i)));
+        }
+
+        JSONArray jResearchRecipients = response.getJSONObject("research_recipients").getJSONArray("records");
+        for(int i = 0; i < jResearchRecipients.length(); i++){
+            Recipients.addResearchRecipient(ResearchRecipient.fromJSON(jResearchRecipients.getJSONObject(i)));
+        }
+    }
+
+    public static void getLogo(final String url, final String id, final int type) throws IOException{
+        if(type == 0)
+            awards_is_ready++;
+        else
+            research_is_ready++;
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                try {
+                    URL image = new URL(url);
+                    Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                    if(type == 0) {
+                        if (AWARD_RECIPIENT_MAP.containsKey(id))
+                            AWARD_RECIPIENT_MAP.get(id).logo = picture;
+                        awards_is_ready--;
+                    } else {
+                        if (RESEARCH_RECIPIENT_MAP.containsKey(id))
+                            RESEARCH_RECIPIENT_MAP.get(id).cover = picture;
+                        research_is_ready--;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+    }
+
     public static class AwardRecipient implements Comparable<AwardRecipient> {
         public String id;
         public String name;
@@ -64,6 +116,16 @@ public class Recipients {
             this.award = award;
             this.logo = logo;
             if(Abstract.equals("null")) this.Abstract = "Abstract coming soon!";
+        }
+
+        public static AwardRecipient fromJSON(JSONObject jRecipient) throws JSONException{
+            try{
+                getLogo(jRecipient.getString("Logo_Book_Cover__c"), jRecipient.getString("Id"), 0);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            return new Recipients.AwardRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
+                    jRecipient.getString("Rich_Abstract"), jRecipient.getString("Award__c"), null);
         }
 
         @Override
@@ -90,6 +152,16 @@ public class Recipients {
             this.author = author;
             this.cover = cover;
             if(Abstract.equals("null")) this.Abstract = "Abstract coming soon!";
+        }
+
+        public static ResearchRecipient fromJSON(JSONObject jRecipient) throws JSONException{
+            try{
+                getLogo(jRecipient.getString("Logo_Book_Cover__c"), jRecipient.getString("Id"), 1);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            return new Recipients.ResearchRecipient(jRecipient.getString("Id"), jRecipient.getString("Name"),
+                    jRecipient.getString("Rich_Abstract"), jRecipient.getString("Author_s__c"), null);
         }
 
         @Override

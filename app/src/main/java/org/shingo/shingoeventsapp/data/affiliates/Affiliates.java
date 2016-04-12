@@ -123,17 +123,15 @@ public class Affiliates {
                     jAffiliate.getString("Public_Contact_Email__c"));
         }
 
-        public static void getLogo(String url, String id){
+        public static void getLogo(final String url, final String id){
             is_loading++;
-            final String logoURL = url;
-            final String affID = id;
             Thread thread = new Thread(){
                 @Override
                 public void run(){
                     try {
-                        URL image = new URL(logoURL);
+                        URL image = new URL(url);
                         Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
-                        if(AFFILIATE_MAP.containsKey(affID)) AFFILIATE_MAP.get(affID).logo = picture;
+                        if(AFFILIATE_MAP.containsKey(id)) AFFILIATE_MAP.get(id).logo = picture;
                         is_loading--;
                     } catch (IOException e) {
                         e.printStackTrace();

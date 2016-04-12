@@ -13,13 +13,15 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.recipients.GetRecipientsTask;
 import org.shingo.shingoeventsapp.data.recipients.Recipients;
 import org.shingo.shingoeventsapp.data.recipients.RecipientsListAdapter;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,9 +65,14 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         pb = (LinearLayout)findViewById(R.id.recipient_pb);
 
         RestApi rest = new RestApi(this, this);
-        GetRecipientsTask getRecipientsTask = rest.getRecipients(mEvent);
-        getRecipientsTask.execute((Void) null);
-
+        GetAsyncData getRecipientsTask = rest.getAsyncData();
+        try {
+            String[] params = {"/sfevents/recipients", URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(mEvent, "UTF-8")};
+            getRecipientsTask.execute(params);
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
         pb.setVisibility(View.VISIBLE);
 
         if (findViewById(R.id.recipient_detail_container) != null) {
@@ -98,7 +105,15 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
 
     @Override
     public void onTaskComplete() {
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
+    }
+
+    @Override
+    public void onTaskComplete(String response) {
         try {
+            if(Recipients.needsRefresh())
+                Recipients.fromJSON(response);
+            while(Recipients.awards_is_ready > 0 || Recipients.research_is_ready > 0) { /* Wait */ }
             Collections.sort(Recipients.AWARD_RECIPIENTS, Collections.reverseOrder());
             Collections.sort(Recipients.RESEARCH_RECIPIENTS);
             final List<Recipients.AwardRecipient> shingoPrize = new ArrayList<>();
@@ -215,14 +230,9 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
             });
 
             pb.setVisibility(View.GONE);
-        } catch(NullPointerException e){
+        } catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onTaskComplete(String response) {
-
     }
 
     private void startRecipientDetailActivity(String id, int type)

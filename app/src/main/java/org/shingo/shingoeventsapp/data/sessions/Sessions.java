@@ -1,7 +1,15 @@
 package org.shingo.shingoeventsapp.data.sessions;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.shingo.shingoeventsapp.data.speakers.Speakers;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +29,8 @@ public class Sessions {
 
     public static Date refresh;
 
+    public static int speaker_images = 0;
+
     public static boolean needsRefresh(){
         if(refresh == null) return true;
         Date now = new Date();
@@ -38,6 +48,15 @@ public class Sessions {
         SESSIONS.clear();
         SESSION_MAP.clear();
         refresh = new Date();
+    }
+
+    public static void fromJSON(String json) throws JSONException{
+        Sessions.clear();
+        JSONObject response = new JSONObject(json);
+        JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
+        for(int i = 0; i < response.getJSONObject("sessions").getInt("size"); i++){
+            Sessions.addSession(Session.fromJSON(jSessions.getJSONObject(i)));
+        }
     }
 
     public static class Session implements Comparable<Session>{
@@ -69,6 +88,45 @@ public class Sessions {
             this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
             if(sAbstract.equals("null")) this.sAbstract = "";
             if(format.equals("null")) this.format = "";
+        }
+
+        public static Session fromJSON(JSONObject jSession) throws JSONException{
+            List<Speakers.Speaker> speakers = new ArrayList<>();
+            JSONArray jSpeakers = jSession.getJSONObject("Speakers").getJSONArray("records");
+            for(int i = 0; i < jSpeakers.length(); i++){
+                JSONObject jSpeaker = jSpeakers.getJSONObject(i);
+                URL image;
+                if(!jSpeaker.getString("Speaker_Image__c").equals("null")) {
+                    speaker_images++;
+                    getImage(jSpeaker.getString("Speaker_Image__c"), speakers, i);
+                }
+                speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
+                        jSpeaker.getString("Name"), jSpeaker.getString("Name"), jSpeaker.getString("Title"),
+                        jSpeaker.getString("Organization"), "", null));
+            }
+            if(!jSession.has("Room")) jSession.put("Room", "null");
+            while(speaker_images > 0) {/* wait */}
+            return new Sessions.Session(jSession.getString("Id"),
+                    jSession.getString("Name"),jSession.getString("Rich_Session_Abstract"),
+                    jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),
+                    jSession.getString("Session_Time__c"), speakers, jSession.getString("Room"));
+        }
+
+        public static void getImage(final String url, final List<Speakers.Speaker> speakers, final int index) throws JSONException{
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        URL image = new URL(url);
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        speakers.get(index).picture = picture;
+                        speaker_images--;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
         }
 
         @Override

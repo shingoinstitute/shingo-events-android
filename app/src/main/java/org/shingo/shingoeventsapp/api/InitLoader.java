@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.data.affiliates.Affiliates;
 import org.shingo.shingoeventsapp.data.exhibitors.Exhibitors;
+import org.shingo.shingoeventsapp.data.recipients.Recipients;
+import org.shingo.shingoeventsapp.data.sessions.Sessions;
 
 import java.net.URLEncoder;
 import java.util.concurrent.Executor;
@@ -34,12 +36,15 @@ public class InitLoader implements OnTaskComplete {
     public void load(){
         RestApi api = new RestApi(this, mContext);
         try{
-            String[] exhibitorParams = {"/sfevents/exhibitors", URLEncoder.encode("event_id", "UTF-8") + "="
-                    + URLEncoder.encode(mEvent, "UTF-8")};
+            String eventIDParam = URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(mEvent, "UTF-8");
+            String[] exhibitorParams = {"/sfevents/exhibitors", eventIDParam};
+            String[] recipientsParams = {"/sfevents/recipients", eventIDParam};
+            String[] sessionsParams = {"/sfevents/sessions", eventIDParam};
             api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/sfevents/affiliates");
             api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, exhibitorParams);
-            api.getRecipients(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
-            api.getSessions(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+            api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, recipientsParams);
+            api.getAsyncData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, sessionsParams);
             api.getSpeakers(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
             api.getSponsors(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
             api.getVenueMaps(mEvent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
@@ -59,6 +64,8 @@ public class InitLoader implements OnTaskComplete {
 
     @Override
     public void onTaskComplete(String response) {
+        count++;
+        System.out.println("API call complete " + count + "/8");
         try {
             JSONObject res = new JSONObject(response);
             if (res.has("affiliates")) {
@@ -67,6 +74,12 @@ public class InitLoader implements OnTaskComplete {
             } else if(res.has("exhibitors")){
                 if(Exhibitors.needsRefresh())
                     Exhibitors.fromJSON(response);
+            } else if(res.has("recipients")){
+                if(Recipients.needsRefresh())
+                    Recipients.fromJSON(response);
+            } else if (res.has("sessions")) {
+                if(Sessions.needsRefresh())
+                    Sessions.fromJSON(response);
             }
         }catch(Exception e){
             e.printStackTrace();

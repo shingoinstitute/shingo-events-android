@@ -8,10 +8,7 @@ import org.shingo.shingoeventsapp.data.connections.ConnectionApproveTask;
 import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
 import org.shingo.shingoeventsapp.data.attendees.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.connections.GetConnectionsTask;
-import org.shingo.shingoeventsapp.data.recipients.GetRecipientsTask;
 import org.shingo.shingoeventsapp.data.reportabug.SendReportTask;
-import org.shingo.shingoeventsapp.data.sessions.GetSessionTask;
-import org.shingo.shingoeventsapp.data.sessions.GetSessionsTask;
 import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.events.RegIdTask;
 import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
@@ -100,25 +97,6 @@ public class RestApi {
     }
 
     /**
-     *when accounts
-     * are enabled.
-     * @param id the SF session id to get
-     * @return a new GetSessionTask
-     * @see GetSessionTask
-     */
-    public GetSessionTask getSession(String id) { return new GetSessionTask(id, mListener); }
-
-    /**
-     *
-     * @param id the SF event id to get sessions of
-     * @return a new GetSessionsTask
-     * @see GetSessionsTask
-     */
-    public GetSessionsTask getSessions(String id) {
-        return new GetSessionsTask(id, mListener);
-    }
-
-    /**
      *
      * @param id the SF event id to get speakers of
      * @return a new GetSpeakersTask
@@ -127,14 +105,6 @@ public class RestApi {
     public GetSpeakersTask getSpeakers(String id) {
         return new GetSpeakersTask(id, mListener);
     }
-
-    /**
-     *
-     * @param id the SF event id to get exhibitors for
-     * @return a new GetRecipientsTask
-     * @see GetRecipientsTask
-     */
-    public GetRecipientsTask getRecipients(String id) { return new GetRecipientsTask(id, mListener); }
 
     /**
      *
