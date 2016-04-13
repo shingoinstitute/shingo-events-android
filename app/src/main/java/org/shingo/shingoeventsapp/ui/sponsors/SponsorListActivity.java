@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
@@ -19,6 +20,8 @@ import org.shingo.shingoeventsapp.data.sponsors.Sponsors;
 import org.shingo.shingoeventsapp.data.sponsors.SponsorsListAdapter;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,8 +63,14 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
         pb = (LinearLayout)findViewById(R.id.sponsor_pb);
 
         RestApi api = new RestApi(this, this);
-        GetSponsorsTask getSponsorsTask = api.getSponsors(mEvent);
-        getSponsorsTask.execute((Void) null);
+        GetAsyncData getSponsorsTask = api.getAsyncData();
+        try {
+            String[] params = {"/sfevents/sponsors", URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(mEvent, "UTF-8")};
+            getSponsorsTask.execute(params);
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
         pb.setVisibility(View.VISIBLE);
 
         if (findViewById(R.id.sponsor_detail_container) != null) {
@@ -94,7 +103,53 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
 
     @Override
     public void onTaskComplete() {
+//        try {
+//            ListView list = (ListView) findViewById(R.id.sponsor_list);
+//            SponsorsListAdapter adapter = new SponsorsListAdapter(this);
+//            List presidents = Sponsors.SPONSORS.get("President");
+//            List champions = Sponsors.SPONSORS.get("Champion");
+//            List benefactors = Sponsors.SPONSORS.get("Benefactor");
+//            List supporters = Sponsors.SPONSORS.get("Supporter");
+//            List friends = Sponsors.SPONSORS.get("Friend");
+//            if (presidents != null) {
+//                adapter.addSectionHeaderItem("Presidents");
+//                Collections.sort(presidents);
+//                adapter.addAllItems(presidents);
+//            }
+//            if (champions != null) {
+//                adapter.addSectionHeaderItem("Champions");
+//                Collections.sort(champions);
+//                adapter.addAllItems(champions);
+//            }
+//            if (benefactors != null) {
+//                adapter.addSectionHeaderItem("Benefactors");
+//                Collections.sort(benefactors);
+//                adapter.addAllItems(benefactors);
+//            }
+//            if (supporters != null) {
+//                adapter.addSectionHeaderItem("Supporters");
+//                Collections.sort(supporters);
+//                adapter.addAllItems(supporters);
+//            }
+//            if (friends != null) {
+//                adapter.addSectionHeaderItem("Friends");
+//                Collections.sort(friends);
+//                adapter.addAllItems(friends);
+//                list.setAdapter(adapter);
+//            }
+//            pb.setVisibility(View.GONE);
+//
+//        } catch(NullPointerException e){
+//            e.printStackTrace();
+//        }
+    }
+
+    @Override
+    public void onTaskComplete(String response) {
         try {
+            if(Sponsors.needsRefresh())
+                Sponsors.fromJSON(response);
+            while(Sponsors.is_loading > 0) { /* Wait */ }
             ListView list = (ListView) findViewById(R.id.sponsor_list);
             SponsorsListAdapter adapter = new SponsorsListAdapter(this);
             List presidents = Sponsors.SPONSORS.get("President");
@@ -130,13 +185,8 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
             }
             pb.setVisibility(View.GONE);
 
-        } catch(NullPointerException e){
+        } catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onTaskComplete(String response) {
-
     }
 }

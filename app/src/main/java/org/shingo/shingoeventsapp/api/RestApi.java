@@ -9,7 +9,6 @@ import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
 import org.shingo.shingoeventsapp.data.attendees.GetAttendeesTask;
 import org.shingo.shingoeventsapp.data.connections.GetConnectionsTask;
 import org.shingo.shingoeventsapp.data.reportabug.SendReportTask;
-import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.events.RegIdTask;
 import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
@@ -94,16 +93,6 @@ public class RestApi {
      */
     public ConnectionRequestTask sendRequest(String connection) {
         return new ConnectionRequestTask(mEmail, mPassword, connection, mId, mListener);
-    }
-
-    /**
-     *
-     * @param id the SF event id to get speakers of
-     * @return a new GetSpeakersTask
-     * @see GetSpeakersTask
-     */
-    public GetSpeakersTask getSpeakers(String id) {
-        return new GetSpeakersTask(id, mListener);
     }
 
     /**

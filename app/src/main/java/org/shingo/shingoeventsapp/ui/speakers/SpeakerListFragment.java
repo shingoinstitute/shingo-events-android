@@ -6,12 +6,14 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.speakers.GetSpeakersTask;
 import org.shingo.shingoeventsapp.data.speakers.Speakers;
 import org.shingo.shingoeventsapp.data.speakers.SpeakersListAdapter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 
 /**
@@ -44,7 +46,14 @@ public class SpeakerListFragment extends ListFragment implements OnTaskComplete 
 
     @Override
     public void onTaskComplete() {
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
+    }
+
+    @Override
+    public void onTaskComplete(String response) {
         try {
+            if(Speakers.needsRefresh())
+                Speakers.fromJSON(response);
             Collections.sort(Speakers.SPEAKERS);
             // Comment/Uncomment to use a simple list adapter
             /*setListAdapter(new ArrayAdapter<Speakers.Speaker>(
@@ -53,14 +62,9 @@ public class SpeakerListFragment extends ListFragment implements OnTaskComplete 
                     android.R.id.text1,
                     Speakers.SPEAKERS)); */
             setListAdapter(new SpeakersListAdapter(getContext(), Speakers.SPEAKERS, false));
-        } catch(NullPointerException e){
+        } catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onTaskComplete(String response) {
-
     }
 
     /**
@@ -97,8 +101,14 @@ public class SpeakerListFragment extends ListFragment implements OnTaskComplete 
         super.onCreate(savedInstanceState);
 
         RestApi api = new RestApi(this, getContext());
-        GetSpeakersTask getSpeakersTask = api.getSpeakers(SpeakerListActivity.mId);
-        getSpeakersTask.execute((Void) null);
+        GetAsyncData getSpeakersTask = api.getAsyncData();
+        try {
+            String[] params = {"/sfevents/speakers", URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(SpeakerListActivity.mId, "UTF-8")};
+            getSpeakersTask.execute(params);
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
 
     }
 

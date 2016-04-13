@@ -7,8 +7,13 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.shingo.shingoeventsapp.R;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +30,8 @@ public class Speakers {
     public static Map<String, Speaker> SPEAKER_MAP = new HashMap<>();
 
     public static Date refresh;
+
+    public static int is_loading = 0;
 
     public static boolean needsRefresh(){
         if(refresh == null) return true;
@@ -43,6 +50,15 @@ public class Speakers {
         SPEAKERS.clear();
         SPEAKER_MAP.clear();
         refresh = new Date();
+    }
+
+    public static void fromJSON(String json) throws JSONException{
+        Speakers.clear();
+        JSONObject response = new JSONObject(json);
+        JSONArray jSpeakers = response.getJSONObject("speakers").getJSONArray("records");
+        for(int i = 0; i < jSpeakers.length(); i++){
+            Speakers.addSpeaker(Speaker.fromJSON(jSpeakers.getJSONObject(i)));
+        }
     }
 
     public static class Speaker implements Comparable<Speaker>{
@@ -91,6 +107,34 @@ public class Speakers {
                         new Rect(0, 0, targetWidth, targetHeight), null);
             }
             return target;
+        }
+
+        public static Speaker fromJSON(JSONObject jSpeaker) throws JSONException{
+            if(!jSpeaker.getString("Speaker_Image__c").equals("null"))
+                getLogo(jSpeaker.getString("Speaker_Image__c"), jSpeaker.getString("Id"));
+
+            return new Speakers.Speaker(jSpeaker.getString("Id"),
+                    jSpeaker.getString("Name"),jSpeaker.getString("Speaker_Display_Name__c"),
+                    jSpeaker.getString("Title"), jSpeaker.getString("Organization"),
+                    jSpeaker.getString("Rich_Biography"), null);
+        }
+
+        public static void getLogo(final String url, final String id){
+            is_loading++;
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        URL image = new URL(url);
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        if(SPEAKER_MAP.containsKey(id)) SPEAKER_MAP.get(id).picture = picture;
+                        is_loading--;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
         }
 
         @Override

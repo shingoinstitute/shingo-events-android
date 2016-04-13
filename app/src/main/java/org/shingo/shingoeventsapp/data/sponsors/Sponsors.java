@@ -1,7 +1,14 @@
 package org.shingo.shingoeventsapp.data.sponsors;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +24,8 @@ public class Sponsors {
     public static Map<String, Sponsor> SPONSOR_MAP = new HashMap<>();
 
     public static Date refresh;
+
+    public static int is_loading = 0;
 
     public static boolean needsRefresh(){
         if(refresh == null) return true;
@@ -43,6 +52,23 @@ public class Sponsors {
         SPONSOR_MAP.clear();
     }
 
+    public static void fromJSON(String json) throws JSONException {
+        Sponsors.clear();
+        JSONObject response = new JSONObject(json);
+        JSONObject jsonObject = response.getJSONObject("sponsors");
+        List<JSONArray> sponsors = new ArrayList<>();
+        sponsors.add(jsonObject.getJSONObject("friends").getJSONArray("records"));
+        sponsors.add(jsonObject.getJSONObject("supporters").getJSONArray("records"));
+        sponsors.add(jsonObject.getJSONObject("benefactors").getJSONArray("records"));
+        sponsors.add(jsonObject.getJSONObject("champions").getJSONArray("records"));
+        sponsors.add(jsonObject.getJSONObject("presidents").getJSONArray("records"));
+        for(JSONArray jSponsors : sponsors){
+            for(int i = 0; i < jSponsors.length(); i++){
+                Sponsors.addSponsor(Sponsor.fromJSON(jSponsors.getJSONObject(i)));
+            }
+        }
+    }
+
     public static class Sponsor implements Comparable<Sponsor>{
         public String id;
         public String name;
@@ -56,6 +82,52 @@ public class Sponsors {
             this.level = level;
             this.banner = banner;
             this.logo = logo;
+        }
+
+        public static Sponsor fromJSON(JSONObject jSponsor) throws JSONException{
+            String level = jSponsor.getString("Level__c");
+            if(jSponsor.has("Logo__c"))
+                getLogo(jSponsor.getString("Logo__c"), jSponsor.getString("Id"));
+            if(jSponsor.has("Banner__c"))
+                getBanner(jSponsor.getString("Banner__c"), jSponsor.getString("Id"));
+            return new Sponsors.Sponsor(jSponsor.getString("Id"), jSponsor.getString("Name"),
+                        level, null, null);
+        }
+
+        public static void getLogo(final String url, final String id){
+            is_loading++;
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        URL image = new URL(url);
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        if(SPONSOR_MAP.containsKey(id)) SPONSOR_MAP.get(id).logo = picture;
+                        is_loading--;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
+        }
+
+        public static void getBanner(final String url, final String id){
+            is_loading++;
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        URL image = new URL(url);
+                        Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+                        if(SPONSOR_MAP.containsKey(id)) SPONSOR_MAP.get(id).banner = picture;
+                        is_loading--;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
         }
 
         @Override

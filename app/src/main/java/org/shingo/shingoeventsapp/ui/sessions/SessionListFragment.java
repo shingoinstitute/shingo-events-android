@@ -6,11 +6,15 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
 import org.shingo.shingoeventsapp.data.sessions.SessionsListAdapter;
 import org.shingo.shingoeventsapp.data.sessions.Sessions;
+import org.shingo.shingoeventsapp.ui.speakers.SpeakerListActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +57,7 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
 
     @Override
     public void onTaskComplete() {
-
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
     }
 
     @Override
@@ -143,8 +147,14 @@ public class SessionListFragment extends ListFragment implements OnTaskComplete 
         String id = SessionListActivity.eventId;
 
         RestApi api = new RestApi(this, getContext());
-        GetSessionsTask getSessionsTask = api.getSessions(id);
-        getSessionsTask.execute((Void) null);
+        try {
+            GetAsyncData getSessionsTask = api.getAsyncData();
+            String[] params = {"/sfevents/sessions", URLEncoder.encode("event_id", "UTF-8") + "="
+                    + URLEncoder.encode(id, "UTF-8")};
+            getSessionsTask.execute(params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
