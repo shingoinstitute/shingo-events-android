@@ -4,13 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import org.shingo.shingoeventsapp.R;
-import org.shingo.shingoeventsapp.data.connections.ConnectionApproveTask;
-import org.shingo.shingoeventsapp.data.attendees.ConnectionRequestTask;
-import org.shingo.shingoeventsapp.data.attendees.GetAttendeesTask;
-import org.shingo.shingoeventsapp.data.connections.GetConnectionsTask;
 import org.shingo.shingoeventsapp.data.reportabug.SendReportTask;
-import org.shingo.shingoeventsapp.data.events.RegIdTask;
-import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 
 /*********************************************
@@ -44,72 +38,25 @@ public class RestApi {
         API_URL = context.getResources().getString(R.string.api_prod_url);
     }
 
+    /**
+     * Used to get data from the API
+     * @return a new {@link GetAsyncData} Task
+     * @see GetAsyncData
+     */
     public GetAsyncData getAsyncData() { return new GetAsyncData(mListener); }
 
     /**
-     *
-     * @param regId the RegOnline Id of an attendee
-     * @return a new RegIdTask
-     * @see RegIdTask
-     */
-    public RegIdTask addRegId(String regId) {
-        return new RegIdTask(mEmail, mPassword, regId, mListener);
-    }
-
-    /**
-     *
-     * @return a new GetConnectionsTask
-     * @see GetConnectionsTask
-     */
-    public GetConnectionsTask getConnections() {
-        return new GetConnectionsTask(mId, mListener);
-    }
-
-    /**
-     *
-     * @param email email of the connection
-     * @param approve boolean whether to approve connection
-     * @return a new ConnectionApproveTask
-     * @see ConnectionApproveTask
-     */
-    public ConnectionApproveTask approveConnection(String email, boolean approve) {
-        return new ConnectionApproveTask(mEmail, mPassword, email, approve, mListener);
-    }
-
-    /**
-     *
-     * @return a new GetAttendeesTask
-     * @see GetAttendeesTask
-     */
-    public GetAttendeesTask getAttendees() {
-        return new GetAttendeesTask(mEmail, mListener);
-    }
-
-    /**
-     *
-     * @param connection email of the connection to request
-     * @return a new ConnectionRequestTask
-     * @see ConnectionRequestTask
-     */
-    public ConnectionRequestTask sendRequest(String connection) {
-        return new ConnectionRequestTask(mEmail, mPassword, connection, mId, mListener);
-    }
-
-    /**
-     *
-     * @param id the SF event id to get sponsors for
-     * @return a new GetSponsorsTask
-     * @see GetSponsorsTask
-     */
-    public GetSponsorsTask getSponsors(String id) { return new GetSponsorsTask(id, mListener); }
-
-    /**
-     *
+     * Used to get the Venue Maps stored in {@link org.shingo.shingoeventsapp.data.events.Events.Event}
      * @param id the SF event id to get venue maps for
-     * @return a new GetVenueMapsTask
+     * @return a new {@link GetVenueMapsTask}
      * @see GetVenueMapsTask
      */
     public GetVenueMapsTask getVenueMaps(String id) { return new GetVenueMapsTask(id, mListener); }
 
+    /**
+     * Used to send a report to the API
+     * @return a new {@link SendReportTask}
+     * @see SendReportTask
+     */
     public SendReportTask sendReport() { return new SendReportTask(mListener);}
 }

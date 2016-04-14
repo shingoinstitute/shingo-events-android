@@ -69,7 +69,7 @@ public class AffiliatesListAdapter extends BaseAdapter {
     }
 
     /**
-     *
+     * Get view utilizing the holder/recycling method
      * @param position an index to {@link AffiliatesListAdapter#data}
      * @param convertView a view already initialized, enables view recycling
      * @param parent the containing {@link ViewGroup}
@@ -79,16 +79,29 @@ public class AffiliatesListAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Holder holder;
         if(convertView == null) {
             convertView = inflater.inflate(R.layout.img_adapter_row, parent, false);
+            holder = new Holder();
+            holder.img = (ImageView) convertView.findViewById(R.id.list_image);
+            holder.name = (TextView) convertView.findViewById(R.id.list_name);
+            convertView.setTag(holder);
+        } else {
+            holder = (Holder)convertView.getTag();
         }
 
-        ImageView img = (ImageView) convertView.findViewById(R.id.list_image);
-        TextView name = (TextView) convertView.findViewById(R.id.list_name);
         Affiliates.Affiliate item = getItem(position);
-        img.setImageDrawable(new BitmapDrawable(context.getResources(), item.logo));
-        name.setText(item.name);
+        holder.img.setImageDrawable(new BitmapDrawable(context.getResources(), item.logo));
+        holder.name.setText(item.name);
 
         return convertView;
+    }
+
+    /**
+     * Used to hold views for recycling
+     */
+    private static class Holder {
+        ImageView img;
+        TextView name;
     }
 }

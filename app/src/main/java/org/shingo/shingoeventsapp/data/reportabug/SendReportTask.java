@@ -1,15 +1,11 @@
 package org.shingo.shingoeventsapp.data.reportabug;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.events.Events;
 import org.shingo.shingoeventsapp.data.venuemaps.VenueMaps;
-import org.shingo.shingoeventsapp.ui.attendees.LoginActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

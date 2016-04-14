@@ -2,6 +2,7 @@ package org.shingo.shingoeventsapp.data.affiliates;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,11 +47,11 @@ public class Affiliates {
     }
 
     /**
-     * Adds an affiliate object to both {@link Affiliates#AFFILIATES}
+     * Adds an {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate} to both {@link Affiliates#AFFILIATES}
      * and {@link Affiliates#AFFILIATE_MAP} if the map does not contain
-     * the passed in Affiliate.
+     * the passed in {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}.
      *
-     * @param affiliate an Affiliate object
+     * @param affiliate an {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}
      */
     public static void addAffiliate(Affiliate affiliate){
         if(AFFILIATE_MAP.get(affiliate.id) == null){
@@ -59,6 +60,12 @@ public class Affiliates {
         }
     }
 
+    /**
+     * Parse {@link Affiliates} from a JSON string
+     * @param json JSON string representing {@link Affiliates}
+     * @throws JSONException
+     * @throws IOException
+     */
     public static void fromJSON(String json) throws JSONException, IOException{
         JSONObject response = new JSONObject(json);
         clear();
@@ -113,6 +120,13 @@ public class Affiliates {
             if(appAbstract.equals("null")) this.appAbstract = "Abstract coming soon!";
         }
 
+        /**
+         * Used to parse an {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate} from a {@link JSONObject}
+         * @param jAffiliate {@link JSONObject} representing an {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}
+         * @return {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}
+         * @throws JSONException
+         * @throws IOException
+         */
         public static Affiliate fromJSON(JSONObject jAffiliate) throws JSONException, IOException{
             if(!jAffiliate.getString("Logo__c").equals("null"))
                 getLogo(jAffiliate.getString("Logo__c"),jAffiliate.getString("Id"));
@@ -123,6 +137,11 @@ public class Affiliates {
                     jAffiliate.getString("Public_Contact_Email__c"));
         }
 
+        /**
+         * Get the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}'s Logo
+         * @param url a url({@link String}) to the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}'s logo
+         * @param id the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}'s SalesForce ID
+         */
         public static void getLogo(final String url, final String id){
             is_loading++;
             Thread thread = new Thread(){
@@ -143,11 +162,11 @@ public class Affiliates {
 
         /**
          *
-         * @param another another Affiliate to compare to
+         * @param another another {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate} to compare to
          * @return this.name.compareTo(another.name)
          */
         @Override
-        public int compareTo(Affiliate another) {
+        public int compareTo(@NonNull Affiliate another) {
             return this.name.compareTo(another.name);
         }
     }

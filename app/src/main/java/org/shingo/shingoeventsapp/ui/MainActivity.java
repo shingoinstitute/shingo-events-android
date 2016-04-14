@@ -26,28 +26,32 @@ public class MainActivity extends AppCompatActivity {
         events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(EventListActivity.class);
+                Bundle args = new Bundle();
+                String[] params = { "/sfevents" };
+                args.putStringArray("params", params);
+                startActivity(EventListActivity.class, args);
             }
         });
 
         (findViewById(R.id.action_model)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ModelActivity.class);
+                startActivity(ModelActivity.class, new Bundle());
             }
         });
 
         (findViewById(R.id.action_support)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SupportActivity.class);
+                startActivity(SupportActivity.class, new Bundle());
             }
         });
 
     }
 
-    private void startActivity(Class dest){
+    private void startActivity(Class dest, Bundle args){
         Intent i = new Intent(this, dest);
+        i.putExtras(args);
         startActivity(i);
     }
 

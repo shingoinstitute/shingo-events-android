@@ -1,8 +1,6 @@
 package org.shingo.shingoeventsapp.api;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -13,10 +11,7 @@ import org.shingo.shingoeventsapp.data.sessions.Sessions;
 import org.shingo.shingoeventsapp.data.speakers.Speakers;
 import org.shingo.shingoeventsapp.data.sponsors.Sponsors;
 
-import java.io.IOException;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.util.concurrent.Executor;
 
 /**
  * @author Dustin Homan
@@ -70,6 +65,10 @@ public class InitLoader implements OnTaskComplete {
         System.out.println("API call complete " + count + "/8");
     }
 
+    /**
+     *  Callback to parse JSON from API call
+     * @param response the JSON response from the API call
+     */
     @Override
     public void onTaskComplete(final String response) {
         count++;

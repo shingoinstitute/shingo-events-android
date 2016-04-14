@@ -115,6 +115,6 @@ public class SupportActivity extends AppCompatActivity implements OnTaskComplete
 
     @Override
     public void onTaskComplete(String response) {
-
+        throw new UnsupportedOperationException("onTaskComplete(String response) has not been implemented. Did you mean onTaskComplete()?");
     }
 }

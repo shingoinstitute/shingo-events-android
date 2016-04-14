@@ -15,7 +15,6 @@ import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.api.GetAsyncData;
 import org.shingo.shingoeventsapp.api.OnTaskComplete;
 import org.shingo.shingoeventsapp.api.RestApi;
-import org.shingo.shingoeventsapp.data.sponsors.GetSponsorsTask;
 import org.shingo.shingoeventsapp.data.sponsors.Sponsors;
 import org.shingo.shingoeventsapp.data.sponsors.SponsorsListAdapter;
 import org.shingo.shingoeventsapp.ui.events.EventListActivity;
@@ -103,45 +102,7 @@ public class SponsorListActivity extends AppCompatActivity implements OnTaskComp
 
     @Override
     public void onTaskComplete() {
-//        try {
-//            ListView list = (ListView) findViewById(R.id.sponsor_list);
-//            SponsorsListAdapter adapter = new SponsorsListAdapter(this);
-//            List presidents = Sponsors.SPONSORS.get("President");
-//            List champions = Sponsors.SPONSORS.get("Champion");
-//            List benefactors = Sponsors.SPONSORS.get("Benefactor");
-//            List supporters = Sponsors.SPONSORS.get("Supporter");
-//            List friends = Sponsors.SPONSORS.get("Friend");
-//            if (presidents != null) {
-//                adapter.addSectionHeaderItem("Presidents");
-//                Collections.sort(presidents);
-//                adapter.addAllItems(presidents);
-//            }
-//            if (champions != null) {
-//                adapter.addSectionHeaderItem("Champions");
-//                Collections.sort(champions);
-//                adapter.addAllItems(champions);
-//            }
-//            if (benefactors != null) {
-//                adapter.addSectionHeaderItem("Benefactors");
-//                Collections.sort(benefactors);
-//                adapter.addAllItems(benefactors);
-//            }
-//            if (supporters != null) {
-//                adapter.addSectionHeaderItem("Supporters");
-//                Collections.sort(supporters);
-//                adapter.addAllItems(supporters);
-//            }
-//            if (friends != null) {
-//                adapter.addSectionHeaderItem("Friends");
-//                Collections.sort(friends);
-//                adapter.addAllItems(friends);
-//                list.setAdapter(adapter);
-//            }
-//            pb.setVisibility(View.GONE);
-//
-//        } catch(NullPointerException e){
-//            e.printStackTrace();
-//        }
+        throw new UnsupportedOperationException("onTaskComplete() has not been implemented. Did you mean onTaskComplete(String response)?");
     }
 
     @Override

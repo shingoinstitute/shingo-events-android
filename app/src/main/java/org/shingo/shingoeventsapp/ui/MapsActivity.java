@@ -1,8 +1,5 @@
 package org.shingo.shingoeventsapp.ui;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -19,15 +16,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.events.Events;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

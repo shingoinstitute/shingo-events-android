@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
-import org.shingo.shingoeventsapp.ui.attendees.AttendeeListActivity;
 import org.shingo.shingoeventsapp.ui.events.EventDetailFragment;
+import org.shingo.shingoeventsapp.ui.events.EventListActivity;
 
 /**
  * An activity representing a list of Speakers. This activity
@@ -91,7 +91,7 @@ public class SpeakerListActivity extends AppCompatActivity
             Bundle args = new Bundle();
             args.putString(EventDetailFragment.ARG_ITEM_ID, mId);
             args.putString("event_id", mId);
-            navigateUpTo(new Intent(this, AttendeeListActivity.class));
+            navigateUpTo(new Intent(this, EventListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

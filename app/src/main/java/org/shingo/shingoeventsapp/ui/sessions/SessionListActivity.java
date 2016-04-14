@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.shingo.shingoeventsapp.R;
-import org.shingo.shingoeventsapp.ui.attendees.AttendeeListActivity;
+import org.shingo.shingoeventsapp.ui.agendas.AgendaListActivity;
 
 /**
  * An activity representing a list of Sessions. This activity
@@ -83,7 +83,7 @@ public class SessionListActivity extends AppCompatActivity
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, AttendeeListActivity.class));
+            navigateUpTo(new Intent(this, AgendaListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
