@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Dustin Homan
  *
  * This class is used to hold the
- * data pertinate to affilitates
+ * data pertinent to affilitates
  * recieved from the API. The lists
  * are static to reduce calls to the API.
  */

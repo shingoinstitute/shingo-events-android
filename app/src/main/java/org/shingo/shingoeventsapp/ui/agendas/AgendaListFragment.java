@@ -60,7 +60,7 @@ public class AgendaListFragment extends ListFragment implements OnTaskComplete {
                     android.R.layout.simple_list_item_activated_1,
                     android.R.id.text1,
                     Agendas.AGENDAS));
-        } catch(JSONException e){
+        } catch(Exception e){
             e.printStackTrace();
         }
     }

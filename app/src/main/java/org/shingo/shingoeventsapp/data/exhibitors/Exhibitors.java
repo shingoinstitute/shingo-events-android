@@ -2,6 +2,7 @@ package org.shingo.shingoeventsapp.data.exhibitors;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by dustinehoman on 2/10/16.
+ * @author Dustin Homan
+ *
+ * This class is used to hold the
+ * data pertinent to the {@link Exhibitors}.
+ * The lists are static to reduce calls to the API.
  */
 public class Exhibitors {
 
@@ -27,12 +32,24 @@ public class Exhibitors {
     public static Date refresh;
 
     public static int is_ready = 0;
+
+    /**
+     * A check to see when the data was last pulled from the API. If
+     * it was longer than 30 minutes the data needs refreshed.
+     *
+     * @return now > refresh + 30 min
+     */
     public static boolean needsRefresh(){
         if(refresh == null) return true;
         Date now = new Date();
         return now.after(new Date(refresh.getTime() + (20 * 60000)));
     }
 
+    /**
+     * Used to add an {@link org.shingo.shingoeventsapp.data.events.Events.Event}
+     * to {@link Exhibitors#EXHIBITORS} and {@link Exhibitors#EXHIBITOR_MAP}
+     * @param exhibitor the {@link org.shingo.shingoeventsapp.data.events.Events.Event} to add
+     */
     public static void addExhibitor(Exhibitor exhibitor){
         if(EXHIBITOR_MAP.get(exhibitor.id) == null){
             EXHIBITORS.add(exhibitor);
@@ -40,12 +57,20 @@ public class Exhibitors {
         }
     }
 
+    /**
+     * Clear {@link Exhibitors#EXHIBITORS} and {@link Exhibitors#EXHIBITOR_MAP}
+     */
     public static void clear(){
         EXHIBITORS.clear();
         EXHIBITOR_MAP.clear();
         refresh = new Date();
     }
 
+    /**
+     * Used to parse {@link Exhibitors} from a JSON string
+     * @param json JSON string representing a list of {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}s
+     * @throws JSONException
+     */
     public static void fromJSON(String json) throws JSONException{
         Exhibitors.clear();
         JSONObject response = new JSONObject(json);
@@ -55,6 +80,9 @@ public class Exhibitors {
         }
     }
 
+    /**
+     * Class to hold data for a particular Exhibitor
+     */
     public static class Exhibitor implements Comparable<Exhibitor>{
         public String id;
         public String name;
@@ -64,6 +92,16 @@ public class Exhibitors {
         public String website;
         public Bitmap logo;
 
+        /**
+         *
+         * @param id SalesForce ID of the Exhibitor
+         * @param name Name of the Exhibitor
+         * @param description Description of the Exhibitor
+         * @param phone Public contact for the Exhibitor
+         * @param email Public contact for the Exhibitor
+         * @param website URL to the Exhibitor's site
+         * @param logo URL to the Exhibitor's logo
+         */
         public Exhibitor(String id, String name, String description, String phone,
                          String email, String website, Bitmap logo){
             this.id = id;
@@ -75,6 +113,12 @@ public class Exhibitors {
             this.logo = logo;
         }
 
+        /**
+         * A method to parse an {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor} from a {@link JSONObject}
+         * @param jExhibitor a {@link JSONObject} representing an {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}
+         * @return a new {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}
+         * @throws JSONException
+         */
         public static Exhibitor fromJSON(JSONObject jExhibitor) throws JSONException{
             try {
                 getLogo(jExhibitor.getString("Logo__c"), jExhibitor.getString("Id"));
@@ -87,6 +131,11 @@ public class Exhibitors {
                     jExhibitor.getString("Website__c"), null);
         }
 
+        /**
+         * Get the {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}'s Logo
+         * @param url a url({@link String}) to the {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}'s logo
+         * @param id the {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}'s SalesForce ID
+         */
         public static void getLogo(String url, String id) throws IOException{
             is_ready++;
             final String logoURL = url;
@@ -107,8 +156,13 @@ public class Exhibitors {
             thread.start();
         }
 
+        /**
+         * Method to compare to another {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}
+         * @param another {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}
+         * @return {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor#name#compareTo(Exhibitor)}
+         */
         @Override
-        public int compareTo(Exhibitor another) {
+        public int compareTo(@NonNull Exhibitor another) {
             return this.name.compareTo(another.name);
         }
     }

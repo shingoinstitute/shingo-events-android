@@ -1,7 +1,6 @@
 package org.shingo.shingoeventsapp.data.events;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,11 @@ import org.shingo.shingoeventsapp.R;
 import java.util.List;
 
 /**
- * Created by dustinehoman on 2/1/16.
+ * @author Dustin Homan
+ * A custom list adapter for {@link org.shingo.shingoeventsapp.data.events.Events.Event}s.
+ * Extends {@link BaseAdapter}.
+ *
+ * @see org.shingo.shingoeventsapp.R.layout#img_adapter_row
  */
 public class EventsListAdapter extends BaseAdapter {
 
@@ -24,51 +27,81 @@ public class EventsListAdapter extends BaseAdapter {
     private static LayoutInflater inflater;
 
     public EventsListAdapter(Context context, List<Events.Event> data){
-        this.context = context;
         this.data = data;
+        this.context = context;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    /**
+     * Get the size of the source data.
+     *
+     * @return {@link EventsListAdapter#data}.size()
+     */
     @Override
     public int getCount() {
         return data.size();
     }
 
+    /**
+     *
+     * @param position an index to {@link EventsListAdapter#data}
+     * @return the {@link org.shingo.shingoeventsapp.data.events.Events.Event}
+     *  at {@link EventsListAdapter#data}.get(position)
+     */
     @Override
     public Object getItem(int position) {
         return data.get(position);
     }
 
+    /**
+     *
+     * @param position an index to {@link EventsListAdapter#data}
+     * @return position
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * Get view utilizing the holder/recycling method
+     * @param position an index to {@link EventsListAdapter#data}
+     * @param convertView a view already initialized, enables view recycling
+     * @param parent the containing {@link ViewGroup}
+     * @return a {@link View} inflated with {@link org.shingo.shingoeventsapp.R.layout#img_adapter_row}
+     *  and populated with info from the {@link org.shingo.shingoeventsapp.data.events.Events.Event} at
+     *  position
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row = inflater.inflate(R.layout.img_adapter_row, parent, false);
-        ImageView img = (ImageView)row.findViewById(R.id.list_image);
-        img.setVisibility(View.GONE);
-        TextView name = (TextView)row.findViewById(R.id.list_name);
-        TextView detail = (TextView)row.findViewById(R.id.list_title);
+        Holder holder;
+        if(convertView == null){
+            convertView = inflater.inflate(R.layout.img_adapter_row, parent, false);
+            holder = new Holder();
+            holder.img = (ImageView)convertView.findViewById(R.id.list_image);
+            holder.name = (TextView)convertView.findViewById(R.id.list_name);
+            holder.detail = (TextView)convertView.findViewById(R.id.list_title);
+            convertView.setTag(holder);
+        } else {
+            holder =(Holder) convertView.getTag();
+        }
+
         Events.Event item = (Events.Event) getItem(position);
-        name.setText(item.name);
-        name.setSingleLine(true);
-        name.setEllipsize(TextUtils.TruncateAt.END);
-        detail.setText(item.startDate + " - " + item.endDate);
+        holder.img.setVisibility(View.GONE);
+        holder.name.setText(item.name);
+        holder.name.setSingleLine(true);
+        holder.name.setEllipsize(TextUtils.TruncateAt.END);
+        holder.detail.setText(context.getString(R.string.date_range, new Object[]{item.startDate, item.endDate}));
 
-//        row.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN)
-//                    v.setBackgroundColor(context.getResources().getColor(R.color.colorTransAccent));
-//                else if (event.getAction() == MotionEvent.ACTION_UP)
-//                    v.setBackgroundColor(Color.TRANSPARENT);
-//
-//                return false;
-//            }
-//        });
+        return convertView;
+    }
 
-        return row;
+    /**
+     * Used to hold views for recycling
+     */
+    private static class Holder{
+        ImageView img;
+        TextView name;
+        TextView detail;
     }
 }

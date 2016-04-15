@@ -16,7 +16,7 @@ import java.util.Map;
  * @author Dustin Homan
  *
  * This class is used to hold the
- * data pertinate to the {@link org.shingo.shingoeventsapp.data.events.Events.Event}'s
+ * data pertinent to the {@link org.shingo.shingoeventsapp.data.events.Events.Event}'s
  * agenda recieved from the API. The lists
  * are static to reduce calls to the API.
  */
