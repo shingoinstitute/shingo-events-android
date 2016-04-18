@@ -19,12 +19,12 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @author Dustin Homan
- *
  * This class is used to hold the
  * data pertinent to sessions
- * recieved from the API. The lists
+ * received from the API. The lists
  * are static to reduce calls to the API.
+ *
+ * @author Dustin Homan
  */
 public class Sessions {
 

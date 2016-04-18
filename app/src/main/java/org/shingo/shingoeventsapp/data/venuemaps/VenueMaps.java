@@ -8,12 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Dustin Homan
- *
  * This class is used to hold the
- * data pertinent to affilitates
- * recieved from the API. The lists
+ * data pertinent to Venue Maps
+ * received from the API. The lists
  * are static to reduce calls to the API.
+ *
+ * @author Dustin Homan
  */
 public class VenueMaps {
 

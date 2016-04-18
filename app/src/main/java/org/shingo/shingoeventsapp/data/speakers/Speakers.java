@@ -22,21 +22,34 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Dustin Homan
- *
  * This class is used to hold the
  * data pertinent to speakers
- * recieved from the API. The lists
+ * received from the API. The lists
  * are static to reduce calls to the API.
+ *
+ * @author Dustin Homan
  */
 public class Speakers {
 
+    /**
+     * A {@link List} of {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}s
+     */
     public static List<Speaker> SPEAKERS = new ArrayList<>();
 
+    /**
+     * A {@link Map} of {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}s.
+     * The key is {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker#id}
+     */
     public static Map<String, Speaker> SPEAKER_MAP = new HashMap<>();
 
+    /**
+     * The {@link Date} when the data was last pulled
+     */
     public static Date refresh;
 
+    /**
+     * If data is still loading will be greater than 0
+     */
     public static int is_loading = 0;
 
     /**

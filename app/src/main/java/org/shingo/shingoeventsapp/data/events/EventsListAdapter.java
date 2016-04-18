@@ -14,10 +14,10 @@ import org.shingo.shingoeventsapp.R;
 import java.util.List;
 
 /**
- * @author Dustin Homan
  * A custom list adapter for {@link org.shingo.shingoeventsapp.data.events.Events.Event}s.
  * Extends {@link BaseAdapter}.
  *
+ * @author Dustin Homan
  * @see org.shingo.shingoeventsapp.R.layout#img_adapter_row
  */
 public class EventsListAdapter extends BaseAdapter {

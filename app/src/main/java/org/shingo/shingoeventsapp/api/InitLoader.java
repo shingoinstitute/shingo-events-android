@@ -14,12 +14,13 @@ import org.shingo.shingoeventsapp.data.sponsors.Sponsors;
 import java.net.URLEncoder;
 
 /**
- * @author Dustin Homan
  * This class is used to load all of the data
  * for {@link org.shingo.shingoeventsapp.data.agendas.Agendas}, {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates},
  * {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors}, {@link org.shingo.shingoeventsapp.data.recipients.Recipients}
  * {@link org.shingo.shingoeventsapp.data.sessions.Sessions}, {@link org.shingo.shingoeventsapp.data.speakers.Speakers},
  * and {@link org.shingo.shingoeventsapp.data.sponsors.Sponsors}.
+ *
+ * @author Dustin Homan
  */
 public class InitLoader implements OnTaskComplete {
     private String mEvent;

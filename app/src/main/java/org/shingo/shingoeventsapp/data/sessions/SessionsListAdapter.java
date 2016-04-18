@@ -20,10 +20,10 @@ import java.util.Locale;
 import java.util.TreeSet;
 
 /**
- * @author Dustin Homan
  * A custom list adapter for {@link org.shingo.shingoeventsapp.data.sessions.Sessions.Session}s.
  * Extends {@link BaseAdapter}.
  *
+ * @author Dustin Homan
  * @see org.shingo.shingoeventsapp.R.layout#img_adapter_row
  */
 public class SessionsListAdapter extends BaseAdapter {

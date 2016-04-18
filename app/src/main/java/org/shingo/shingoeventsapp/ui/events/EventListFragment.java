@@ -91,8 +91,11 @@ public class EventListFragment extends ListFragment implements OnTaskComplete{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("Starting EventsTask");
-        String[] params = getActivity().getIntent().getExtras().getStringArray("params");
+        String[] params = null;
+        if(getActivity().getIntent().hasExtra("params"))
+            params = getActivity().getIntent().getExtras().getStringArray("params");
         if(params == null){
+            params = new String[1];
             params[0] = "/sfevents";
         }
         RestApi api = new RestApi(this, getContext());

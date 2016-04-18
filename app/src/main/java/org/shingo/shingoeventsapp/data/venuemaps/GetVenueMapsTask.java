@@ -11,11 +11,11 @@ import java.net.URL;
 
 
 /**
- * @author Dustin Homan
- *
  * This class is used to make an asynchronus call to
  * the API to fetch data.
  * Extends {@link AsyncTask}
+ *
+ * @author Dustin Homan
  */
 public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
 

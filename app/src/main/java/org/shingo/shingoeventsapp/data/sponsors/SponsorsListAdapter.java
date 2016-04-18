@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * @author Dustin Homan
  * A custom list adapter for {@link Sponsors}.
  * Extends {@link BaseAdapter}.
  *
+ * @author Dustin Homan
  * @see org.shingo.shingoeventsapp.R.layout#img_adapter_row
  */
 public class SponsorsListAdapter extends BaseAdapter {

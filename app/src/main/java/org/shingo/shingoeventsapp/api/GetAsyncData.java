@@ -11,11 +11,11 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * @author Dustin Homan
- *
- * This class is used to make an asynchronus call to
+ * This class is used to make an asynchronous call to
  * the API to fetch data.
  * Extends {@link AsyncTask}
+ *
+ * @author Dustin Homan
  */
 public class GetAsyncData extends AsyncTask<String, Void, Boolean> {
 

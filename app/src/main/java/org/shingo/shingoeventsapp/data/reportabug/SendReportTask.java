@@ -15,11 +15,11 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 /**
- * @author Dustin Homan
- *
  * This class is used to make an asynchronus call to
  * the API to send a bug/report.
  * Extends {@link AsyncTask}
+ *
+ * @author Dustin Homan
  */
 public class SendReportTask  extends AsyncTask<String, Void, Boolean> {
 

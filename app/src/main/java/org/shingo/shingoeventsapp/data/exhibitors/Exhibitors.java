@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Dustin Homan
- *
  * This class is used to hold the
  * data pertinent to the {@link Exhibitors}.
  * The lists are static to reduce calls to the API.
+ *
+ * @author Dustin Homan
  */
 public class Exhibitors {
 

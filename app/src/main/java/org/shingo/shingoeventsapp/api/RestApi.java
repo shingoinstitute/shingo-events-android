@@ -7,16 +7,16 @@ import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.reportabug.SendReportTask;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 
-/*********************************************
- * @author Dustin Homan                      *
- * Purpose: A central object to store needed *
- *      data and return an initialized       *
- *      AsyncTask                            *
- *********************************************/
+/**
+ * A central object to store needed
+ * data and return an initialized AsyncTask
+ *
+ * @author Dustin Homan
+*/
 public class RestApi {
-    private final String mEmail;
-    private final String mPassword;
-    private final int mId;
+//    private final String mEmail;
+//    private final String mPassword;
+//    private final int mId;
     private OnTaskComplete mListener;
 
     public static final String CLIENT_ID = "b5a635526386a516edcafa2479a7a8ac";
@@ -31,10 +31,10 @@ public class RestApi {
      */
     public RestApi(OnTaskComplete listener, Context context){
         mListener = listener;
-        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
-        mEmail = sharedPreferences.getString("email", "");
-        mPassword = sharedPreferences.getString("password", "");
-        mId = sharedPreferences.getInt("id", -1);
+//        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+//        mEmail = sharedPreferences.getString("email", "");
+//        mPassword = sharedPreferences.getString("password", "");
+//        mId = sharedPreferences.getInt("id", -1);
         API_URL = context.getResources().getString(R.string.api_prod_url);
     }
 
