@@ -26,6 +26,11 @@ public class EventsListAdapter extends BaseAdapter {
     private Context context;
     private static LayoutInflater inflater;
 
+    /**
+     * The constructor for the list adapter.
+     * @param context the context of the Activity the {@link android.widget.ListView} belongs to
+     * @param data the data to display in the list, {@link Events#EVENTS}
+     */
     public EventsListAdapter(Context context, List<Events.Event> data){
         this.data = data;
         this.context = context;

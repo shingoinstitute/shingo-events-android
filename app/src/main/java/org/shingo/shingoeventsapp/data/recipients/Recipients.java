@@ -2,6 +2,7 @@ package org.shingo.shingoeventsapp.data.recipients;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by dustinehoman on 2/18/16.
+ * @author Dustin Homan
+ *
+ * This class is used to hold the
+ * data pertinent to the {@link Recipients}.
+ * The lists are static to reduce calls to the API.
  */
 public class Recipients {
 
@@ -31,12 +36,25 @@ public class Recipients {
     public static int awards_is_ready = 0;
     public static int research_is_ready = 0;
 
+    /**
+     * A check to see when the data was last pulled from the API. If
+     * it was longer than 30 minutes the data needs refreshed.
+     *
+     * @return now > refresh + 30 min
+     */
     public static boolean needsRefresh(){
         if(refresh == null) return true;
         Date now = new Date();
         return now.after(new Date(refresh.getTime() + (20 * 60000)));
     }
 
+    /**
+     * Adds an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient} to both {@link Recipients#AWARD_RECIPIENTS}
+     * and {@link Recipients#AWARD_RECIPIENT_MAP} if the map does not contain
+     * the passed in {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}.
+     *
+     * @param awardRecipient an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}
+     */
     public static void addAwardRecipient(AwardRecipient awardRecipient){
         if(AWARD_RECIPIENT_MAP.get(awardRecipient.id) == null){
             AWARD_RECIPIENTS.add(awardRecipient);
@@ -44,6 +62,13 @@ public class Recipients {
         }
     }
 
+    /**
+     * Adds an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient} to both {@link Recipients#RESEARCH_RECIPIENTS}
+     * and {@link Recipients#RESEARCH_RECIPIENT_MAP} if the map does not contain
+     * the passed in {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}.
+     *
+     * @param researchRecipient an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}
+     */
     public static void addResearchRecipient(ResearchRecipient researchRecipient){
         if(RESEARCH_RECIPIENT_MAP.get(researchRecipient.id) == null){
             RESEARCH_RECIPIENTS.add(researchRecipient);
@@ -51,6 +76,13 @@ public class Recipients {
         }
     }
 
+    /**
+     * Used to clear {@link Recipients#AWARD_RECIPIENTS},
+     * {@link Recipients#AWARD_RECIPIENT_MAP},
+     * {@link Recipients#RESEARCH_RECIPIENTS}, and
+     * {@link Recipients#RESEARCH_RECIPIENT_MAP}in prep for an
+     * API call.
+     */
     public static void clear(){
         AWARD_RECIPIENT_MAP.clear();
         AWARD_RECIPIENTS.clear();
@@ -59,6 +91,11 @@ public class Recipients {
         refresh = new Date();
     }
 
+    /**
+     * Parse {@link Recipients} from a JSON string
+     * @param json JSON string representing {@link Recipients}
+     * @throws JSONException
+     */
     public static void fromJSON(String json) throws JSONException{
         Recipients.clear();
         JSONObject response = new JSONObject(json);
@@ -73,6 +110,13 @@ public class Recipients {
         }
     }
 
+    /**
+     * Get the Logo of the recipient asynchronously
+     * @param url The URL of the logo
+     * @param id The SF id of the recipient
+     * @param type {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}==0 and {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}==1
+     * @throws IOException
+     */
     public static void getLogo(final String url, final String id, final int type) throws IOException{
         if(type == 0)
             awards_is_ready++;
@@ -101,6 +145,9 @@ public class Recipients {
         thread.start();
     }
 
+    /**
+     * Holder class for AwardRecipients
+     */
     public static class AwardRecipient implements Comparable<AwardRecipient> {
         public String id;
         public String name;
@@ -108,6 +155,14 @@ public class Recipients {
         public String award;
         public Bitmap logo;
 
+        /**
+         *
+         * @param id SalesForce ID of the Recipient
+         * @param name Name of the Recipient
+         * @param Abstract An abstract of the Recipient
+         * @param award The award level of the Recipient
+         * @param logo Bitmap of the Recipient's Logo
+         */
         public AwardRecipient(String id, String name, String Abstract, String award, Bitmap logo)
         {
             this.id = id;
@@ -118,6 +173,12 @@ public class Recipients {
             if(Abstract.equals("null")) this.Abstract = "Abstract coming soon!";
         }
 
+        /**
+         * Used to parse an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient} from a {@link JSONObject}
+         * @param jRecipient {@link JSONObject} representing an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}
+         * @return {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}
+         * @throws JSONException
+         */
         public static AwardRecipient fromJSON(JSONObject jRecipient) throws JSONException{
             try{
                 getLogo(jRecipient.getString("Logo_Book_Cover__c"), jRecipient.getString("Id"), 0);
@@ -128,8 +189,13 @@ public class Recipients {
                     jRecipient.getString("Rich_Abstract"), jRecipient.getString("Award__c"), null);
         }
 
+        /**
+         * Compares this to another {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}
+         * @param another {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}
+         * @return value based on sorting by {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient#award}
+         */
         @Override
-        public int compareTo(AwardRecipient another) {
+        public int compareTo(@NonNull AwardRecipient another) {
             if(this.award.equals(another.award)) return this.name.compareTo(another.name);
             if(this.award.equals("Shingo Prize")) return 1;
             if(this.award.equals("Silver Medallion") && !another.award.equals("Shingo Prize")) return 1;
@@ -138,6 +204,9 @@ public class Recipients {
         }
     }
 
+    /**
+     * Holder class for ResearchRecipient
+     */
     public static class ResearchRecipient implements Comparable<ResearchRecipient> {
         public String id;
         public String book;
@@ -145,6 +214,14 @@ public class Recipients {
         public String author;
         public Bitmap cover;
 
+        /**
+         *
+         * @param id SalesForce ID of the Recipient
+         * @param book Name of the winning book
+         * @param Abstract An abstract of the winning book
+         * @param author The author of the winning book
+         * @param cover Bitmap of the Recipient's Book Cover
+         */
         public ResearchRecipient(String id, String book, String Abstract, String author, Bitmap cover){
             this.id = id;
             this.book = book;
@@ -154,6 +231,12 @@ public class Recipients {
             if(Abstract.equals("null")) this.Abstract = "Abstract coming soon!";
         }
 
+        /**
+         * Used to parse an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient} from a {@link JSONObject}
+         * @param jRecipient {@link JSONObject} representing an {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}
+         * @return {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}
+         * @throws JSONException
+         */
         public static ResearchRecipient fromJSON(JSONObject jRecipient) throws JSONException{
             try{
                 getLogo(jRecipient.getString("Logo_Book_Cover__c"), jRecipient.getString("Id"), 1);
@@ -164,8 +247,13 @@ public class Recipients {
                     jRecipient.getString("Rich_Abstract"), jRecipient.getString("Author_s__c"), null);
         }
 
+        /**
+         * Compares this to another {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}
+         * @param another {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}
+         * @return {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient#book}.compareTo(another.book)
+         */
         @Override
-        public int compareTo(ResearchRecipient another) {
+        public int compareTo(@NonNull ResearchRecipient another) {
             return this.book.compareTo(another.book);
         }
     }

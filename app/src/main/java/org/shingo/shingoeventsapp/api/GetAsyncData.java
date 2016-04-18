@@ -2,9 +2,6 @@ package org.shingo.shingoeventsapp.api;
 
 import android.os.AsyncTask;
 
-import org.json.JSONStringer;
-import org.shingo.shingoeventsapp.data.affiliates.Affiliates;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,14 +14,14 @@ import java.net.URLConnection;
  * @author Dustin Homan
  *
  * This class is used to make an asynchronus call to
- * the API to fetch the {@link Affiliates.Affiliate}s
- * related to the event. Extends {@link AsyncTask}
+ * the API to fetch data.
+ * Extends {@link AsyncTask}
  */
 public class GetAsyncData extends AsyncTask<String, Void, Boolean> {
 
     private OnTaskComplete mListener;
     private static boolean isWorking = false;
-    private static Object mutex = new Object();
+    private final static Object mutex = new Object();
     String output;
 
     /**
@@ -37,9 +34,7 @@ public class GetAsyncData extends AsyncTask<String, Void, Boolean> {
     }
 
     /**
-     * This method makes the API call, parses the JSON response
-     * and stores the data in {@link Affiliates#AFFILIATES} and
-     * {@link Affiliates#AFFILIATE_MAP} via {@link Affiliates#addAffiliate(Affiliates.Affiliate)}
+     * This method makes the API call
      *
      * @param params a list of parameters. params[0] = api path. params[1] = data for POST
      * @return the success of the task
@@ -91,6 +86,7 @@ public class GetAsyncData extends AsyncTask<String, Void, Boolean> {
 
     /**
      * This method is called when {@link GetAsyncData#doInBackground(String...)} is finished.
+     * Calls {@link OnTaskComplete#onTaskComplete(String)} if API call was successful
      *
      * @param success the return value of {@link GetAsyncData#doInBackground(String...)}
      */

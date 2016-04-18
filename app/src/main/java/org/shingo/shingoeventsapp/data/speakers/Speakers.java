@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by dustinehoman on 1/8/16.
+ * @author Dustin Homan
+ *
+ * This class is used to hold the
+ * data pertinent to speakers
+ * recieved from the API. The lists
+ * are static to reduce calls to the API.
  */
 public class Speakers {
 
@@ -33,12 +39,25 @@ public class Speakers {
 
     public static int is_loading = 0;
 
+    /**
+     * A check to see when the data was last pulled from the API. If
+     * it was longer than 30 minutes the data needs refreshed.
+     *
+     * @return now > refresh + 30 min
+     */
     public static boolean needsRefresh(){
         if(refresh == null) return true;
         Date now = new Date();
         return now.after(new Date(refresh.getTime() + (20 * 60000)));
     }
 
+    /**
+     * Adds an {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker} to both {@link Speakers#SPEAKERS}
+     * and {@link Speakers#SPEAKER_MAP} if the map does not contain
+     * the passed in {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}.
+     *
+     * @param speaker an {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}
+     */
     public static void addSpeaker(Speaker speaker){
         if(SPEAKER_MAP.get(speaker.id) == null){
             SPEAKERS.add(speaker);
@@ -46,12 +65,22 @@ public class Speakers {
         }
     }
 
+    /**
+     * Used to clear {@link Speakers#SPEAKERS} and
+     * {@link Speakers#SPEAKER_MAP} in prep for an
+     * API call.
+     */
     public static void clear(){
         SPEAKERS.clear();
         SPEAKER_MAP.clear();
         refresh = new Date();
     }
 
+    /**
+     * Parse {@link Speakers} from a JSON string
+     * @param json JSON string representing {@link Speakers}
+     * @throws JSONException
+     */
     public static void fromJSON(String json) throws JSONException{
         Speakers.clear();
         JSONObject response = new JSONObject(json);
@@ -61,6 +90,9 @@ public class Speakers {
         }
     }
 
+    /**
+     * Holder class for Speaker data.
+     */
     public static class Speaker implements Comparable<Speaker>{
         public String id;
         public String name;
@@ -70,6 +102,16 @@ public class Speakers {
         public String bio;
         public Bitmap picture;
 
+        /**
+         *
+         * @param id SalesForce ID of the speaker
+         * @param name The speaker's full name
+         * @param displayName Optional display name
+         * @param title The speaker's title
+         * @param company The speaker's company
+         * @param bio The speaker's bio
+         * @param picture A Bitmap of the speaker's picture
+         */
         public Speaker(String id, String name, String displayName, String title, String company, String bio, Bitmap picture){
             this.id = id;
             this.name = name;
@@ -86,6 +128,11 @@ public class Speakers {
             if(bio.equals("null")) this.bio = "";
         }
 
+        /**
+         * Returns a round picture from {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker#picture}
+         * @param context Context of the calling {@link android.app.Activity}
+         * @return a {@link Bitmap} of a circle with radius 250px of {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker#picture}
+         */
         public Bitmap getRoundPicture(Context context){
             int targetWidth = 250;
             int targetHeight = 250;
@@ -109,9 +156,15 @@ public class Speakers {
             return target;
         }
 
+        /**
+         * Used to parse an {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker} from a {@link JSONObject}
+         * @param jSpeaker {@link JSONObject} representing an {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}
+         * @return {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}
+         * @throws JSONException
+         */
         public static Speaker fromJSON(JSONObject jSpeaker) throws JSONException{
             if(!jSpeaker.getString("Speaker_Image__c").equals("null"))
-                getLogo(jSpeaker.getString("Speaker_Image__c"), jSpeaker.getString("Id"));
+                getPicture(jSpeaker.getString("Speaker_Image__c"), jSpeaker.getString("Id"));
 
             return new Speakers.Speaker(jSpeaker.getString("Id"),
                     jSpeaker.getString("Name"),jSpeaker.getString("Speaker_Display_Name__c"),
@@ -119,7 +172,12 @@ public class Speakers {
                     jSpeaker.getString("Rich_Biography"), null);
         }
 
-        public static void getLogo(final String url, final String id){
+        /**
+         * Get the {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}'s Picture
+         * @param url a url({@link String}) to the {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}'s picture
+         * @param id the {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker#id}
+         */
+        public static void getPicture(final String url, final String id){
             is_loading++;
             Thread thread = new Thread(){
                 @Override
@@ -137,12 +195,23 @@ public class Speakers {
             thread.start();
         }
 
+        /**
+         * Overload of {@link Object#toString()}
+         * @return {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker#displayName}
+         */
         @Override
         public String toString() { return displayName; }
 
+        /**
+         * Sorts speakers based on last name
+         * @param another {@link org.shingo.shingoeventsapp.data.speakers.Speakers.Speaker}
+         * @return sort based on last name
+         */
         @Override
-        public int compareTo(Speaker another) {
-            return this.name.split(" ")[1].compareTo(another.name.split(" ")[1]);
+        public int compareTo(@NonNull Speaker another) {
+            String[] thisNameSplit = this.name.split(" ");
+            String[] anotherNameSplit = another.name.split(" ");
+            return thisNameSplit[thisNameSplit.length].compareTo(anotherNameSplit[anotherNameSplit.length]);
         }
     }
 }

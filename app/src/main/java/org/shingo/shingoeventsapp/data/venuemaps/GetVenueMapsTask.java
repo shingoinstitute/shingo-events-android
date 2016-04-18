@@ -11,21 +11,36 @@ import java.net.URL;
 
 
 /**
- * Created by dustinehoman on 2/10/16.
+ * @author Dustin Homan
+ *
+ * This class is used to make an asynchronus call to
+ * the API to fetch data.
+ * Extends {@link AsyncTask}
  */
 public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
 
     private String mEvent;
     private OnTaskComplete mListener;
     private static boolean isWorking;
-    private static Object mutex = new Object();
+    private final static Object mutex = new Object();
 
+    /**
+     *
+     * @param event the SalesForce ID to get the Venue Maps for
+     * @param listener the callback to call when task is complete
+     */
     public GetVenueMapsTask(String event, OnTaskComplete listener) {
         mEvent = event;
         mListener = listener;
         System.out.println("GetVenueMapsTask created");
     }
 
+    /**
+     * This method makes the API call
+     *
+     * @param params not used
+     * @return the success of the task
+     */
     @Override
     protected Boolean doInBackground(Void... params) {
         System.out.println("GetVenueMapsTask.doInBackground called");
@@ -63,6 +78,12 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
         return success;
     }
 
+    /**
+     * This method is called when {@link GetVenueMapsTask#doInBackground(Void...)} is finished.
+     * Calls {@link OnTaskComplete#onTaskComplete()} if API call was successful
+     *
+     * @param success the return value of {@link GetVenueMapsTask#doInBackground(Void...)}
+     */
     @Override
     protected void onPostExecute(final Boolean success) {
         synchronized (mutex) {
@@ -75,10 +96,5 @@ public class GetVenueMapsTask extends AsyncTask<Void, Void, Boolean> {
         } else {
             System.out.println("An error occurred in GetVenueMapsTask...");
         }
-    }
-
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
     }
 }

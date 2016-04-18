@@ -15,19 +15,34 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 /**
- * Created by dustinehoman on 3/15/16.
+ * @author Dustin Homan
+ *
+ * This class is used to make an asynchronus call to
+ * the API to send a bug/report.
+ * Extends {@link AsyncTask}
  */
 public class SendReportTask  extends AsyncTask<String, Void, Boolean> {
 
     private OnTaskComplete mListener;
     private static boolean isWorking;
-    private static Object mutex = new Object();
+    private final static Object mutex = new Object();
 
+    /**
+     * Constructor
+     * @param listener the callback to call when task is complete
+     */
     public SendReportTask(OnTaskComplete listener) {
         mListener = listener;
         System.out.println("SendReportTask created");
     }
 
+
+    /**
+     * This method makes the API call
+     *
+     * @param params a list of parameters. params[0] = system_information, params[1] = report, and params[2] = type
+     * @return the success of the task
+     */
     @Override
     protected Boolean doInBackground(String... params) {
         System.out.println("SendReportTask.doInBackground called");
@@ -75,6 +90,13 @@ public class SendReportTask  extends AsyncTask<String, Void, Boolean> {
         return success;
     }
 
+
+    /**
+     * This method is called when {@link SendReportTask#doInBackground(String...)} is finished.
+     * Calls {@link OnTaskComplete#onTaskComplete()} if API call was successful
+     *
+     * @param success the return value of {@link SendReportTask#doInBackground(String...)}
+     */
     @Override
     protected void onPostExecute(final Boolean success) {
         synchronized (mutex) {
@@ -87,10 +109,5 @@ public class SendReportTask  extends AsyncTask<String, Void, Boolean> {
         } else {
             System.out.println("An error occurred in SendReportTask...");
         }
-    }
-
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
     }
 }

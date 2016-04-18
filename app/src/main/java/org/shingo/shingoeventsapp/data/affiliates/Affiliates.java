@@ -61,6 +61,17 @@ public class Affiliates {
     }
 
     /**
+     * Used to clear {@link Affiliates#AFFILIATES} and
+     * {@link Affiliates#AFFILIATE_MAP} in prep for an
+     * API call.
+     */
+    public static void clear(){
+        AFFILIATES.clear();
+        AFFILIATE_MAP.clear();
+        refresh = new Date();
+    }
+
+    /**
      * Parse {@link Affiliates} from a JSON string
      * @param json JSON string representing {@link Affiliates}
      * @throws JSONException
@@ -72,17 +83,6 @@ public class Affiliates {
         JSONArray jAffiliates = response.getJSONObject("affiliates").getJSONArray("records");
         for (int i = 0; i < jAffiliates.length(); i++)
             addAffiliate(Affiliate.fromJSON(jAffiliates.getJSONObject(i)));
-    }
-
-    /**
-     * Used to clear {@link Affiliates#AFFILIATES} and
-     * {@link Affiliates#AFFILIATE_MAP} in prep for an
-     * API call.
-     */
-    public static void clear(){
-        AFFILIATES.clear();
-        AFFILIATE_MAP.clear();
-        refresh = new Date();
     }
 
     /**
@@ -140,7 +140,7 @@ public class Affiliates {
         /**
          * Get the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}'s Logo
          * @param url a url({@link String}) to the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}'s logo
-         * @param id the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}'s SalesForce ID
+         * @param id the {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate#id}
          */
         public static void getLogo(final String url, final String id){
             is_loading++;
