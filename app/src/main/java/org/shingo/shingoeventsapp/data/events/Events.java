@@ -54,6 +54,7 @@ public class Events {
      * @throws JSONException
      */
     public static void fromJSON(String json) throws JSONException {
+        clear();
         JSONObject response = new JSONObject(json);
         JSONArray jSfevents = response.getJSONObject("events").getJSONArray("records");
         for (int i = 0; i < response.getJSONObject("events").getInt("size"); i++) {

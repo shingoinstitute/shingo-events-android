@@ -72,7 +72,7 @@ public class Exhibitors {
      * @throws JSONException
      */
     public static void fromJSON(String json) throws JSONException{
-        Exhibitors.clear();
+        clear();
         JSONObject response = new JSONObject(json);
         JSONArray jExhibitors = response.getJSONObject("exhibitors").getJSONArray("records");
         for(int i = 0; i < jExhibitors.length(); i++){

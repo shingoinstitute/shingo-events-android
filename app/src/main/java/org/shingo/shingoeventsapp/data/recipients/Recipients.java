@@ -97,7 +97,7 @@ public class Recipients {
      * @throws JSONException
      */
     public static void fromJSON(String json) throws JSONException{
-        Recipients.clear();
+        clear();
         JSONObject response = new JSONObject(json);
         JSONArray jAwardRecipients = response.getJSONObject("award_recipients").getJSONArray("records");
         for(int i = 0; i < jAwardRecipients.length(); i++){

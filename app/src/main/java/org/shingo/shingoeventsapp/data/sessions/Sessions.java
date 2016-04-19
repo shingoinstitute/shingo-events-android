@@ -79,7 +79,7 @@ public class Sessions {
      * @throws JSONException
      */
     public static void fromJSON(String json) throws JSONException{
-        Sessions.clear();
+        clear();
         JSONObject response = new JSONObject(json);
         JSONArray jSessions = response.getJSONObject("sessions").getJSONArray("records");
         for(int i = 0; i < response.getJSONObject("sessions").getInt("size"); i++){
@@ -91,6 +91,9 @@ public class Sessions {
      * Holder class for Session data.
      */
     public static class Session implements Comparable<Session>{
+        /**
+         * SalesForce ID of the session
+         */
         public String id;
         public String name;
         public String sAbstract;
@@ -153,7 +156,10 @@ public class Sessions {
                         jSpeaker.getString("Organization"), "", null));
             }
             if(!jSession.has("Room")) jSession.put("Room", "null");
-            while(speaker_images > 0) { System.out.println("speaker_images: " + speaker_images); /* wait */}
+
+            while(speaker_images > 0) {
+                /* wait */
+            }
             return new Sessions.Session(jSession.getString("Id"),
                     jSession.getString("Name"),jSession.getString("Rich_Session_Abstract"),
                     jSession.getString("Session_Notes__c"), jSession.getString("Session_Date__c"), jSession.getString("Session_Format__c"),

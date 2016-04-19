@@ -82,7 +82,7 @@ public class Sponsors {
      * @throws JSONException
      */
     public static void fromJSON(String json) throws JSONException {
-        Sponsors.clear();
+        clear();
         JSONObject response = new JSONObject(json);
         JSONObject jsonObject = response.getJSONObject("sponsors");
         List<JSONArray> sponsors = new ArrayList<>();

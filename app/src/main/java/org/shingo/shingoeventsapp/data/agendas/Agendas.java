@@ -56,6 +56,7 @@ public class Agendas {
      * @throws JSONException
      */
     public static void fromJSON(String json) throws JSONException{
+        clear();
         JSONObject response = new JSONObject(json);
         JSONObject jAgenda = response.getJSONObject("agenda");
         if(jAgenda != null){

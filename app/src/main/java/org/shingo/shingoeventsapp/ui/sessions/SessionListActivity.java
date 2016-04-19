@@ -83,7 +83,10 @@ public class SessionListActivity extends AppCompatActivity
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, AgendaListActivity.class));
+            Intent i = new Intent(this, AgendaListActivity.class);
+            i.putExtra("event_id", eventId);
+            i.putExtra("day_id", getIntent().getExtras().getString("day_id"));
+            navigateUpTo(i);
             return true;
         }
         return super.onOptionsItemSelected(item);

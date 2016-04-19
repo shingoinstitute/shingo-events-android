@@ -118,6 +118,7 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
             JSONObject response = new JSONObject(json);
             JSONObject jDay = response.getJSONObject("day");
             if (jDay != null) {
+                Agendas.AGENDA_MAP.get(jDay.getString(("Id"))).sessions.clear();
                 JSONArray jSessions = jDay.getJSONObject("Sessions").getJSONArray("records");
                 for (int i = 0; i < jSessions.length(); i++) {
                     JSONObject jSession = jSessions.getJSONObject(i);
@@ -136,43 +137,42 @@ public class AgendaDetailFragment extends Fragment implements OnTaskComplete {
                             jSession.getString("Session_Time__c"), speakers, jSession.getString("Room"))));
                 }
             }
+
+            LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.agenda_sessions);
+            SessionsListAdapter listAdapter = new SessionsListAdapter(getContext());
+            Collections.sort(Agendas.AGENDA_MAP.get(mDay.id).sessions);
+            listAdapter.addAllItems(Agendas.AGENDA_MAP.get(mDay.id).sessions);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            layoutParams.setMargins(10, 10, 10, 10);
+
+            for(int i = 0; i < listAdapter.getCount(); i++) {
+                View item = listAdapter.getView(i,null,null);
+                final int position = i;
+
+                item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pd = new ProgressDialog(getContext());
+                        pd.setMessage("Loading session...");
+                        pd.show();
+                        String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
+                        Bundle args = new Bundle();
+                        args.putString("session_id", sId);
+                        args.putString("event_id", AgendaListActivity.mEventId);
+                        args.putString("day_id", mDay.id);
+                        Intent i = new Intent(getContext(), SessionListActivity.class);
+                        i.putExtras(args);
+                        startActivity(i);
+                    }
+                });
+                sessions.addView(item, layoutParams);
+            }
+            progressBar.setVisibility(View.GONE);
         } catch(Exception e){
             e.printStackTrace();
         }
-
-
-        LinearLayout sessions = (LinearLayout)rootView.findViewById(R.id.agenda_sessions);
-        SessionsListAdapter listAdapter = new SessionsListAdapter(getContext());
-        Collections.sort(Agendas.AGENDA_MAP.get(mDay.id).sessions);
-        listAdapter.addAllItems(Agendas.AGENDA_MAP.get(mDay.id).sessions);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        layoutParams.setMargins(10, 10, 10, 10);
-
-        for(int i = 0; i < listAdapter.getCount(); i++) {
-            View item = listAdapter.getView(i,null,null);
-            final int position = i;
-
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    pd = new ProgressDialog(getContext());
-                    pd.setMessage("Loading session...");
-                    pd.show();
-                    String sId = Agendas.AGENDA_MAP.get(mDay.id).sessions.get(position).id;
-                    Bundle args = new Bundle();
-                    args.putString("session_id", sId);
-                    args.putString("event_id", AgendaListActivity.mEventId);
-                    args.putString("day_id", mDay.id);
-                    Intent i = new Intent(getContext(), SessionListActivity.class);
-                    i.putExtras(args);
-                    startActivity(i);
-                }
-            });
-            sessions.addView(item, layoutParams);
-        }
-        progressBar.setVisibility(View.GONE);
     }
 }
