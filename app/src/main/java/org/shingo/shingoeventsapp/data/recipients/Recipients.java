@@ -25,16 +25,39 @@ import java.util.Map;
  */
 public class Recipients {
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}s
+     */
     public static List<AwardRecipient> AWARD_RECIPIENTS = new ArrayList<>();
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient}s.
+     * Key is {@link org.shingo.shingoeventsapp.data.recipients.Recipients.AwardRecipient#id}
+     */
     public static Map<String, AwardRecipient> AWARD_RECIPIENT_MAP = new HashMap<>();
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}s
+     */
     public static List<ResearchRecipient> RESEARCH_RECIPIENTS = new ArrayList<>();
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient}s.
+     * Key is {@link org.shingo.shingoeventsapp.data.recipients.Recipients.ResearchRecipient#id}
+     */
     public static Map<String,ResearchRecipient> RESEARCH_RECIPIENT_MAP = new HashMap<>();
 
+    /**
+     * {@link Date} the data was last pulled from API
+     */
     public static Date refresh;
 
-    public static int awards_is_ready = 0;
-    public static int research_is_ready = 0;
+    /**
+     * If >0 data is still loading
+     */
+    public static int awards_is_loading = 0;
+    /**
+     * If >0 data is still loading
+     */
+    public static int research_is_loading = 0;
 
     /**
      * A check to see when the data was last pulled from the API. If
@@ -119,9 +142,9 @@ public class Recipients {
      */
     public static void getLogo(final String url, final String id, final int type) throws IOException{
         if(type == 0)
-            awards_is_ready++;
+            awards_is_loading++;
         else
-            research_is_ready++;
+            research_is_loading++;
         Thread thread = new Thread(){
             @Override
             public void run(){
@@ -131,11 +154,11 @@ public class Recipients {
                     if(type == 0) {
                         if (AWARD_RECIPIENT_MAP.containsKey(id))
                             AWARD_RECIPIENT_MAP.get(id).logo = picture;
-                        awards_is_ready--;
+                        awards_is_loading--;
                     } else {
                         if (RESEARCH_RECIPIENT_MAP.containsKey(id))
                             RESEARCH_RECIPIENT_MAP.get(id).cover = picture;
-                        research_is_ready--;
+                        research_is_loading--;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -149,6 +172,9 @@ public class Recipients {
      * Holder class for AwardRecipients
      */
     public static class AwardRecipient implements Comparable<AwardRecipient> {
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String name;
         public String Abstract;
@@ -208,6 +234,9 @@ public class Recipients {
      * Holder class for ResearchRecipient
      */
     public static class ResearchRecipient implements Comparable<ResearchRecipient> {
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String book;
         public String Abstract;

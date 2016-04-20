@@ -26,12 +26,25 @@ import java.util.Map;
  */
 public class Affiliates {
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}s
+     */
     public static List<Affiliate> AFFILIATES = new ArrayList<>();
 
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate}s.
+     * The key is {@link org.shingo.shingoeventsapp.data.affiliates.Affiliates.Affiliate#id}
+     */
     public static Map<String, Affiliate> AFFILIATE_MAP = new HashMap<>();
 
+    /**
+     * {@link Date} when data was last pulled from API
+     */
     public static Date refresh;
 
+    /**
+     * If >0 data is still loading
+     */
     public static int is_loading = 0;
 
     /**
@@ -89,6 +102,9 @@ public class Affiliates {
      * Holder class for Affiliate data.
      */
     public static class Affiliate implements Comparable<Affiliate>{
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String name;
         public String appAbstract;

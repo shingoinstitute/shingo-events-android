@@ -43,12 +43,12 @@ public class Speakers {
     public static Map<String, Speaker> SPEAKER_MAP = new HashMap<>();
 
     /**
-     * The {@link Date} when the data was last pulled
+     * {@link Date} when the data was last pulled from API
      */
     public static Date refresh;
 
     /**
-     * If data is still loading will be greater than 0
+     * If >0 data is still loading
      */
     public static int is_loading = 0;
 
@@ -107,6 +107,9 @@ public class Speakers {
      * Holder class for Speaker data.
      */
     public static class Speaker implements Comparable<Speaker>{
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String name;
         public String displayName;
@@ -224,7 +227,7 @@ public class Speakers {
         public int compareTo(@NonNull Speaker another) {
             String[] thisNameSplit = this.name.split(" ");
             String[] anotherNameSplit = another.name.split(" ");
-            return thisNameSplit[thisNameSplit.length].compareTo(anotherNameSplit[anotherNameSplit.length]);
+            return thisNameSplit[thisNameSplit.length - 1].compareTo(anotherNameSplit[anotherNameSplit.length - 1]);
         }
     }
 }

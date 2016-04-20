@@ -118,7 +118,7 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
                     ExhibitorDetailFragment fragment = new ExhibitorDetailFragment();
                     fragment.setArguments(arguments);
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.event_detail_container, fragment)
+                            .replace(R.id.exhibitor_detail_container, fragment)
                             .commit();
 
                 } else {
@@ -146,7 +146,7 @@ public class ExhibitorListActivity extends AppCompatActivity implements OnTaskCo
         try {
             if(Exhibitors.needsRefresh())
                 Exhibitors.fromJSON(response);
-            while(Exhibitors.is_ready > 0) {/* Wait */}
+            while(Exhibitors.is_loading > 0) {/* Wait */}
             Collections.sort(Exhibitors.EXHIBITORS);
             View listView = findViewById(R.id.exhibitor_list);
             assert listView != null;

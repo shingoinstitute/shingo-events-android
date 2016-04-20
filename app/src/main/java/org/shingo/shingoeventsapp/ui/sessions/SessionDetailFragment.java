@@ -63,6 +63,16 @@ public class SessionDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_session_detail, container, false);
 
+        ProgressDialog pd = new ProgressDialog(getActivity());
+        pd.setMessage("Loading details...");
+        pd.show();
+
+        while(!Sessions.SESSION_MAP.containsKey(getArguments().getString(ARG_ITEM_ID))){
+
+        }
+        mSession = Sessions.SESSION_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        pd.dismiss();
+
         if(mSession != null) {
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

@@ -113,7 +113,7 @@ public class RecipientListActivity extends AppCompatActivity implements OnTaskCo
         try {
             if(Recipients.needsRefresh())
                 Recipients.fromJSON(response);
-            while(Recipients.awards_is_ready > 0 || Recipients.research_is_ready > 0) { /* Wait */ }
+            while(Recipients.awards_is_loading > 0 || Recipients.research_is_loading > 0) { /* Wait */ }
             Collections.sort(Recipients.AWARD_RECIPIENTS, Collections.reverseOrder());
             Collections.sort(Recipients.RESEARCH_RECIPIENTS);
             final List<Recipients.AwardRecipient> shingoPrize = new ArrayList<>();

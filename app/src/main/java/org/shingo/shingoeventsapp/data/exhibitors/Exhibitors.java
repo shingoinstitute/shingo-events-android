@@ -25,13 +25,26 @@ import java.util.Map;
  */
 public class Exhibitors {
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}s
+     */
     public static List<Exhibitor> EXHIBITORS = new ArrayList<>();
 
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}s
+     * Key is {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor#id}
+     */
     public static Map<String, Exhibitor> EXHIBITOR_MAP = new HashMap<>();
 
+    /**
+     * {@link Date} the data was last pulled from API
+     */
     public static Date refresh;
 
-    public static int is_ready = 0;
+    /**
+     * If >0 data is still loading
+     */
+    public static int is_loading = 0;
 
     /**
      * A check to see when the data was last pulled from the API. If
@@ -84,6 +97,9 @@ public class Exhibitors {
      * Class to hold data for a particular Exhibitor
      */
     public static class Exhibitor implements Comparable<Exhibitor>{
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String name;
         public String description;
@@ -137,7 +153,7 @@ public class Exhibitors {
          * @param id the {@link org.shingo.shingoeventsapp.data.exhibitors.Exhibitors.Exhibitor}'s SalesForce ID
          */
         public static void getLogo(String url, String id) throws IOException{
-            is_ready++;
+            is_loading++;
             final String logoURL = url;
             final String affID = id;
             Thread thread = new Thread(){
@@ -147,7 +163,7 @@ public class Exhibitors {
                         URL image = new URL(logoURL);
                         Bitmap picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
                         if(EXHIBITOR_MAP.containsKey(affID)) EXHIBITOR_MAP.get(affID).logo = picture;
-                        is_ready--;
+                        is_loading--;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

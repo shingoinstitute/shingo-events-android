@@ -22,8 +22,15 @@ import java.util.Map;
  */
 public class Agendas {
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.agendas.Agendas.Day}s
+     */
     public static List<Day> AGENDAS = new ArrayList<>();
 
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.agendas.Agendas.Day}s.
+     * Key is {@link org.shingo.shingoeventsapp.data.agendas.Agendas.Day#id}
+     */
     public static Map<String, Day> AGENDA_MAP = new HashMap<>();
 
     /**
@@ -71,6 +78,9 @@ public class Agendas {
      * Class to hold data for a Day in the Agenda
      */
     public static class Day implements Comparable<Day>{
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String name;
         public List<Sessions.Session> sessions;
@@ -95,6 +105,8 @@ public class Agendas {
         @Override
         public int compareTo(@NonNull Day another) {
             if(this.name.equals(another.name)) return 0;
+            if(this.name.contains("Great Shingo")) return 1;
+            if(another.name.contains("Great Shingo")) return -1;
             if(this.name.equals("Monday")) return -1;
             if(this.name.equals("Friday")) return 1;
             if(another.name.equals("Monday")) return 1;

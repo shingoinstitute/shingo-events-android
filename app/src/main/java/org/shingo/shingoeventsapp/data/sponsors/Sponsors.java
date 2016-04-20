@@ -26,11 +26,24 @@ import java.util.Map;
  */
 public class Sponsors {
 
+    /**
+     * Holds {@link List<org.shingo.shingoeventsapp.data.sponsors.Sponsors.Sponsor>}s
+     */
     public static Map<String, List<Sponsor>> SPONSORS = new HashMap<>();
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.sponsors.Sponsors.Sponsor}s.
+     * Key is {@link org.shingo.shingoeventsapp.data.sponsors.Sponsors.Sponsor#id}
+     */
     public static Map<String, Sponsor> SPONSOR_MAP = new HashMap<>();
 
+    /**
+     * {@link Date} the data was last pulled from API
+     */
     public static Date refresh;
 
+    /**
+     * If >0 data is still loading
+     */
     public static int is_loading = 0;
 
     /**
@@ -102,10 +115,16 @@ public class Sponsors {
      * Holder class for Sponsor data.
      */
     public static class Sponsor implements Comparable<Sponsor>{
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String name;
         public Bitmap banner;
         public Bitmap logo;
+        /**
+         * Friend | Supporter | Benefactor | Champion | President
+         */
         public String level;
 
         /**

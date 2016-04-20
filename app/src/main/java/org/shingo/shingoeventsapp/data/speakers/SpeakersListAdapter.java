@@ -99,7 +99,7 @@ public class SpeakersListAdapter extends BaseAdapter {
         Speakers.Speaker item = (Speakers.Speaker) getItem(position);
         holder.img.setImageDrawable(new BitmapDrawable(context.getResources(), item.getRoundPicture(context)));
         holder.name.setText(item.displayName);
-        if (!item.company.equals(""))
+        if (!item.company.equals("") && !item.title.equals(""))
             holder.title.setText(context.getString(R.string.comma, item.title, item.company));
         else if(!item.title.equals(""))
             holder.title.setText(item.title);

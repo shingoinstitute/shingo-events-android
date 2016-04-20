@@ -17,7 +17,14 @@ import java.util.List;
  */
 public class VenueMaps {
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.venuemaps.VenueMaps.VMap}s
+     */
     public static List<VMap> MAPS = new ArrayList<>();
+
+    /**
+     * {@link Date} the data was last pulled from the API
+     */
     public static Date refresh;
 
     /**

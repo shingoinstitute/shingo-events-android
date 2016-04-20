@@ -24,8 +24,15 @@ import java.util.Map;
  */
 public class Events {
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.events.Events.Event}s
+     */
     public static List<Event> EVENTS = new ArrayList<>();
 
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.events.Events.Event}s.
+     * Key is {@link org.shingo.shingoeventsapp.data.events.Events.Event#id}
+     */
     public static Map<String, Event> EVENT_MAP = new HashMap<>();
 
     /**
@@ -66,9 +73,18 @@ public class Events {
      * Class to hold data for a particular Event
      */
     public static class Event implements Comparable<Event>{
+        /**
+         * SalesForce ID
+         */
         public String id;
         public String name;
+        /**
+         * yyyy-MM-dd
+         */
         public String startDate;
+        /**
+         * yyyy-MM-dd
+         */
         public String endDate;
         public String location;
         public double lat;

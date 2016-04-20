@@ -28,13 +28,26 @@ import java.util.Map;
  */
 public class Sessions {
 
+    /**
+     * Holds {@link org.shingo.shingoeventsapp.data.sessions.Sessions.Session}s
+     */
     public static List<Session> SESSIONS = new ArrayList<>();
 
+    /**
+     * Map to {@link org.shingo.shingoeventsapp.data.sessions.Sessions.Session}s.
+     * Key is {@link org.shingo.shingoeventsapp.data.sessions.Sessions.Session#id}
+     */
     public static Map<String, Session> SESSION_MAP = new HashMap<>();
 
+    /**
+     * {@link Date} the data was last pulled from API
+     */
     public static Date refresh;
 
-    public static int speaker_images = 0;
+    /**
+     * If >0 data is loading
+     */
+    public static int is_loading = 0;
 
     /**
      * A check to see when the data was last pulled from the API. If
@@ -98,10 +111,19 @@ public class Sessions {
         public String name;
         public String sAbstract;
         public String notes;
+        /**
+         * yyyy-MM-dd
+         */
         public String date;
         public String time;
         public String room;
+        /**
+         * hh:mm AM|PM
+         */
         public String startTime;
+        /**
+         * hh:mm AM|PM
+         */
         public String endTime;
         public String format;
         public List<Speakers.Speaker> speakers;
@@ -134,6 +156,7 @@ public class Sessions {
             this.formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault());
             if(sAbstract.equals("null")) this.sAbstract = "";
             if(format.equals("null")) this.format = "";
+            if(room.equals("null")) this.room = "";
         }
 
         /**
@@ -148,7 +171,7 @@ public class Sessions {
             for(int i = 0; i < jSpeakers.length(); i++){
                 JSONObject jSpeaker = jSpeakers.getJSONObject(i);
                 if(!jSpeaker.getString("Speaker_Image__c").equals("null")) {
-                    speaker_images++;
+                    is_loading++;
                     getImage(jSpeaker.getString("Speaker_Image__c"), speakers, i);
                 }
                 speakers.add(new Speakers.Speaker(jSpeaker.getString("Id"),
@@ -157,7 +180,7 @@ public class Sessions {
             }
             if(!jSession.has("Room")) jSession.put("Room", "null");
 
-            while(speaker_images > 0) {
+            while(is_loading > 0) {
                 /* wait */
             }
             return new Sessions.Session(jSession.getString("Id"),
@@ -180,7 +203,7 @@ public class Sessions {
                     try {
                         URL image = new URL(url);
                         speakers.get(index).picture = BitmapFactory.decodeStream(image.openConnection().getInputStream());
-                        speaker_images--;
+                        is_loading--;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
