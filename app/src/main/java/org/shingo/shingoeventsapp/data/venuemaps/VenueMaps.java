@@ -45,7 +45,7 @@ public class VenueMaps {
     }
 
     /**
-     * Used to clear {@link VenueMaps#MAPS} and
+     * Used to clear {@link VenueMaps#MAPS}
      * in prep for an API call.
      */
     public static void clear(){
