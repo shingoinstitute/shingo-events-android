@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * This class is used to hold the
- * data pertinent to affilitates
+ * data pertinent to affiliates
  * received from the API. The lists
  * are static to reduce calls to the API.
  *

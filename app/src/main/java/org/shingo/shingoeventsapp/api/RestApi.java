@@ -7,6 +7,9 @@ import org.shingo.shingoeventsapp.R;
 import org.shingo.shingoeventsapp.data.reportabug.SendReportTask;
 import org.shingo.shingoeventsapp.data.venuemaps.GetVenueMapsTask;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * A central object to store needed
  * data and return an initialized AsyncTask
@@ -21,6 +24,7 @@ public class RestApi {
 
     public static final String CLIENT_ID = "b5a635526386a516edcafa2479a7a8ac";
     public static final String CLIENT_SECRET = "72988d72f5e3496e8e8a0edf5a3f87c9";
+    public static String CLIENT_POST;
     public static String API_URL;
 
     /**
@@ -35,7 +39,16 @@ public class RestApi {
 //        mEmail = sharedPreferences.getString("email", "");
 //        mPassword = sharedPreferences.getString("password", "");
 //        mId = sharedPreferences.getInt("id", -1);
-        API_URL = context.getResources().getString(R.string.api_prod_url);
+        API_URL = context.getResources().getString(R.string.api_dev_url);
+        try {
+            CLIENT_POST = URLEncoder.encode("client_id", "UTF-8") + "="
+                    + URLEncoder.encode(CLIENT_ID, "UTF-8") + "&"
+                    + URLEncoder.encode("client_secret", "UTF-8") + "="
+                    + URLEncoder.encode(CLIENT_SECRET, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            CLIENT_POST = "client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET;
+        }
     }
 
     /**

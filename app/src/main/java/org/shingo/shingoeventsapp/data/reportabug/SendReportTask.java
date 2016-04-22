@@ -64,6 +64,7 @@ public class SendReportTask  extends AsyncTask<String, Void, Boolean> {
             String data = URLEncoder.encode("system_information", "UTF-8") + "=" + URLEncoder.encode(params[0],"UTF-8");
             data += "&" + URLEncoder.encode("report", "UTF-8") + "=" + URLEncoder.encode(params[1], "UTF-8");
             data += "&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode(params[2], "UTF-8");
+            data += "&" + RestApi.CLIENT_POST;
             URL url = new URL(RestApi.API_URL + "/reportabug/?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);

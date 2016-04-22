@@ -57,11 +57,13 @@ public class GetAsyncData extends AsyncTask<String, Void, Boolean> {
         try {
             URL url = new URL( RestApi.API_URL + params[0] + "?client_id=" + RestApi.CLIENT_ID + "&client_secret=" + RestApi.CLIENT_SECRET);
             URLConnection conn = url.openConnection();
-
+            conn.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             if(params.length > 1){
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(params[1]);
+                wr.write(params[1] + "&" + RestApi.CLIENT_POST);
+                wr.flush();
+            } else {
+                wr.write(RestApi.CLIENT_POST);
                 wr.flush();
             }
 
