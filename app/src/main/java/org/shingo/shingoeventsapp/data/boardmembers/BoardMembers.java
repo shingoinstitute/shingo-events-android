@@ -51,6 +51,10 @@ public class BoardMembers {
      */
     public static int is_loading = 0;
 
+    public BoardMembers(Class<BoardMembers> boardMembersClass) {
+        
+    }
+
     /**
      * A check to see when the data was last pulled from the API. If
      * it was longer than 30 minutes the data needs refreshed.
@@ -216,7 +220,25 @@ public class BoardMembers {
         public int compareTo(@NonNull BoardMember another) {
             String[] thisNameSplit = this.name.split(" ");
             String[] anotherNameSplit = another.name.split(" ");
-            return thisNameSplit[thisNameSplit.length - 1].compareTo(anotherNameSplit[anotherNameSplit.length - 1]);
+            // Compare last names
+            //int lastNameCompare = anotherNameSplit[anotherNameSplit.length - 1].compareTo(thisNameSplit[thisNameSplit.length - 1]);
+            int lastNameCompare = thisNameSplit[thisNameSplit.length - 1].compareTo(anotherNameSplit[anotherNameSplit.length - 1]);
+            if(lastNameCompare != 0){
+                return lastNameCompare;
+            } else {
+                // Compare first names
+                return thisNameSplit[0].compareTo(anotherNameSplit[0]);
+            }
+        }
+
+        @Override
+        public boolean equals(Object another){
+            if(another instanceof BoardMember){
+                return ((BoardMember) another).id.equals(this.id) && ((BoardMember) another).name.equals(this.name)
+                        && ((BoardMember) another).title.equals(this.title) && ((BoardMember) another).org.equals(this.org)
+                        && ((BoardMember) another).bio.equals(this.bio);
+            }
+            return false;
         }
     }
 }

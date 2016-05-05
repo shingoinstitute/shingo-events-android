@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.shingo.shingoeventsapp.R;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +51,10 @@ public class AcademyMembers {
      * If >0 data is still loading
      */
     public static int is_loading = 0;
+
+    public AcademyMembers(Class<AcademyMembers> academyMembersClass) {
+
+    }
 
     /**
      * A check to see when the data was last pulled from the API. If
@@ -216,7 +221,25 @@ public class AcademyMembers {
         public int compareTo(@NonNull AcademyMember another) {
             String[] thisNameSplit = this.name.split(" ");
             String[] anotherNameSplit = another.name.split(" ");
-            return thisNameSplit[thisNameSplit.length - 1].compareTo(anotherNameSplit[anotherNameSplit.length - 1]);
+            // Compare last names
+            //int lastNameCompare = anotherNameSplit[anotherNameSplit.length - 1].compareTo(thisNameSplit[thisNameSplit.length - 1]);
+            int lastNameCompare = thisNameSplit[thisNameSplit.length - 1].compareTo(anotherNameSplit[anotherNameSplit.length - 1]);
+            if(lastNameCompare != 0){
+                return lastNameCompare;
+            } else {
+                // Compare first names
+                return thisNameSplit[0].compareTo(anotherNameSplit[0]);
+            }
+        }
+
+        @Override
+        public boolean equals(Object another){
+            if(another instanceof AcademyMember){
+                return ((AcademyMember) another).id.equals(this.id) && ((AcademyMember) another).name.equals(this.name)
+                        && ((AcademyMember) another).title.equals(this.title) && ((AcademyMember) another).org.equals(this.org)
+                        && ((AcademyMember) another).bio.equals(this.bio);
+            }
+            return false;
         }
     }
 }
