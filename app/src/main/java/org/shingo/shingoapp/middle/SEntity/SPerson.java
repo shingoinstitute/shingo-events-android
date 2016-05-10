@@ -27,6 +27,8 @@ public class SPerson extends SEntity implements Comparable<SObject> {
     private String company;
     public SPersonType type;
 
+    public SPerson(){}
+
     public SPerson(String id, String name, String title, String company, String summary,
                    Bitmap image, SPersonType type){
         super(id, name, summary, image);

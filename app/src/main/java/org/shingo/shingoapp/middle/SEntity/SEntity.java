@@ -21,6 +21,8 @@ public abstract class SEntity extends SObject {
 
     public boolean is_loading = false;
 
+    public SEntity(){}
+
     public SEntity(String id, String name, String summary, Bitmap image){
         super(id, name);
         this.summary = summary;

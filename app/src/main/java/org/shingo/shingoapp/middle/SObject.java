@@ -3,6 +3,11 @@ package org.shingo.shingoapp.middle;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * This is the base class for all Shingo SF Objects.
  *
@@ -11,6 +16,8 @@ import org.json.JSONObject;
 public abstract class SObject implements Comparable<SObject> {
     protected String id;
     protected String name;
+
+    public SObject(){}
 
     public SObject(String id, String name){
         this.id = id;
@@ -52,6 +59,16 @@ public abstract class SObject implements Comparable<SObject> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    protected Date formatDateTimeString(String dateTime) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault());
+        return format.parse(dateTime);
+    }
+
+    protected Date formatDateString(String dateTime) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return format.parse(dateTime);
     }
 
 }
